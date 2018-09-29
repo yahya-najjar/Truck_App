@@ -40,16 +40,17 @@ class TruckController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
        $this->validate(request(),[
         'driver_name'  =>      'required',
         'plate_num' =>      'required',
-        'capacity' =>      'required | number',
+        'capacity' =>      'required | numeric',
         'model' =>      'required',
-        'driver_phone' =>      'required | number',
+        'driver_phone' =>      'required | numeric',
         // 'location' =>      'required',
         // 'status' =>      'required',
-        'price_km' =>      'required | number',
-        'price_h' =>      'required | number',
+        'price_km' =>      'required | numeric',
+        'price_h' =>      'required | numeric',
         'company_phone' =>      'required',
     ]);
        $truck = new Truck($request->all());
@@ -112,7 +113,15 @@ class TruckController extends Controller
     }
 
     public function online(){
-        $trucks = Truck::all();
+        $allTrucks = Truck::all();
+        $trucks = array();
+        foreach ($allTrucks as $key => $truck) {
+            if($truck->IsOnline)
+                if($truck->IsOnline->online)
+                    array_push($trucks,$truck);
+        }
         return view('admin.trucks.online',compact('trucks'));
     }
+
+
 }
