@@ -9,6 +9,9 @@ Route::resource('/suppliers','SupplierController');
 Route::resource('/trucks','TruckController');
 Route::resource('/suppliers','SupplierController');
 Route::resource('/roles','RoleController');
+Route::resource('/bills','BillController');
+
+
 
 Route::get('admins/','UserController@admins');
 Route::delete('admins/{admin}','UserController@destroy');

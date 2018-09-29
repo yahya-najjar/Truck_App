@@ -24,47 +24,60 @@
                 </li>
 
 
-            <li>
-                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                    <i class="mdi mdi-arrange-bring-forward"></i>
-                    <span class="hide-menu">
-                    Suppliers </span>
-                </a>
-                <ul aria-expanded="false" class="collapse">
-                    <li><a href="{{ action('Admin\SupplierController@index', 'suppliers') }}">All </a></li>
-                  
-                </ul>
-            </li>
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="mdi mdi-arrange-bring-forward"></i>
+                        <span class="hide-menu">
+                        Suppliers </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="{{ action('Admin\SupplierController@index', 'suppliers') }}">All </a></li>
 
-        <li>
-            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                <i class="fas fa-truck-monster"></i>
-                <span class="hide-menu">
-                Truck </span>
-            </a>
-            <ul aria-expanded="false" class="collapse">
-                <li><a href="{{ action('Admin\TruckController@online', 'onlineTrucks') }}">Online Trucks</a></li>
+                    </ul>
+                </li>
 
-                <li><a href="{{ action('Admin\TruckController@index', 'trucks') }}">All </a></li>
-<!--                 <li><a href="{{ action('Admin\TruckController@create', 'truck') }}">New</a></li> -->
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="fas fa-truck-monster"></i>
+                        <span class="hide-menu">
+                        Truck </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="{{ action('Admin\TruckController@online', 'onlineTrucks') }}">Online Trucks</a></li>
+
+                        <li><a href="{{ action('Admin\TruckController@index', 'trucks') }}">All </a></li>
+                        <!--                 <li><a href="{{ action('Admin\TruckController@create', 'truck') }}">New</a></li> -->
+                    </ul>
+                </li>
+
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="fas fa-user-shield"></i>
+                        <span class="hide-menu">
+                        Roles </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="{{ action('Admin\RoleController@index', 'roles') }}">all </a></li>
+                        <li><a href="{{ action('Admin\RoleController@create', 'role') }}">New</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="far fa-money-bill-alt"></i>       
+                        <span class="hide-menu">
+                        Bills </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="{{ action('Admin\BillController@index', 'bills') }}">All </a></li>
+
+                    </ul>
+                </li>
+
+
             </ul>
-        </li>
-
-        <li>
-            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                <i class="fas fa-user-shield"></i>
-                <span class="hide-menu">
-                Roles </span>
-            </a>
-            <ul aria-expanded="false" class="collapse">
-                <li><a href="{{ action('Admin\RoleController@index', 'roles') }}">all </a></li>
-                <li><a href="{{ action('Admin\RoleController@create', 'role') }}">New</a></li>
-            </ul>
-        </li>
-
-</ul>
-</nav>
-<!-- End Sidebar navigation -->
-</div>
-<!-- End Sidebar scroll-->
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
 </aside>
