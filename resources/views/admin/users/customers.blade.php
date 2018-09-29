@@ -1,10 +1,10 @@
 @extends('admin.layouts.app')
 @section('title')
-Users
+Customers
 @endsection
 
 @section('bread')
-<li class="breadcrumb-item active">All Users</li>
+<li class="breadcrumb-item active">All Customers</li>
 @endsection
 
 @section('content')
@@ -13,14 +13,14 @@ Users
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">All Users </h4>
+        <h4 class="card-title">All Customers </h4>
         <h6 class="card-subtitle"></h6>
         <div class="table-responsive">
           <table class="table table-striped table-bordered" style="width:100%" id="table_id">
             <thead>
               <tr>
                 <th>#</th>
-                <th>User name</th>
+                <th>Customer name</th>
                 <th>User email</th>
                 <th>User role</th>
                 <th>User role description</th>
@@ -43,11 +43,12 @@ Users
                 
 
                 <td class="text-nowrap">
-
+                  
+                  <a class="btn default btn-outline" title="Edit User" data-placement="top" href="{{ action('Admin\UserController@edit', $user) }} "><i style="color: #1e88e5;" class="fas fa-user-edit" data-toggle="tooltip" data-placement="left" title="Edit User"></i></a>
 
                   <!-- Delete -->
                   <a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-                    class="fa fa-trash text-danger m-r-10"></i></a>
+                    class="fas fa-user-times text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete User"></i></a>
 
                     <form action="{{ action('Admin\UserController@destroy', $user) }}"
                     method="post" id="delete">
@@ -60,17 +61,17 @@ Users
                 </td>
 
                 
-             </tr>
-             @endforeach
+              </tr>
+              @endforeach
 
-           </tbody>
-         </table>
-       {{ $customers->links("pagination::bootstrap-4") }}
+            </tbody>
+          </table>
+          {{ $customers->links("pagination::bootstrap-4") }}
 
-       </div>
-     </div>
-   </div>
- </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 @endsection

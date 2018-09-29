@@ -43,15 +43,14 @@ class TruckController extends Controller
        $this->validate(request(),[
         'driver_name'  =>      'required',
         'plate_num' =>      'required',
-        'capacity' =>      'required',
+        'capacity' =>      'required | number',
         'model' =>      'required',
-        'driver_phone' =>      'required',
-        'location' =>      'required',
+        'driver_phone' =>      'required | number',
+        // 'location' =>      'required',
         // 'status' =>      'required',
-        'price_km' =>      'required',
-        'price_h' =>      'required',
+        'price_km' =>      'required | number',
+        'price_h' =>      'required | number',
         'company_phone' =>      'required',
-        'supplier_id' =>      'required',
     ]);
        $truck = new Truck($request->all());
        $truck->save();
@@ -110,5 +109,10 @@ class TruckController extends Controller
 
         $truck->delete();
         return back()->with('danger','Item Deleted');
+    }
+
+    public function online(){
+        $trucks = Truck::all();
+        return view('admin.trucks.online',compact('trucks'));
     }
 }

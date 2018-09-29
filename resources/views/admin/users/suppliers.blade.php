@@ -1,10 +1,10 @@
 @extends('admin.layouts.app')
 @section('title')
-Suppliers
+Suppliers (Users)
 @endsection
 
 @section('bread')
-<li class="breadcrumb-item active">All Suppliers</li>
+<li class="breadcrumb-item active">All Suppliers(Users)</li>
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@ Suppliers
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">All Suppliers </h4>
+        <h4 class="card-title">All Suppliers(Users) </h4>
         <h6 class="card-subtitle"></h6>
         <div class="table-responsive">
           <table class="table table-striped table-bordered" style="width:100%" id="table_id">
@@ -21,9 +21,9 @@ Suppliers
               <tr>
                 <th>#</th>
                 <th>Supplier name</th>
-                <th>Supplier email</th>
-                <th>Supplier role</th>
-                <th>Supplier role description</th>
+                <th>email</th>
+                <th>role</th>
+                <th>role description</th>
 
                 <th>Actions</th>
               </tr>
@@ -44,12 +44,13 @@ Suppliers
 
                 <td class="text-nowrap">
 
+                  <a class="btn default btn-outline" title="Edit User" data-placement="top" href="{{ action('Admin\UserController@edit', $supplier) }} "><i style="color: #1e88e5;" class="fas fa-user-edit" data-toggle="tooltip" data-placement="left" title="Edit User"></i></a>
 
                   <!-- Delete -->
                   <a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-                    class="fa fa-trash text-danger m-r-10"></i></a>
+                    class="fas fa-user-times text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete User"></i></a>
 
-                    <form action="{{ action('Admin\SupplierController@destroy', $supplier) }}"
+                    <form action="{{ action('Admin\UserController@destroy', $supplier) }}"
                     method="post" id="delete">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
@@ -60,17 +61,17 @@ Suppliers
                 </td>
 
                 
-             </tr>
-             @endforeach
+              </tr>
+              @endforeach
 
-           </tbody>
-         </table>
-       {{ $suppliers->links("pagination::bootstrap-4") }}
+            </tbody>
+          </table>
+          {{ $suppliers->links("pagination::bootstrap-4") }}
 
-       </div>
-     </div>
-   </div>
- </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 @endsection

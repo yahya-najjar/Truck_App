@@ -43,16 +43,16 @@
                 Truck </span>
             </a>
             <ul aria-expanded="false" class="collapse">
-                <li><a href="{{ action('Admin\TruckController@show', 'truck') }}">Online Trucks</a></li>
+                <li><a href="{{ action('Admin\TruckController@online', 'onlineTrucks') }}">Online Trucks</a></li>
 
                 <li><a href="{{ action('Admin\TruckController@index', 'trucks') }}">All </a></li>
-                <li><a href="{{ action('Admin\TruckController@create', 'truck') }}">New</a></li>
+<!--                 <li><a href="{{ action('Admin\TruckController@create', 'truck') }}">New</a></li> -->
             </ul>
         </li>
 
         <li>
             <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                <i class="mdi  mdi-poll-box"></i>
+                <i class="fas fa-user-shield"></i>
                 <span class="hide-menu">
                 Roles </span>
             </a>

@@ -15,50 +15,50 @@
             </div>
             <div class="form-group">
                 <label> Driver_phone <span class="help"> </span></label>
-                <textarea type="text" class="form-control form-control-line"
-                name="driver_phone"  > </textarea>
+                <input type="tel" class="form-control form-control-line"
+                name="driver_phone"  >
             </div>
 
             <div class="form-group">
                 <label> Company_Name <span class="help"> </span></label>
-                <textarea type="text" class="form-control form-control-line"
-                name="company_name"  > </textarea>
+                <input type="text" class="form-control form-control-line"
+                name="company_name"  > 
             </div>
             <div class="form-group">
                 <label> Company_Phone <span class="help"> </span></label>
-                <textarea type="text" class="form-control form-control-line"
-                name="company_phone"  > </textarea>
+                <input type="tel" class="form-control form-control-line"
+                name="company_phone"> 
             </div>
 
             <div class="form-group">
                 <label> Plate_Number <span class="help"> </span></label>
-                <textarea type="text" class="form-control form-control-line"
-                name="plate_num"  > </textarea>
+                <input type="number" class="form-control form-control-line"
+                name="plate_num"  > 
             </div>
             <div class="form-group">
                 <label> Location <span class="help"> </span></label>
-                <textarea type="text" class="form-control form-control-line"
-                name="location"  > </textarea>
+                <input type="text" class="form-control form-control-line"
+                name="location"  > 
             </div>
             <div class="form-group">
                 <label> Capacity <span class="help"> </span></label>
-                <textarea type="text" class="form-control form-control-line"
-                name="capacity"  > </textarea>
+                <input type="number" class="form-control form-control-line"
+                name="capacity"  > 
             </div>
             <div class="form-group">
                 <label>  Vehicle_Model <span class="help"> </span></label>
-                <textarea type="text" class="form-control form-control-line"
-                name="model"  > </textarea>
+                <input type="text" class="form-control form-control-line"
+                name="model"  > 
             </div>
             <div class="form-group">
                 <label> Price_Per_KM <span class="help"> </span></label>
-                <textarea type="text" class="form-control form-control-line"
-                name="price_km"  > </textarea>
+                <input type="number" class="form-control form-control-line"
+                name="price_km"  > 
             </div>
             <div class="form-group">
                 <label> Price_Per_Hour <span class="help"> </span></label>
-                <textarea type="text" class="form-control form-control-line"
-                name="price_h"  > </textarea>
+                <input type="number" class="form-control form-control-line"
+                name="price_h"  > 
             </div>
             <div class="col-md-12 ">
                 <div class="form-group">

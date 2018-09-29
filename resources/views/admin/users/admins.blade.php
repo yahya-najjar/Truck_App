@@ -21,9 +21,9 @@ Users
           <tr>
             <th>#</th>
             <th>User name</th>
-            <th>User email</th>
-            <th>User role</th>
-            <th>User role description</th>
+            <th>email</th>
+            <th>role</th>
+            <th>role description</th>
 
             <th>Actions</th>
           </tr>
@@ -44,10 +44,11 @@ Users
 
             <td class="text-nowrap">
 
+              <a class="btn default btn-outline" title="Edit User" data-placement="top" href="{{ action('Admin\UserController@edit', $user) }} "><i style="color: #1e88e5;" class="fas fa-user-edit" data-toggle="tooltip" data-placement="left" title="Edit User"></i></a>
 
               <!-- Delete -->
               <a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-                class="fa fa-trash text-danger m-r-10"></i></a>
+                class="fas fa-user-times text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete User"></i></a>
 
                 <form action="{{ action('Admin\UserController@destroy', $user) }}"
                 method="post" id="delete">

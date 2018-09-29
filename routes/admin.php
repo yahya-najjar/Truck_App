@@ -18,6 +18,7 @@ Route::delete('users/{user}','UserController@destroy');
 Route::post('users/store','UserController@store');
 
 Route::get('suppliers_users/','UserController@suppliers');
+Route::get('/onlineTrucks','TruckController@online');
 
 
 

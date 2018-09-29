@@ -27,7 +27,7 @@ users
 				<button class=" btn btn-success btn-rounded col-md-3" data-toggle="modal"
 					data-target="#addAdminModal">
 				<i class="fa fa-plus-circle m-r-5"></i>Add User</button><br><br>
-				<h6 class="card-subtitle">you can edit question data from translations</h6>
+				<h6 class="card-subtitle"></h6>
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered" style="width:100%" id="table_id">
 						<thead>
@@ -50,10 +50,10 @@ users
 								<td>{{$user->roles()->first()? $user->roles()->first()->description :''  }}</td>
 
 								<td class="text-nowrap">
-									<a class="btn default btn-outline" title="Edit User" data-placement="top" href="{{ action('Admin\UserController@edit', $user) }} "><i class="icon-pencil"></i></a>
+									<a class="btn default btn-outline" title="Edit User" data-placement="top" href="{{ action('Admin\UserController@edit', $user) }} "><i style="color: #1e88e5;" class="fas fa-user-edit" data-toggle="tooltip" data-placement="left" title="Edit User"></i></a>
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-										class="fa fa-trash text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete User"></i></a>
+										class="fas fa-user-times text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete User"></i></a>
 
 										<form action="{{ action('Admin\UserController@destroy', $user) }}"
 										method="post" id="delete">

@@ -25,9 +25,13 @@ Trucks
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">All trucks </h4>
-				<h6 class="card-subtitle">you can edit question data from translations</h6>
+				
+				<button class=" btn btn-success btn-rounded col-md-3" data-toggle="modal"
+				data-target="#addAdminModal">
+				<i class="fa fa-plus-circle m-r-5"></i>Add Truck</button><br>
+				<h6 class="card-subtitle"></h6>
 				<div class="table-responsive">
-					<table class="table" id="table_id">
+					<table class="table table-bordered table-striped" id="table_id">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -46,9 +50,9 @@ Trucks
 
 
 								<td class="text-nowrap">
-									<a class="btn default btn-outline" title="Show More Detailes" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@show', $truck) }} "> <i class="fas fa-eye m-r-10"></i></a>
+									<a class="btn default btn-outline" title="Show More Detailes" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@show', $truck) }} "> <i style="color:#00edd5;" class="fas fa-eye m-r-10"></i></a>
 
-									<a class="btn default btn-outline" title="Edit Truck" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@edit', $truck) }} "><i class="icon-pencil m-r-10"> </i></a>
+									<a class="btn default btn-outline" title="Edit Truck" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@edit', $truck) }} "><i class="fas fa-edit m-r-10" style="color: #1e88e5;"> </i></a>
 									
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
@@ -97,50 +101,45 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				</div>
 				<div class="form-group">
 					<label> Driver phone <span class="help"> </span></label>
-					<textarea type="text" class="form-control form-control-line"
-					name="driver_phone"  > </textarea>
+					<input type="tel" class="form-control form-control-line"
+					name="driver_phone"  >
 				</div>
 
 				<div class="form-group">
 					<label> Company Name <span class="help"> </span></label>
-					<textarea type="text" class="form-control form-control-line"
-					name="company_name"  > </textarea>
+					<input type="text" class="form-control form-control-line"
+					name="company_name"  >
 				</div>
 				<div class="form-group">
 					<label> Company Phone <span class="help"> </span></label>
-					<textarea type="text" class="form-control form-control-line"
-					name="company_phone"  > </textarea>
+					<input type="tel" class="form-control form-control-line"
+					name="company_phone"  >
 				</div>
 
 				<div class="form-group">
 					<label> Plate Number <span class="help"> </span></label>
-					<textarea type="text" class="form-control form-control-line"
-					name="plate_num"  > </textarea>
-				</div>
-				<div class="form-group">
-					<label> Location <span class="help"> </span></label>
-					<textarea type="text" class="form-control form-control-line"
-					name="location"  > </textarea>
+					<input type="number" class="form-control form-control-line"
+					name="plate_num"  >
 				</div>
 				<div class="form-group">
 					<label> Capacity <span class="help"> </span></label>
-					<textarea type="text" class="form-control form-control-line"
-					name="capacity"  > </textarea>
+					<input type="number" class="form-control form-control-line"
+					name="capacity"  >
 				</div>
 				<div class="form-group">
 					<label>  Vehicle Model <span class="help"> </span></label>
-					<textarea type="text" class="form-control form-control-line"
-					name="model"  > </textarea>
+					<input type="text" class="form-control form-control-line"
+					name="model"  >
 				</div>
 				<div class="form-group">
 					<label> Price Per KM <span class="help"> </span></label>
-					<textarea type="text" class="form-control form-control-line"
-					name="price_km"  > </textarea>
+					<input type="number" class="form-control form-control-line"
+					name="price_km"  >
 				</div>
 				<div class="form-group">
 					<label> Price Per Hour <span class="help"> </span></label>
-					<textarea type="text" class="form-control form-control-line"
-					name="price_h"  > </textarea>
+					<input type="number" class="form-control form-control-line"
+					name="price_h"  >
 				</div>
 				<div class="col-md-12 form-group">
 					<label>Supplier Name </label>

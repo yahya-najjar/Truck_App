@@ -18,6 +18,8 @@ class CreateTrucksTable extends Migration
             $table->string('driver_name');
             $table->integer('plate_num');
             $table->text('location');
+            $table->double('lat');
+            $table->double('lng');
             $table->integer('capacity');
             $table->string('model');
             $table->integer('driver_phone');
