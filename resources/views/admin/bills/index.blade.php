@@ -5,7 +5,7 @@ Bills
 
 @section('content')
 
-@if(!count($trucks))
+@if(!count($bills))
 <div class="row">
 	<div class="col-lg-12">
 		<div class="card">
@@ -48,20 +48,19 @@ Bills
 								<td>{{ $bill->id }}</td>
 								<td>{{ $bill->cash_amount }}</td>
 								<td>{{ $bill->month_count }}</td>
-								<td>{{ $bill->$supplier->name }}</td>
-								<td>{{ $bill->$truck->driver_name }}</td>
-
+								<td> {{ $bill->supplier ? $bill->supplier->driver_name : '' }} </td>
+								<td> {{ $bill->truck ? $bill->truck->driver_name : '' }} </td>
 
 								<td class="text-nowrap">
 									<a class="btn default btn-outline" title="Show More Detailes" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@show', $bill) }} "> <i style="color:#00edd5;" class="fas fa-eye m-r-10"></i></a>
 
-									<a class="btn default btn-outline" title="Edit Truck" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@edit', $bill) }} "><i class="fas fa-edit m-r-10" style="color: #1e88e5;"> </i></a>
+									<a class="btn default btn-outline" title="Edit Bill" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@edit', $bill) }} "><i class="fas fa-edit m-r-10" style="color: #1e88e5;"> </i></a>
 									
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-										class="fa fa-trash text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete Truck"></i></a>
+										class="fa fa-trash text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete Bill"></i></a>
 
-										<form action="{{ action('Admin\BillController@destroy', $truck) }}"
+										<form action="{{ action('Admin\BillController@destroy', $bill) }}"
 										method="post" id="delete">
 										{{ csrf_field() }}
 										{{ method_field('DELETE') }}
@@ -122,9 +121,10 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				<div class="col-md-12 form-group">
 					<label>Supplier Name </label>
 					<select style="width: 100%;" class="select2 m-b-10 select2-multiple" name="supplier_id">
-						@foreach($suppliers as $supplier)
 						<option selected>Open this select menu</option>
-						<option  value="0">None</option>
+						<option  value="">None</option>
+						@foreach($suppliers as $supplier)
+
 						<option value="{{$supplier->id}}">{{$supplier->name}}</option>
 						@endforeach
 					</select>
@@ -133,9 +133,10 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				<div class="col-md-12 form-group">
 					<label>Driver Name </label>
 					<select style="width: 100%;" class="select2 m-b-10 select2-multiple" name="supplier_id">
-						@foreach($trucks as $truck)
 						<option selected>Open this select menu</option>
-						<option  value="0">None</option>
+						<option  value="">None</option>
+						@foreach($trucks as $truck)
+
 						<option value="{{$truck->id}}">{{$truck->driver_name}}</option>
 						@endforeach
 					</select>

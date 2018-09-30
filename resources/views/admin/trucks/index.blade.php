@@ -144,8 +144,10 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				<div class="col-md-12 form-group">
 					<label>Supplier Name </label>
 					<select style="width: 100%;" class="select2 m-b-10 select2-multiple" name="supplier_id">
-						@foreach($suppliers as $supplier)
 						<option selected>Open this select menu</option>
+
+						<option  value="">none</option>
+						@foreach($suppliers as $supplier)
 						<option value="{{$supplier->id}}">{{$supplier->name}}</option>
 						@endforeach
 					</select>

@@ -11,7 +11,7 @@
             {{ method_field('PATCH') }}
             <div class="form-group">
                 <label>Cash Amount <span class="help"> </span></label>
-                <input type="text" value="{{$bill->cash_amountcash_amount}}" class="form-control form-control-line"
+                <input type="text" value="{{$bill->cash_amount}}" class="form-control form-control-line"
                 name="cash_amount"  >
             </div>
             <div class="form-group">

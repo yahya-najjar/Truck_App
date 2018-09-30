@@ -42,22 +42,22 @@ class BillController extends Controller
     public function store(Request $request)
     {
 
-     $this->validate(request(),[
-        'cash_amount'  =>      'required',
-        'month_count' =>      'required',
-        'note' =>      'required | number',
+       $this->validate(request(),[
+        'cash_amount'  =>      'required|numeric',
+        'month_count' =>      'required|numeric',
+        'note' =>      'required ',
         'transaction_id' =>      'required',
 
     ]);
-     $bill = new Bill($request->all());
-     $bill->save();
-     $supplier = $request['supplier_id'];
-     $bill->supplier()->associate($supplier);
+       $bill = new Bill($request->all());
+       $bill->save();
+       $supplier = $request['supplier_id'];
+       $bill->supplier()->associate($supplier);
 
-     $truck = $request['truck_id'];
-     $bill->truck()->associate($truck);
-     return back()->with('success','Item created successfully !');
- }
+       $truck = $request['truck_id'];
+       $bill->truck()->associate($truck);
+       return back()->with('success','Item created successfully !');
+   }
 
     /**
      * Display the specified resource.
@@ -80,10 +80,10 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-       $suppliers = Supplier::all();
-       $trucks=Truck::all();
-       return view ('admin.bills.edit',compact('trucks','suppliers','bill'));
-   }
+     $suppliers = Supplier::all();
+     $trucks=Truck::all();
+     return view ('admin.bills.edit',compact('trucks','suppliers','bill'));
+ }
 
     /**
      * Update the specified resource in storage.
@@ -97,8 +97,8 @@ class BillController extends Controller
         $bill->update($request->all());
         $bill->save();
 
-     return back()->with('success','Item Updated successfully');
- }
+        return back()->with('success','Item Updated successfully');
+    }
 
     /**
      * Remove the specified resource from storage.

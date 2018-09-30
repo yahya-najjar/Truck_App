@@ -64,7 +64,7 @@
 
                 <li>
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                        <i class="far fa-money-bill-alt"></i>       
+                        <i class="fas fa-hand-holding-usd"></i>
                         <span class="hide-menu">
                         Bills </span>
                     </a>
