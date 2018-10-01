@@ -17,7 +17,8 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers=Supplier::all();
-        return view ('admin.suppliers.index',compact('suppliers'));
+        $users = User::withRole('supplier')->get();
+        return view ('admin.suppliers.index',compact('suppliers','users'));
     }
 
     /**
@@ -47,6 +48,8 @@ class SupplierController extends Controller
     ]);
      $supplier = new Supplier($request->all());
      $supplier->save();
+     $user = $request['user_id'];
+     $supplier->user()->associate($user);
      return back()->with('success','Item created successfully !');
  }
 

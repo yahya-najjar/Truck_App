@@ -13,6 +13,7 @@
 <link href="/assets/admin/css/style.css" rel="stylesheet">
 <!-- page css -->
 <link href="/assets/admin/css/pages/file-upload.css" rel="stylesheet">
+<link href="/assets/admin/css/pages/dashboard3.css" rel="stylesheet">
 <!-- You can change the theme colors from here -->
 <link href="/assets/admin/css/colors/blue-dark.css" id="theme" rel="stylesheet">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

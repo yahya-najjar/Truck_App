@@ -37,6 +37,7 @@ Trucks
 								<th>#</th>
 								<th>Driver Name</th>
 								<th>Capacity</th>
+								<th>Rating</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
@@ -47,16 +48,18 @@ Trucks
 
 								<td>{{ strip_tags($truck->driver_name) ?? 'No Title' }}</td>
 								<td>{{ $truck->capacity }}</td>
+								<td>{{ $truck->RatingAvg }}</td>
 
 
 								<td class="text-nowrap">
 									<a class="btn default btn-outline" title="Show More Detailes" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@show', $truck) }} "> <i style="color:#00edd5;" class="fas fa-eye m-r-10"></i></a>
 
 									<a class="btn default btn-outline" title="Edit Truck" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@edit', $truck) }} "><i class="fas fa-edit m-r-10" style="color: #1e88e5;"> </i></a>
-									
+
+									<a class="btn default btn-outline" title="Show Truck Orders" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@orders', $truck) }} "> <i style="color:#000;" class="fas fa-truck-monster m-r-10"></i></a>
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-										class="fa fa-trash text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete Truck"></i></a>
+										class="fa fa-trash text-danger" data-toggle="tooltip" data-placement="top" title="Delete Truck"></i></a>
 
 										<form action="{{ action('Admin\TruckController@destroy', $truck) }}"
 										method="post" id="delete">
@@ -105,11 +108,11 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 					name="driver_phone"  >
 				</div>
 
-				<div class="form-group">
+<!-- 				<div class="form-group">
 					<label> Company Name <span class="help"> </span></label>
 					<input type="text" class="form-control form-control-line"
 					name="company_name"  >
-				</div>
+				</div> -->
 				<div class="form-group">
 					<label> Company Phone <span class="help"> </span></label>
 					<input type="tel" class="form-control form-control-line"

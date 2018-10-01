@@ -10,6 +10,7 @@ Route::resource('/trucks','TruckController');
 Route::resource('/suppliers','SupplierController');
 Route::resource('/roles','RoleController');
 Route::resource('/bills','BillController');
+Route::resource('/orders','OrderController');
 
 
 
@@ -22,6 +23,7 @@ Route::post('users/store','UserController@store');
 
 Route::get('suppliers_users/','UserController@suppliers');
 Route::get('/onlineTrucks','TruckController@online');
+Route::get('/truck/{truck}','TruckController@orders');
 
 
 

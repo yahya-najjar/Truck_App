@@ -67,8 +67,6 @@ Trucks
 @section('script')
 <script type="text/javascript">
 	$(document).ready( function () {
-		$('#table_id').DataTable();
-	} );
-
+		$('#table_id').DataTable(); });
 </script>
 @endsection

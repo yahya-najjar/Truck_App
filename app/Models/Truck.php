@@ -33,4 +33,18 @@ class Truck extends Model
 		->latest()->first();
 	}  
 
+	public function truck_logs()
+	{
+		return $this->hasMany(Bill::class);	
+	}
+
+	public function getRatingAvgAttribute()
+	{
+		$rates = DB::table('orders')
+		->where('truck_id', $this->id)
+		->avg('rating');
+
+		return $rates;
+	}
+
 }

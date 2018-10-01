@@ -38,6 +38,8 @@ suppliers
 								<th>User name</th>
 								<th>Description</th>
 								<th>Location</th>
+								<th>Phone</th>
+								<th>Expiration Date</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
@@ -49,6 +51,8 @@ suppliers
 								<td>{{ strip_tags($supplier->name) ?? 'No Title' }}</td>
 								<td>{{ $supplier->description }}</td>
 								<td>{{ $supplier->location }}</td>
+								<td>{{ $supplier->phone }}</td>
+								<td><span class="label label-{{$supplier->IsExpired ?'danger':'info'}}">{{ $supplier->expire_date }}</span></td>
 
 								<td class="text-nowrap">
 									<a class="btn default btn-outline" title="Edit Supplier" href="{{ action('Admin\SupplierController@edit', $supplier) }} "><i style="color: #1e88e5;" class="fas fa-edit" data-toggle="tooltip" data-placement="left" title="Edit Supplier"></i></a>
@@ -109,6 +113,17 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				<div class="form-group">
 					<label for="expire_date">Expier_Date</label>
 					<input type="date" name="expire_date"  id="mdate"class="mdate form-control form-control-line">
+				</div>
+				<div class="col-md-12 form-group">
+					<label>User(supplier) Account </label>
+					<select style="width: 100%;" class="select2 m-b-10 select2-multiple" name="user_id">
+						<option selected>Open this select menu</option>
+
+						<option  value="">none</option>
+						@foreach($users as $user)
+						<option value="{{$user->id}}">{{$user->name}}</option>
+						@endforeach
+					</select>
 				</div>
 			</div>
 			<div class="modal-footer">

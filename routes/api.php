@@ -24,6 +24,11 @@ Route::post('recover', 'AuthController@recover');
 Route::post('verify', 'AuthController@verifyUserRequest'); // send code so you verify your account
 Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('logout', 'AuthController@logout');
+    Route::post('/order','Api\OrderController@order'); //user order for this Poll
+    Route::post('/OnlineTrucks','Api\OrderController@online');
+    Route::post('/order','Api\OrderController@order');
+    Route::post('/acceptOrder','Api\OrderController@accept');
+    Route::post('/ratingOrder','Api\OrderController@rating');
     Route::get('test', function(){
         return response()->json(['foo'=>'bar']);
     });

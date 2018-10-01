@@ -15,9 +15,9 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('location');
-            $table->double('lat');
-            $table->double('lng');
+            $table->text('location')->nullable();
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
             $table->integer('status');
             $table->integer('rating');
             $table->integer('user_id')->unsigned()->nullable();

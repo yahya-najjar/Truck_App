@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Bill;
 use App\Models\Truck;
 use App\Models\Supplier;
+use Carbon\Carbon;
+
 class BillController extends Controller
 {
     /**
@@ -42,22 +44,29 @@ class BillController extends Controller
     public function store(Request $request)
     {
 
-       $this->validate(request(),[
+     $this->validate(request(),[
         'cash_amount'  =>      'required|numeric',
         'month_count' =>      'required|numeric',
         'note' =>      'required ',
-        'transaction_id' =>      'required',
 
     ]);
-       $bill = new Bill($request->all());
-       $bill->save();
-       $supplier = $request['supplier_id'];
-       $bill->supplier()->associate($supplier);
+     $bill = new Bill($request->all());
+     $bill->save();
 
-       $truck = $request['truck_id'];
-       $bill->truck()->associate($truck);
-       return back()->with('success','Item created successfully !');
-   }
+     $supplier = $request['supplier_id'];
+     $bill->supplier()->associate($supplier);
+
+     $truck = $request['truck_id'];
+     $bill->truck()->associate($truck);
+
+     $month_count = $request['month_count'];
+     $supplier = Supplier::find( $request['supplier_id']);
+     $sup_date = Carbon::parse($supplier->expire_date)->addMonths($month_count);
+     $supplier->expire_date = $sup_date;
+     $supplier->save();
+
+     return back()->with('success','Item created successfully !');
+ }
 
     /**
      * Display the specified resource.
@@ -80,10 +89,10 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-     $suppliers = Supplier::all();
-     $trucks=Truck::all();
-     return view ('admin.bills.edit',compact('trucks','suppliers','bill'));
- }
+       $suppliers = Supplier::all();
+       $trucks=Truck::all();
+       return view ('admin.bills.edit',compact('trucks','suppliers','bill'));
+   }
 
     /**
      * Update the specified resource in storage.

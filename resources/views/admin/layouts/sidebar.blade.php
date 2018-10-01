@@ -74,6 +74,18 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="fas fa-tasks"></i>       
+                        <span class="hide-menu">
+                        Orders </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="{{ action('Admin\OrderController@index', 'orders') }}">All </a></li>
+
+                    </ul>
+                </li>
+
 
             </ul>
         </nav>

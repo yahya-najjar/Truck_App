@@ -39,6 +39,7 @@ Bills
 								<th>Month count</th>
 								<th>Supplier name</th>
 								<th>Driver name</th>
+								<th>Note</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
@@ -48,17 +49,19 @@ Bills
 								<td>{{ $bill->id }}</td>
 								<td>{{ $bill->cash_amount }}</td>
 								<td>{{ $bill->month_count }}</td>
-								<td> {{ $bill->supplier ? $bill->supplier->driver_name : '' }} </td>
+								<td> {{ $bill->supplier ? $bill->supplier->name : '' }} </td>
 								<td> {{ $bill->truck ? $bill->truck->driver_name : '' }} </td>
+								<td>{{ $bill->note }}</td>
+
 
 								<td class="text-nowrap">
-									<a class="btn default btn-outline" title="Show More Detailes" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@show', $bill) }} "> <i style="color:#00edd5;" class="fas fa-eye m-r-10"></i></a>
+	<!-- 								<a class="btn default btn-outline" title="Show More Detailes" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@show', $bill) }} "> <i style="color:#00edd5;" class="fas fa-eye"></i></a> -->
 
-									<a class="btn default btn-outline" title="Edit Bill" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@edit', $bill) }} "><i class="fas fa-edit m-r-10" style="color: #1e88e5;"> </i></a>
+									<a class="btn default btn-outline" title="Edit Bill" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@edit', $bill) }} "><i class="fas fa-edit" style="color: #1e88e5;"> </i></a>
 									
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-										class="fa fa-trash text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete Bill"></i></a>
+										class="fa fa-trash text-danger" data-toggle="tooltip" data-placement="top" title="Delete Bill"></i></a>
 
 										<form action="{{ action('Admin\BillController@destroy', $bill) }}"
 										method="post" id="delete">
@@ -98,25 +101,25 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				{{ csrf_field() }}
 				<div class="form-group">
 					<label>Cash Amount <span class="help"> </span></label>
-					<input type="text" class="form-control form-control-line"
+					<input type="number" class="form-control form-control-line"
 					name="cash_amount"  >
 				</div>
 				<div class="form-group">
 					<label> Month Count <span class="help"> </span></label>
-					<input type="text" class="form-control form-control-line"
+					<input type="number" class="form-control form-control-line"
 					name="month_count"  >
 				</div>
 
 				<div class="form-group">
 					<label> Note <span class="help"> </span></label>
-					<input type="text" class="form-control form-control-line"
-					name="note"  >
+					<textarea type="text" class="form-control form-control-line"
+					name="note" ></textarea>
 				</div>
-				<div class="form-group">
+<!-- 				<div class="form-group">
 					<label> Transaction id <span class="help"> </span></label>
 					<input type="tel" class="form-control form-control-line"
 					name="transaction_id"  >
-				</div>
+				</div> -->
 
 				<div class="col-md-12 form-group">
 					<label>Supplier Name </label>
@@ -132,7 +135,7 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 
 				<div class="col-md-12 form-group">
 					<label>Driver Name </label>
-					<select style="width: 100%;" class="select2 m-b-10 select2-multiple" name="supplier_id">
+					<select style="width: 100%;" class="select2 m-b-10 select2-multiple" name="truck_id">
 						<option selected>Open this select menu</option>
 						<option  value="">None</option>
 						@foreach($trucks as $truck)

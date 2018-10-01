@@ -68,8 +68,7 @@ class TruckController extends Controller
      */
     public function show(Truck $truck)
     {
-        $suppliers = Supplier::all();
-        return view ('admin.trucks.show',compact('truck','suppliers'));
+        return view ('admin.trucks.show',compact('truck'));
     }
 
     /**
@@ -121,6 +120,12 @@ class TruckController extends Controller
                     array_push($trucks,$truck);
         }
         return view('admin.trucks.online',compact('trucks'));
+    }
+
+    public function orders(Truck $truck)
+    {
+        $orders = $truck->orders;
+        return view('admin.trucks.orders',compact('truck','orders'));
     }
 
 
