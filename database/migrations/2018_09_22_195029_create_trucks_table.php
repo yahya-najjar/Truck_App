@@ -26,6 +26,9 @@ class CreateTrucksTable extends Migration
             $table->integer('company_phone');
             $table->integer('status')->default(0);
             $table->integer('price_km');
+            $table->integer('rating')->default(0);
+            $table->text('expire_date')->nullable();
+
             $table->integer('price_h');
             $table->integer('supplier_id')->unsigned()->nullable();
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');

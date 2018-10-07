@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('title')
-Bills
+Renew Account
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@ Bills
 				</h1><br>
 				<button class=" btn btn-success btn-rounded col-md-3" data-toggle="modal"
 				data-target="#addAdminModal">
-				<i class="fa fa-plus-circle m-r-5"></i>Add Bill</button><br><br>
+				<i class="fa fa-plus-circle m-r-5"></i>Renew Account</button><br><br>
 			</div>
 		</div>
 	</div>
@@ -28,7 +28,7 @@ Bills
 				
 				<button class=" btn btn-success btn-rounded col-md-3" data-toggle="modal"
 				data-target="#addAdminModal">
-				<i class="fa fa-plus-circle m-r-5"></i>Add Bill</button><br>
+				<i class="fa fa-plus-circle m-r-5"></i>Renew Account</button><br>
 				<h6 class="card-subtitle"></h6>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped" id="table_id">
@@ -55,33 +55,34 @@ Bills
 
 
 								<td class="text-nowrap">
-	<!-- 								<a class="btn default btn-outline" title="Show More Detailes" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@show', $bill) }} "> <i style="color:#00edd5;" class="fas fa-eye"></i></a> -->
+	                              <!-- 	<a class="btn default btn-outline" title="Show More Detailes" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@show', $bill) }} "> <i style="color:#00edd5;" class="fas fa-eye"></i></a> 
 
 									<a class="btn default btn-outline" title="Edit Bill" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\BillController@edit', $bill) }} "><i class="fas fa-edit" style="color: #1e88e5;"> </i></a>
-									
-
-									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-										class="fa fa-trash text-danger" data-toggle="tooltip" data-placement="top" title="Delete Bill"></i></a>
-
-										<form action="{{ action('Admin\BillController@destroy', $bill) }}"
-										method="post" id="delete">
-										{{ csrf_field() }}
-										{{ method_field('DELETE') }}
-
-									</form>
-
-								</td>
+								-->
 
 
-							</tr>
-							@endforeach
+								<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
+									class="fa fa-trash text-danger" data-toggle="tooltip" data-placement="top" title="Delete Bill"></i></a>
 
-						</tbody>
-					</table>
-				</div>
+									<form action="{{ action('Admin\BillController@destroy', $bill) }}"
+									method="post" id="delete">
+									{{ csrf_field() }}
+									{{ method_field('DELETE') }}
+
+								</form>
+
+							</td>
+
+
+						</tr>
+						@endforeach
+
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 @endif
 {{--Add Bill Modal--}}
@@ -114,6 +115,10 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 					<label> Note <span class="help"> </span></label>
 					<textarea type="text" class="form-control form-control-line"
 					name="note" ></textarea>
+				</div>
+				<div class="form-group">
+					<label for="expire_date">Expier_Date</label>
+					<input type="date" name="expire_date"  id="mdate"class="mdate form-control form-control-line">
 				</div>
 <!-- 				<div class="form-group">
 					<label> Transaction id <span class="help"> </span></label>

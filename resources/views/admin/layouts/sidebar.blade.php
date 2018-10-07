@@ -66,7 +66,7 @@
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                         <i class="fas fa-hand-holding-usd"></i>
                         <span class="hide-menu">
-                        Bills </span>
+                        Renew Account </span>
                     </a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="{{ action('Admin\BillController@index', 'bills') }}">All </a></li>

@@ -29,9 +29,9 @@ Trucks
 							<tr>
 								<th>#</th>
 								<th>Driver Name</th>
-								<th>Phone</th>
-								<th>Plate Number</th>
+								<th>status</th>
 								<th>Current Location</th>
+								<th>last update</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
@@ -41,10 +41,10 @@ Trucks
 								<td>{{ $truck->id }}</td>
 
 								<td>{{ strip_tags($truck->driver_name) ?? 'No Title' }}</td>
-								<td>{{ $truck->driver_phone }}</td>
-								<td>{{ $truck->plate_num }}</td>
+								<td>{{ $truck->status }}</td>
+								<td>{{ $truck->location }}</td>
 
-								<td>{{ $truck->capacity }}</td>
+								<td>{{ $truck->updated_at }}</td>
 
 
 								<td class="text-nowrap">
@@ -68,5 +68,5 @@ Trucks
 <script type="text/javascript">
 	$(document).ready( function () {
 		$('#table_id').DataTable(); });
-</script>
-@endsection
+	</script>
+	@endsection
