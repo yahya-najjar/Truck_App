@@ -1,35 +1,35 @@
 <!-- ============================================================== -->
 <!-- All Jquery -->
 <!-- ============================================================== -->
-<script src="/assets/admin/plugins/jquery/jquery.min.js"></script>
+<script src="{{asset('/assets/admin/plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap popper Core JavaScript -->
-<script src="/assets/admin/plugins/bootstrap/js/popper.min.js"></script>
-<script src="/assets/admin/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="{{asset('/assets/admin/plugins/bootstrap/js/popper.min.js')}}"></script>
+<script src="{{asset('/assets/admin/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <!-- slimscrollbar scrollbar JavaScript -->
-<script src="/assets/admin/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="{{asset('/assets/admin/js/perfect-scrollbar.jquery.min.js')}}"></script>
 <!--Wave Effects -->
-<script src="/assets/admin/js/waves.js"></script>
+<script src="{{asset('/assets/admin/js/waves.js')}}"></script>
 <!--Menu sidebar -->
-<script src="/assets/admin/js/sidebarmenu.js"></script>
+<script src="{{asset('/assets/admin/js/sidebarmenu.js')}}"></script>
 <!--Custom JavaScript -->
-<script src="/assets/admin/js/custom.min.js"></script>
+<script src="{{asset('/assets/admin/js/custom.min.js')}}"></script>
 <!-- ============================================================== -->
 <!-- This page plugins -->
 <!-- ============================================================== -->
 <!--sparkline JavaScript -->
-<script src="/assets/admin/plugins/sparkline/jquery.sparkline.min.js"></script>
+<script src="{{asset('/assets/admin/plugins/sparkline/jquery.sparkline.min.js')}}"></script>
 <!--c3 JavaScript -->
-<script src="/assets/admin/plugins/d3/d3.min.js"></script>
-<script src="/assets/admin/plugins/c3-master/c3.min.js"></script>
+<script src="{{asset('/assets/admin/plugins/d3/d3.min.js')}}"></script>
+<script src="{{asset('/assets/admin/plugins/c3-master/c3.min.js')}}"></script>
 <!-- Popup message jquery -->
-<script src="/assets/admin/plugins/toast-master/js/jquery.toast.js"></script>
+<script src="{{asset('/assets/admin/plugins/toast-master/js/jquery.toast.js')}}"></script>
 
 <!-- Sweet-Alert  -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!-- Plugin JavaScript -->
-<script src="/assets/admin/plugins/moment/moment.js"></script>
-<script src="/assets/admin/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+<script src="{{asset('/assets/admin/plugins/moment/moment.js')}}"></script>
+<script src="{{asset('/assets/admin/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
 
 <script>
 
@@ -115,12 +115,12 @@
     })
 </script>
 
-<script src="/assets/plugins/switchery/dist/switchery.min.js"></script>
-    <script src="/assets/plugins/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
-    <script src="/assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
-    <script src="/assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-    <script src="/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/assets/plugins/multiselect/js/jquery.multi-select.js"></script>
+<script src="{{asset('/assets/plugins/switchery/dist/switchery.min.js')}}"></script>
+    <script src="{{asset('/assets/plugins/select2/dist/js/select2.full.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('/assets/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('/assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
+    <script src="{{asset('/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')}}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{asset('/assets/plugins/multiselect/js/jquery.multi-select.js')}}"></script>
     <script>
     jQuery(document).ready(function() {
         // Switchery
@@ -231,8 +231,8 @@
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-    <script src="/assets/plugins/dropify/dist/js/dropify.min.js"></script>
+    <script src="{{asset('/assets/plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
+    <script src="{{asset('/assets/plugins/dropify/dist/js/dropify.min.js')}}"></script>
     <script>
 
 

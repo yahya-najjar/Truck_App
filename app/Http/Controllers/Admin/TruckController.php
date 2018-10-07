@@ -71,6 +71,13 @@ class TruckController extends Controller
         return view ('admin.trucks.show',compact('truck'));
     }
 
+
+      public function location()
+    {
+        return view ('admin.trucks.get_truck_location');
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      *

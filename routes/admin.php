@@ -12,6 +12,7 @@ Route::resource('/roles','RoleController');
 Route::resource('/bills','BillController');
 Route::resource('/orders','OrderController');
 
+Route::get('/location','TruckController@location');
 
 
 Route::get('admins/','UserController@admins');

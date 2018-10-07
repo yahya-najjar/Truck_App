@@ -57,6 +57,9 @@ Trucks
 									<a class="btn default btn-outline" title="Edit Truck" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@edit', $truck) }} "><i class="fas fa-edit m-r-10" style="color: #1e88e5;"> </i></a>
 
 									<a class="btn default btn-outline" title="Show Truck Orders" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@orders', $truck) }} "> <i style="color:#000;" class="fas fa-truck-monster m-r-10"></i></a>
+								
+
+									<a class="btn default btn-outline" title="Show Truck Orders" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@location') }} "> <i style="color:#000;" class="fas fa-map-marked-alt m-r-10"></i></a>
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
 										class="fa fa-trash text-danger" data-toggle="tooltip" data-placement="top" title="Delete Truck"></i></a>
