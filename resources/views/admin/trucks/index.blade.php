@@ -48,7 +48,7 @@ Trucks
 
 								<td>{{ strip_tags($truck->driver_name) ?? 'No Title' }}</td>
 								<td>{{ $truck->capacity }}</td>
-								<td>{{ $truck->RatingAvg }}</td>
+								<td>{{ $truck->rating}}</td>
 
 
 								<td class="text-nowrap">
@@ -108,16 +108,11 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 					name="driver_phone"  >
 				</div>
 
-<!-- 				<div class="form-group">
-					<label> Company Name <span class="help"> </span></label>
-					<input type="text" class="form-control form-control-line"
-					name="company_name"  >
-				</div> -->
 				<div class="form-group">
-					<label> Company Phone <span class="help"> </span></label>
-					<input type="tel" class="form-control form-control-line"
-					name="company_phone"  >
-				</div>
+					<label> Location <span class="help"> </span></label>
+					<input type="text" class="form-control form-control-line"
+					name="location"  >
+				</div> 
 
 				<div class="form-group">
 					<label> Plate Number <span class="help"> </span></label>
@@ -143,6 +138,12 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 					<label> Price Per Hour <span class="help"> </span></label>
 					<input type="number" class="form-control form-control-line"
 					name="price_h"  >
+				</div>
+
+				<div class="form-group">
+					<label> Company Phone <span class="help"> </span></label>
+					<input type="tel" class="form-control form-control-line"
+					name="company_phone"  >
 				</div>
 				<div class="col-md-12 form-group">
 					<label>Supplier Name </label>

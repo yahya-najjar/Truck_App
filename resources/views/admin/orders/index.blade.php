@@ -51,18 +51,6 @@ Orders
 								<td>{{ $order->created_at }}</td>
 
 
-								<td class="text-nowrap">
-									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-										class="fa fa-trash text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete Order"></i></a>
-
-										<form action="{{ action('Admin\OrderController@destroy', $order) }}"
-										method="post" id="delete">
-										{{ csrf_field() }}
-										{{ method_field('DELETE') }}
-
-									</form>
-								</td>
-
 
 							</tr>
 							@endforeach
@@ -80,5 +68,5 @@ Orders
 <script type="text/javascript">
 	$(document).ready( function () {
 		$('#table_id').DataTable(); });
-</script>
-@endsection
+	</script>
+	@endsection

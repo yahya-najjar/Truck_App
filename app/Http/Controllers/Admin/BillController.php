@@ -44,28 +44,40 @@ class BillController extends Controller
     public function store(Request $request)
     {
 
-     $this->validate(request(),[
+       $this->validate(request(),[
         'cash_amount'  =>      'required|numeric',
         'month_count' =>      'required|numeric',
         'note' =>      'required ',
 
     ]);
-     $bill = new Bill($request->all());
-     $bill->save();
+       $bill = new Bill($request->all());
+       $bill->save();
 
-     $supplier = $request['supplier_id'];
-     $bill->supplier()->associate($supplier);
+       $supplier = $request['supplier_id'];
+       $bill->supplier()->associate($supplier);
 
-     $truck = $request['truck_id'];
-     $bill->truck()->associate($truck);
+       $truck = $request['truck_id'];
+       $bill->truck()->associate($truck);
 
-     $month_count = $request['month_count'];
-     $supplier = Supplier::find( $request['supplier_id']);
-     $sup_date = Carbon::parse($supplier->expire_date)->addMonths($month_count);
-     $supplier->expire_date = $sup_date;
-     $supplier->save();
+       $month_count = $request['month_count'];
+       if(isset($supplier)) 
+       {
+           $supplier = Supplier::find( $request['supplier_id']);
+           $sup_date = Carbon::parse($supplier->expire_date)->addMonths($month_count);
+           $supplier->expire_date = $sup_date;
+           $supplier->save();
+       }
+       else{
+         $truck = Truck::find( $request['truck_id']);
+         $sup_date = Carbon::parse($truck->expire_date)->addMonths($month_count);
+         $truck->expire_date = $sup_date;
+         $truck->save();
 
-     return back()->with('success','Item created successfully !');
+     }
+
+
+
+      return back()->with('success','Item created successfully !');
  }
 
     /**
@@ -89,10 +101,10 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-       $suppliers = Supplier::all();
-       $trucks=Truck::all();
-       return view ('admin.bills.edit',compact('trucks','suppliers','bill'));
-   }
+     $suppliers = Supplier::all();
+     $trucks=Truck::all();
+     return view ('admin.bills.edit',compact('trucks','suppliers','bill'));
+ }
 
     /**
      * Update the specified resource in storage.

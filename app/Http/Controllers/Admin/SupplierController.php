@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Supplier;
+use App\Models\Bill;
 use App\User;
 
 class SupplierController extends Controller
@@ -17,6 +18,7 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers=Supplier::all();
+       
         $users = User::withRole('supplier')->get();
         return view ('admin.suppliers.index',compact('suppliers','users'));
     }
@@ -74,6 +76,9 @@ class SupplierController extends Controller
     {
        return view ('admin.suppliers.edit',compact('supplier'));
    }
+
+
+
 
     /**
      * Update the specified resource in storage.
