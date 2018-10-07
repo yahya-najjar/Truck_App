@@ -68,10 +68,10 @@ Truck Detailes
 
 
 					<div class="col-lg-3">
-						<div class="card bg-primary">
+						<div class="card bg-danger">
 							<div class="card-body">
 								<div class="d-flex no-block">
-									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/assets-w.png" alt="Income" /></div>
+									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/staff-w.png" alt="Income" /></div>
 									<div class="align-self-center">
 										<h6 class="text-white m-t-10 m-b-0">Location</h6>
 										<h2 class="m-t-0 text-white">{{$truck->location}}</h2>
@@ -83,10 +83,10 @@ Truck Detailes
 
 
 					<div class="col-lg-3">
-						<div class="card bg-primary">
+						<div class="card bg-info">
 							<div class="card-body">
 								<div class="d-flex no-block">
-									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/assets-w.png" alt="Income" /></div>
+									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/income-w.png" alt="Income" /></div>
 									<div class="align-self-center">
 										<h6 class="text-white m-t-10 m-b-0">Driver phone</h6>
 										<h2 class="m-t-0 text-white">{{$truck->driver_phone}}</h2>
@@ -97,10 +97,10 @@ Truck Detailes
 					</div>
 
 					<div class="col-lg-3">
-						<div class="card bg-primary">
+						<div class="card bg-success">
 							<div class="card-body">
 								<div class="d-flex no-block">
-									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/assets-w.png" alt="Income" /></div>
+									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/expense-w.png" alt="Income" /></div>
 									<div class="align-self-center">
 										<h6 class="text-white m-t-10 m-b-0">Vehicle Model</h6>
 										<h2 class="m-t-0 text-white">{{$truck->model}}</h2>
@@ -123,10 +123,10 @@ Truck Detailes
 						</div>
 					</div>
 					<div class="col-lg-3">
-						<div class="card bg-primary">
+						<div class="card bg-danger">
 							<div class="card-body">
 								<div class="d-flex no-block">
-									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/assets-w.png" alt="Income" /></div>
+									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/staff-w.png" alt="Income" /></div>
 									<div class="align-self-center">
 										<h6 class="text-white m-t-10 m-b-0">Price Per Hour</h6>
 										<h2 class="m-t-0 text-white">{{$truck->price_h}}</h2>
@@ -136,10 +136,10 @@ Truck Detailes
 						</div>
 					</div>
 					<div class="col-lg-3">
-						<div class="card bg-primary">
+						<div class="card bg-info">
 							<div class="card-body">
 								<div class="d-flex no-block">
-									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/assets-w.png" alt="Income" /></div>
+									<div class="m-r-20 align-self-center"><img src="../../assets/images/icon/income-w.png" alt="Income" /></div>
 									<div class="align-self-center">
 										<h6 class="text-white m-t-10 m-b-0">Company Phone</h6>
 										<h2 class="m-t-0 text-white">{{$truck->company_phone}}</h2>
