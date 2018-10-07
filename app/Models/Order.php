@@ -19,6 +19,16 @@ class Order extends Model
 		return $this->belongsTo(Truck::class);
 	}
 
+	public static function getRatingsPerStar($star)
+	{
+		 if($star == 6)
+            $ratings = Order::all();
+        else
+            $ratings = Order::whereRaw('rating = ?', [$star]);
+       
+         return $ratings;
+	}
+
 	// public function getAllLocations(){                                
 	// 	$locs = $this->locations()->get();
 	// 	$roads= array();

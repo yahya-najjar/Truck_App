@@ -60,7 +60,7 @@ suppliers
 									<a class="btn default btn-outline" title="Renew Account" href=" "><i style="color: #16bf1e;" class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="left" title="Renew Account"></i></a>
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-										class="fa fa-trash text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete Supplier"></i></a>
+										class="fas fa-{{$supplier->is_verified==1?'lock':'lock-open'}} text-{{$supplier->is_verified==1?'danger':'success'}} m-r-10" data-toggle="tooltip" data-placement="top" title="{{$supplier->is_verified==1?'Deactivate':'Activate'}} Supplier"></i></a>
 
 										<form action="{{ action('Admin\SupplierController@destroy', $supplier) }}"
 										method="post" id="delete">

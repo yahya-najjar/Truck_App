@@ -129,7 +129,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        return back()->with('danger','Item Deleted');
+        $user->is_verified = ($user->is_verified==1?-1:1);
+        $user->save();
+        return back()->with('danger','User Deactivated');
     }
 }

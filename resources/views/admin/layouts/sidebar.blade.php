@@ -86,6 +86,18 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="fas fa-star"></i>       
+                        <span class="hide-menu">
+                        Rating </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="{{ url('admin/ratings/1') }}">Orders Rating </a></li>
+
+                    </ul>
+                </li>
+
 
             </ul>
         </nav>

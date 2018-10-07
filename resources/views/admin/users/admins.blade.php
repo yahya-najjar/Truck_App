@@ -48,14 +48,14 @@ Users
 
               <!-- Delete -->
               <a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-                class="fas fa-user-times text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete User"></i></a>
+                    class="fas fa-user-{{$user->is_verified==1?'times':'check'}} text-{{$user->is_verified==1?'danger':'success'}} m-r-10" data-toggle="tooltip" data-placement="top" title="{{$user->is_verified==1?'Deactivate':'Activate'}} User"></i></a>
 
-                <form action="{{ action('Admin\UserController@destroy', $user) }}"
-                method="post" id="delete">
-                {{ csrf_field() }}
-                {{ method_field('DELETE') }}
+                    <form action="{{ action('Admin\UserController@destroy', $user) }}"
+                    method="post" id="delete">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
 
-              </form>
+                  </form>
 
 
             </td>

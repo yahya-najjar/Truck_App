@@ -48,7 +48,7 @@ Suppliers (Users)
 
                   <!-- Delete -->
                   <a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-                    class="fas fa-user-times text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete User"></i></a>
+                    class="fas fa-user-{{$supplier->is_verified==1?'times':'check'}} text-{{$supplier->is_verified==1?'danger':'success'}} m-r-10" data-toggle="tooltip" data-placement="top" title="{{$supplier->is_verified==1?'Deactivate':'Activate'}} User"></i></a>
 
                     <form action="{{ action('Admin\UserController@destroy', $supplier) }}"
                     method="post" id="delete">
