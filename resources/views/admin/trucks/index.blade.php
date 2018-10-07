@@ -116,7 +116,7 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				<div class="form-group">
 					<label> Company Phone <span class="help"> </span></label>
 					<input type="tel" class="form-control form-control-line"
-					name="company_phone"  >
+					name="company_phone" >
 				</div>
 
 				<div class="form-group">

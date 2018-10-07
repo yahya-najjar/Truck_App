@@ -51,7 +51,7 @@ class TruckController extends Controller
         // 'status' =>      'required',
         'price_km' =>      'required | numeric',
         'price_h' =>      'required | numeric',
-        'company_phone' =>      'required',
+        'company_phone' =>      'required | numeric',
     ]);
        $truck = new Truck($request->all());
        $truck->save();

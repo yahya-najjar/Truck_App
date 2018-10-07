@@ -98,7 +98,8 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        $supplier->delete();
-        return back()->with('danger','Item Deleted');
-    }
+       $supplier->is_verified = ($supplier->is_verified==1?-1:1);
+       $supplier->save();
+       return back()->with('danger','Supplier Deactivated');
+   }
 }

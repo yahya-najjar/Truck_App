@@ -53,7 +53,7 @@ users
 									<a class="btn default btn-outline" title="Edit User" data-placement="top" href="{{ action('Admin\UserController@edit', $user) }} "><i style="color: #1e88e5;" class="fas fa-user-edit" data-toggle="tooltip" data-placement="left" title="Edit User"></i></a>
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-										class="fas fa-user-times text-danger m-r-10" data-toggle="tooltip" data-placement="top" title="Delete User"></i></a>
+										class="fas fa-user-{{$user->is_verified==1?'times':'check'}} text-{{$user->is_verified==1?'danger':'success'}} m-r-10" data-toggle="tooltip" data-placement="top" title="{{$user->is_verified==1?'Deactivate':'Activate'}} User"></i></a>
 
 										<form action="{{ action('Admin\UserController@destroy', $user) }}"
 										method="post" id="delete">

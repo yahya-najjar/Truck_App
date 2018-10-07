@@ -19,6 +19,7 @@ class CreateSuppliersTable extends Migration
             $table->text('location');
             $table->text('description');
             $table->string('phone');
+            $table->boolean('is_verified')->default(1);
             $table->text('expire_date');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
