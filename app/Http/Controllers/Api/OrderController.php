@@ -72,6 +72,8 @@ class OrderController extends Controller
 		if(isset($ord)){
 			$ord->rating = $rating;
 			$ord->save();
+			$truck->rating = $truck->RatingAvg;
+			$truck->save();
 			return Responses::respondSuccess([]);
 		} 
 
@@ -100,15 +102,28 @@ class OrderController extends Controller
 		// 	$trucks = Collection::make($trucks)->first();
 		// 	$trucks = $trucks->paginate($limit);
 
+		$lat = $request['lat'];
+		$lng = $request['lng'];
+
 		$trucks = Truck::where('status',1)->paginate($limit);
-
-			$paginator = [
-				'total_count' => $trucks->total(),
-				'limit'       => $trucks->perPage(),
-				'total_page'  => ceil($trucks->total() / $trucks->perPage()),
-				'current_page'=> $trucks->currentPage()
-			];
-
-			return Responses::respondSuccess($trucks->all(),$paginator);
+		foreach ($trucks as $key => $truck) {
+			$truck->setAttribute('distance',$truck->distance($lat,$lng,'K')) ;
 		}
+
+		$trucks = $trucks->sortBy(function($truck){
+			return $truck->distance;
+		});
+
+		$trucks = Collection::make($trucks)->first();
+		$trucks = $trucks->paginate($limit);
+
+		$paginator = [
+			'total_count' => $trucks->total(),
+			'limit'       => $trucks->perPage(),
+			'total_page'  => ceil($trucks->total() / $trucks->perPage()),
+			'current_page'=> $trucks->currentPage()
+		];
+
+		return Responses::respondSuccess($trucks->all(),$paginator);
 	}
+}

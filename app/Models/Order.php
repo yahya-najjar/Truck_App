@@ -7,7 +7,7 @@ use App\User;
 
 class Order extends Model
 {
-	protected $fillable = ['location','lat','lng','status','rating','user_id','truck_id'];
+	protected $fillable = ['location','lat','lng','status','rating','user_id','comment','truck_id'];
 
 	public function user()
 	{

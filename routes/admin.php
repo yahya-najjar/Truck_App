@@ -11,7 +11,7 @@ Route::resource('/roles','RoleController');
 Route::resource('/bills','BillController');
 Route::resource('/orders','OrderController');
 
-Route::get('/location','TruckController@location');
+Route::get('/location/{truck}','TruckController@location');
 
 
 Route::get('admins/','UserController@admins');
@@ -27,6 +27,6 @@ Route::get('/truck/{truck}','TruckController@orders');
 
 Route::get('/ratings/{star?}', 'RatingController@showRatings');
 Route::post('/driversRatings', 'RatingController@ratings')->name('allratings');
-
+Route::get('/allTrucks/{status?}', 'TruckController@allTrucks');
 
 

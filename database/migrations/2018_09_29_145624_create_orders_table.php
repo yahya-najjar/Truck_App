@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->double('lng')->nullable();
             $table->integer('status');
             $table->integer('rating');
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('truck_id')->unsigned()->nullable();
 

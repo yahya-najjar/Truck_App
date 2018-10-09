@@ -19,7 +19,7 @@ class BillController extends Controller
     public function index()
     {
         $suppliers=Supplier::all();
-        $trucks=Truck::all();
+        $trucks=Truck::PrivateTrucks();
 
         $bills=Bill::all();
         return view ('admin.bills.index',compact('bills','suppliers','trucks'));
@@ -77,7 +77,7 @@ class BillController extends Controller
 
 
 
-      return back()->with('success','Item created successfully !');
+      return back()->with('success','Account Renewed successfully !');
  }
 
     /**

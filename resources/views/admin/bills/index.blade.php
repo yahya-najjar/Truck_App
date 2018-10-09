@@ -24,7 +24,7 @@ Renew Account
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">All bills </h4>
+				<h4 class="card-title">Pay Fee For Suppliers and Private Drivers </h4>
 				
 				<button class=" btn btn-success btn-rounded col-md-3" data-toggle="modal"
 				data-target="#addAdminModal">
@@ -103,7 +103,7 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				<div class="form-group">
 					<label>Cash Amount <span class="help"> </span></label>
 					<input type="number" class="form-control form-control-line"
-					name="cash_amount"  >
+					name="cash_amount">
 				</div>
 				<div class="form-group">
 					<label> Month Count <span class="help"> </span></label>
@@ -116,10 +116,10 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 					<textarea type="text" class="form-control form-control-line"
 					name="note" ></textarea>
 				</div>
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label for="expire_date">Expier_Date</label>
 					<input type="date" name="expire_date"  id="mdate"class="mdate form-control form-control-line">
-				</div>
+				</div> -->
 <!-- 				<div class="form-group">
 					<label> Transaction id <span class="help"> </span></label>
 					<input type="tel" class="form-control form-control-line"
@@ -128,7 +128,7 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 
 				<div class="col-md-12 form-group">
 					<label>Supplier Name </label>
-					<select style="width: 100%;" class="select2 m-b-10 select2-multiple" name="supplier_id">
+					<select style="width: 100%;" class="select2 m-b-10 select2-multiple supplier_id" name="supplier_id">
 						<option selected>Open this select menu</option>
 						<option  value="">None</option>
 						@foreach($suppliers as $supplier)
@@ -139,8 +139,8 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				</div>
 
 				<div class="col-md-12 form-group">
-					<label>Driver Name </label>
-					<select style="width: 100%;" class="select2 m-b-10 select2-multiple" name="truck_id">
+					<label>Driver Name <small>Private Trucks</small></label>
+					<select style="width: 100%;" class="select2 m-b-10 select2-multiple truck_id" name="truck_id">
 						<option selected>Open this select menu</option>
 						<option  value="">None</option>
 						@foreach($trucks as $truck)
@@ -174,6 +174,21 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 	$(document).ready( function () {
 		$('#table_id').DataTable();
 	} );
+
+	$('[name=supplier_id]').change(function () {
+		$('option:selected', 'select[name="truck_id"]').removeAttr('selected');
+		console.log('sup changed');
+		$(".truck_id option[value='']").attr('selected', 'selected');
+		console.log($(".truck_id").val());
+	});
+
+	$('[name=truck_id]').change(function () {
+		$('option:selected', 'select[name="supplier_id"]').removeAttr('selected');
+		console.log('truck changed');
+		$(".supplier_id option[value='']").attr('selected', 'selected');
+		console.log($(".supplier_id").val());
+
+	});
 
 </script>
 @endsection

@@ -18,7 +18,22 @@ class TruckController extends Controller
     {
         $trucks=Truck::all();
         $suppliers = Supplier::all();
-        return view ('admin.trucks.index',compact('trucks','suppliers'));
+        $from_status = 3;
+        return view ('admin.trucks.index',compact('trucks','suppliers','from_status'));
+    }
+
+    public function allTrucks(Request $request,$status = null)
+    {
+        if (isset($status))
+            $from_status = $status;
+        else
+            $from_status = 1;
+        if($from_status==3)
+            $trucks=Truck::all();
+        else
+            $trucks = Truck::where('status',$from_status)->get();
+        $suppliers = Supplier::all();
+        return view ('admin.trucks.index',compact('trucks','suppliers','from_status'));
     }
 
     /**
@@ -41,7 +56,7 @@ class TruckController extends Controller
     public function store(Request $request)
     {
         // return $request->all();
-       $this->validate(request(),[
+     $this->validate(request(),[
         'driver_name'  =>      'required',
         'plate_num' =>      'required',
         'capacity' =>      'required | numeric',
@@ -53,12 +68,12 @@ class TruckController extends Controller
         'price_h' =>      'required | numeric',
         'company_phone' =>      'required | numeric',
     ]);
-       $truck = new Truck($request->all());
-       $truck->save();
-        $supplier = $request['supplier_id'];
-        $truck->supplier()->associate($supplier);
-       return back()->with('success','Item created successfully !');
-   }
+     $truck = new Truck($request->all());
+     $truck->save();
+     $supplier = $request['supplier_id'];
+     $truck->supplier()->associate($supplier);
+     return back()->with('success','Item created successfully !');
+ }
 
     /**
      * Display the specified resource.
@@ -72,9 +87,9 @@ class TruckController extends Controller
     }
 
 
-      public function location()
+    public function location(Truck $truck)
     {
-        return view ('admin.trucks.get_truck_location');
+        return view ('admin.trucks.get_truck_location',compact('truck'));
     }
 
 
@@ -125,15 +140,15 @@ class TruckController extends Controller
             if($truck->IsOnline)
                 if($truck->IsOnline->online)
                     array_push($trucks,$truck);
+            }
+            return view('admin.trucks.online',compact('trucks'));
         }
-        return view('admin.trucks.online',compact('trucks'));
+
+        public function orders(Truck $truck)
+        {
+            $orders = $truck->orders;
+            return view('admin.trucks.orders',compact('truck','orders'));
+        }
+
+
     }
-
-    public function orders(Truck $truck)
-    {
-        $orders = $truck->orders;
-        return view('admin.trucks.orders',compact('truck','orders'));
-    }
-
-
-}
