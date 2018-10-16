@@ -16,6 +16,9 @@ class CreateTruckLogsTable extends Migration
         Schema::create('truck_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('online');
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
+            
             $table->integer('truck_id')->unsigned()->nullable();
             $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
             $table->timestamps();

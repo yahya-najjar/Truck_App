@@ -10,21 +10,21 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\Truck_log;
 use App\Models\Truck;
 use App\Models\Order;
+use App\Models\Order_logs;
 use App\User;
+use App\Customer;
 use App\Http\Responses\Responses;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-
+use Validator;
 
 class OrderController extends Controller
 {
 
 	public function order(Request $request)
 	{
-		$lat = 0;
-		$lng = 0;
-
-		$location = 0;
+		$lat = $request['lat'];
+		$lng = $request['lng'];
 
 		$customer =  \Auth::user();
 		$truck = Truck::find($request['truck_id']);
@@ -47,10 +47,19 @@ class OrderController extends Controller
 			'lng'=>$lng,
 			'location'=>$location
 		]);
+
 		$order->save();
 		$order->user()->associate($customer);
 		$order->truck()->associate($truck);
 
+		$order_log = new Order_log([
+			'status'=>0,
+			'lat'=>$lat,
+			'lng'=>$lng,
+			'order_id'=>$order->id,
+		]);
+		$order_log->save();
+		$order_log->order()->associate($order);
 		if ($order) {
 			return Responses::respondSuccess([]);
 		}
@@ -89,6 +98,16 @@ class OrderController extends Controller
 
 		$limit = $request->limit ? : 5 ;
 		if($limit > 30 ) $limit =30 ;
+		$validator = Validator::make($request->all(), [
+			'lat' => 'required',
+			'lng' => 'required',
+		]);
+
+		if ($validator->fails()) {
+			$message = $validator->errors();
+			$msg = $message->first();
+			return Responses::respondError($msg);
+		}
 
 		// $allTrucks = Truck::all();
 		// $trucks = array();
@@ -104,18 +123,21 @@ class OrderController extends Controller
 
 		$lat = $request['lat'];
 		$lng = $request['lng'];
+		$user_id = \Auth::user()->id;
+		$customer = Customer::find($user_id);
+		$type = $customer->type;
 
-		$trucks = Truck::where('status',1)->paginate($limit);
-		foreach ($trucks as $key => $truck) {
-			$truck->setAttribute('distance',$truck->distance($lat,$lng,'K')) ;
+		$trucks = Truck::select('*')
+				->join('customers','trucks.id','=','customers.truck_id')->get();
+		return $trucks;
+		$trucks = Truck::where('status',1)
+		->where('type',$type);
+		foreach ($trucks->get() as $key => $truck) {
+			$d = $truck->distance($lat,$lng,'K');
+			$truck->distances = $d;
+			$truck->save();
 		}
-
-		$trucks = $trucks->sortBy(function($truck){
-			return $truck->distance;
-		});
-
-		$trucks = Collection::make($trucks)->first();
-		$trucks = $trucks->paginate($limit);
+		$trucks =  $trucks->orderBy('distances', 'asc')->paginate($limit);
 
 		$paginator = [
 			'total_count' => $trucks->total(),
@@ -125,5 +147,12 @@ class OrderController extends Controller
 		];
 
 		return Responses::respondSuccess($trucks->all(),$paginator);
+	}
+
+	public function Payment_type(Request $request)
+	{
+		$customer = Customer::find(\Auth::user()->id);
+		$customer->payment_type = $request->payment_type;
+		return Responses::respondSuccess();
 	}
 }

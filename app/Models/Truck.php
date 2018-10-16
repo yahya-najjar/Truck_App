@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class Truck extends Model
 {
 	protected $fillable = [
-		'driver_name', 'plate_num', 'location','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating'
+		'driver_name', 'plate_num', 'location','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating','distances'
 	];  
 
 
@@ -26,6 +26,11 @@ class Truck extends Model
 	public function bills()
 	{
 		return $this->hasMany(Bill::class);	
+	}
+
+	public function customers()
+	{
+		return $this->hasMany(Customer::class);
 	}
 
 	public function getIsOnlineAttribute(){                   
@@ -71,7 +76,7 @@ class Truck extends Model
 		$dist = acos(cos(deg2rad(90-$lat1)) *cos(deg2rad(90-$lat2)) +sin(deg2rad(90-$lat1)) *sin(deg2rad(90-$lat2)) *cos(deg2rad($lon1-$lon2))) *6371;
 		$miles = $dist * 60 * 1.1515;
 		$unit = strtoupper($unit);
-		return $dist;
+		// return $dist;
 
 		if ($unit == "K") {
 			return ($miles * 1.609344);

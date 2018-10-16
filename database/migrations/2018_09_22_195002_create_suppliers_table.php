@@ -17,6 +17,8 @@ class CreateSuppliersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('location');
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
             $table->text('description');
             $table->string('phone');
             $table->boolean('is_verified')->default(1);

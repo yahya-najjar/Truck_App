@@ -23,12 +23,21 @@ Route::post('login', 'AuthController@login');
 Route::post('recover', 'AuthController@recover');
 Route::post('verify', 'AuthController@verifyUserRequest'); // send code so you verify your account
 Route::group(['middleware' => ['jwt.auth']], function() {
-    Route::post('logout', 'AuthController@logout');
-    Route::post('/order','Api\OrderController@order'); //user order for this Poll
+
+    // Customer area
     Route::post('/OnlineTrucks','Api\OrderController@online');
-    Route::post('/order','Api\OrderController@order');
-    Route::post('/acceptOrder','Api\OrderController@accept');
+    Route::post('/order','Api\OrderController@order'); //user order for this Poll
     Route::post('/ratingOrder','Api\OrderController@rating');
+
+    // Common routes
+    Route::post('logout', 'AuthController@logout');
+    Route::post('/payment_type','Api\OrderController@Payment_type');
+
+
+    // Driver area
+    Route::post('/checkIn','Api\DriverController@online');
+    Route::post('/checkOut','Api\DriverController@offline');
+    Route::post('/acceptOrder','Api\OrderController@accept');
     Route::get('test', function(){
         return response()->json(['foo'=>'bar']);
     });
@@ -41,5 +50,17 @@ Route::group(['namespace' => 'Api'], function(){
 	Route::post('/supplier','SupplierController@show');  // return supplier by id
 	Route::post('/supplierTrucks','SupplierController@trucks');  // return supplier trucks by supplier id (which is online)
 	Route::post('/supplier/search','SupplierController@search'); // return suppliers by search values
+
+    //Truck area
+    Route::post('/trucks','TruckController@index'); // return all trucks
+    Route::post('/truck','TruckController@show');  // return truck by id
+    Route::post('/truckSupplier','TruckController@supplier');  // return truck supplier by supplier id (which is activated)
+    Route::post('/truck/search','TruckController@search'); // return trucks by search values
+
+    //Driver area
+    Route::post('/drivers','DriverController@index'); // return all drivers
+    Route::post('/driver','DriverController@show');  // return driver by id
+    Route::post('/driverTruck','DriverController@truck');  // return driver truck by driver id (which is activated)
+    Route::post('/driver/search','DriverController@search'); // return drivers by search values
 
 });

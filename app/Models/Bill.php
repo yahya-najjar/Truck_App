@@ -8,7 +8,7 @@ class Bill extends Model
 {
 
 	protected $fillable = [
-		'cash_amount', 'month_count', 'note','transaction_id','supplier_id','truck_id'
+		'cash_amount', 'month_count', 'note','transaction_id','supplier_id','truck_id','payment_type'
 	];
 
 	public function supplier(){

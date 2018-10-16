@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-class CreateUserVerificationsTable extends Migration
+class CreateCustomerVerificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,13 @@ class CreateUserVerificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_verifications', function (Blueprint $table) {
+        Schema::create('customer_verifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('customer_id')->unsigned();
             $table->string('token');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('customers', function (Blueprint $table) {
             $table->boolean('is_verified')->default(0);
         });
     }
@@ -29,8 +29,8 @@ class CreateUserVerificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists("user_verifications");
-        Schema::table('users', function (Blueprint $table) {
+        Schema::dropIfExists("customer_verifications");
+        Schema::table('customers', function (Blueprint $table) {
             $table->dropColumn('is_verified');
         });
     }

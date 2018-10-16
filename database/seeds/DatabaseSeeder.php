@@ -39,6 +39,8 @@ class DatabaseSeeder extends Seeder
     	$role3 = ['name' => 'supplier', 'display_name' => 'Supplier', 'description' => 'Truck Office Permissions'];
     	$role3 = Role::create($role3);
 
+        $role4 = ['name' => 'driver', 'display_name' => 'Driver', 'description' => 'Truck driver'];
+        $role4 = Role::create($role4);
 
     }
 }

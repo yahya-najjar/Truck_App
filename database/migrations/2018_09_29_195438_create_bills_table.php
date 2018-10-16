@@ -17,6 +17,7 @@ class CreateBillsTable extends Migration
             $table->increments('id');
             $table->integer('cash_amount');
             $table->integer('month_count');
+            $table->integer('payment_type')->default(0);
             $table->text('note');
             $table->integer('transaction_id')->nullable();
 

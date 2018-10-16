@@ -58,7 +58,7 @@ class TruckController extends Controller
         // return $request->all();
      $this->validate(request(),[
         'driver_name'  =>      'required',
-        'plate_num' =>      'required',
+        'plate_num' =>      'required |unique:trucks',
         'capacity' =>      'required | numeric',
         'model' =>      'required',
         'driver_phone' =>      'required | numeric',

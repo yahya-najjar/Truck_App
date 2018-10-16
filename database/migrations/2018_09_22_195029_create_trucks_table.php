@@ -20,6 +20,7 @@ class CreateTrucksTable extends Migration
             $table->text('location')->nullable();
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
+            $table->double('distances')->nullable();
             $table->integer('capacity');
             $table->string('model');
             $table->integer('driver_phone');
@@ -28,6 +29,7 @@ class CreateTrucksTable extends Migration
             $table->integer('price_km');
             $table->integer('rating')->default(0);
             $table->text('expire_date')->nullable();
+            $table->text('licence_date')->nullable();
 
             $table->integer('price_h');
             $table->integer('supplier_id')->unsigned()->nullable();
