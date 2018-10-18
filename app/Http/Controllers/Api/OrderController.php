@@ -10,7 +10,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\Truck_log;
 use App\Models\Truck;
 use App\Models\Order;
-use App\Models\Order_logs;
+use App\Models\Order_log;
 use App\User;
 use App\Customer;
 use App\Http\Responses\Responses;
@@ -25,14 +25,15 @@ class OrderController extends Controller
 	{
 		$lat = $request['lat'];
 		$lng = $request['lng'];
+		$comment = $request['comment'];
 
-		$customer =  \Auth::user();
+		$customer =  Customer::find(\Auth::user()->id);
 		$truck = Truck::find($request['truck_id']);
 
 		if(!isset($truck))        
 			return Responses::respondError('truck not found');
 
-		$ord = Order::where('user_id',$customer->id)
+		$ord = Order::where('customer_id',$customer->id)
 		->where('truck_id',$truck->id)
 		->first();
 		if(isset($ord))        
@@ -41,15 +42,16 @@ class OrderController extends Controller
 		$order = new Order([
 			'status'=>0,
 			'rating'=>0,
-			'user_id'=>$customer->id,
+			'customer_id'=>$customer->id,
 			'truck_id'=>$truck->id,
 			'lat'=>$lat,
 			'lng'=>$lng,
-			'location'=>$location
+			'comment'=>$comment,
+			'location'=>''
 		]);
 
 		$order->save();
-		$order->user()->associate($customer);
+		$order->customer()->associate($customer);
 		$order->truck()->associate($truck);
 
 		$order_log = new Order_log([
@@ -75,7 +77,7 @@ class OrderController extends Controller
 		if(!isset($truck))        
 			return Responses::respondError('truck not found');
 
-		$ord = Order::where('user_id',$customer->id)
+		$ord = Order::where('customer_id',$customer->id)
 		->where('truck_id',$truck->id)
 		->first();
 		if(isset($ord)){

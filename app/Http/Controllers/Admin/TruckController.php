@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Truck;
 use App\Models\Supplier;
+use Carbon\Carbon;
 
 class TruckController extends Controller
 {
@@ -58,7 +59,7 @@ class TruckController extends Controller
         // return $request->all();
      $this->validate(request(),[
         'driver_name'  =>      'required',
-        'plate_num' =>      'required |unique:trucks',
+        'plate_num' =>      'required|unique:trucks',
         'capacity' =>      'required | numeric',
         'model' =>      'required',
         'driver_phone' =>      'required | numeric',
@@ -67,7 +68,10 @@ class TruckController extends Controller
         'price_km' =>      'required | numeric',
         'price_h' =>      'required | numeric',
         'company_phone' =>      'required | numeric',
+        'expire_date' => 'required',
+        'licence_date' => 'required',
     ]);
+    
      $truck = new Truck($request->all());
      $truck->save();
      $supplier = $request['supplier_id'];

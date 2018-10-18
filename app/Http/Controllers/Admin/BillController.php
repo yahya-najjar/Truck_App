@@ -44,41 +44,54 @@ class BillController extends Controller
     public function store(Request $request)
     {
 
-       $this->validate(request(),[
+     $this->validate(request(),[
         'cash_amount'  =>      'required|numeric',
         'month_count' =>      'required|numeric',
         'note' =>      'required ',
 
     ]);
-       $bill = new Bill($request->all());
-       $bill->save();
 
-       $supplier = $request['supplier_id'];
-       $bill->supplier()->associate($supplier);
+    $truck =Truck::find($request['truck_id']);
 
-       $truck = $request['truck_id'];
-       $bill->truck()->associate($truck);
+     $licence_date = Carbon::parse($truck->licence_date);
+     $expire_date = Carbon::parse($truck->expire_date);
 
-       $month_count = $request['month_count'];
-       if(isset($supplier)) 
-       {
-           $supplier = Supplier::find( $request['supplier_id']);
-           $sup_date = Carbon::parse($supplier->expire_date)->addMonths($month_count);
-           $supplier->expire_date = $sup_date;
-           $supplier->save();
-       }
-       else{
-         $truck = Truck::find( $request['truck_id']);
-         $sup_date = Carbon::parse($truck->expire_date)->addMonths($month_count);
-         $truck->expire_date = $sup_date;
-         $truck->save();
+     $diff = $licence_date->diffInMonths($expire_date);
 
+     if($request['month_count'] > $diff){
+        $msg = 'Month Count Should Be Less Than'. $diff . 'Months, Or the client Should update his driving licence !';
+        return back()->with('danger','msg' );
      }
+     
+     $bill = new Bill($request->all());
+     $bill->save();
+
+     $supplier = $request['supplier_id'];
+     $bill->supplier()->associate($supplier);
+
+     $truck = $request['truck_id'];
+     $bill->truck()->associate($truck);
+
+     $month_count = $request['month_count'];
+     if(isset($supplier)) 
+     {
+         $supplier = Supplier::find( $request['supplier_id']);
+         $sup_date = Carbon::parse($supplier->expire_date)->addMonths($month_count);
+         $supplier->expire_date = $sup_date;
+         $supplier->save();
+     }
+     else{
+       $truck = Truck::find( $request['truck_id']);
+       $sup_date = Carbon::parse($truck->expire_date)->addMonths($month_count);
+       $truck->expire_date = $sup_date;
+       $truck->save();
+
+   }
 
 
 
-      return back()->with('success','Account Renewed successfully !');
- }
+   return back()->with('success','Account Renewed successfully !');
+}
 
     /**
      * Display the specified resource.
@@ -101,10 +114,10 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-     $suppliers = Supplier::all();
-     $trucks=Truck::all();
-     return view ('admin.bills.edit',compact('trucks','suppliers','bill'));
- }
+       $suppliers = Supplier::all();
+       $trucks=Truck::all();
+       return view ('admin.bills.edit',compact('trucks','suppliers','bill'));
+   }
 
     /**
      * Update the specified resource in storage.

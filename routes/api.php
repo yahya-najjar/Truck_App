@@ -37,7 +37,10 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     // Driver area
     Route::post('/checkIn','Api\DriverController@online');
     Route::post('/checkOut','Api\DriverController@offline');
-    Route::post('/acceptOrder','Api\OrderController@accept');
+    Route::post('/getOrders','Api\DriverController@getOrders');
+    Route::post('/acceptOrder','Api\DriverController@accept');
+    Route::post('/rejctOrder','Api\DriverController@reject');
+    Route::post('/doneOrder','Api\DriverController@done');
     Route::get('test', function(){
         return response()->json(['foo'=>'bar']);
     });

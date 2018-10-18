@@ -20,7 +20,7 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
 
     protected $guard = 'customer';
     protected $fillable = [
-    	'first_name','last_name','gender','age','type', 'phone','email', 'password', 'is_verified','code','platform','FCM_Token','payment_type'
+    	'first_name','last_name','gender','age','type', 'phone','email', 'password', 'is_verified','code','platform','FCM_Token','payment_type','truck_id'
     ];
 
     /**
@@ -48,7 +48,7 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
 
     public function truck()
     {
-        return $this->belongsTo(Truck::class);
+        return $this->belongsTo(Models\Truck::class);
     }
 
     public static function drivers(){

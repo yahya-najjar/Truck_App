@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class Truck extends Model
 {
 	protected $fillable = [
-		'driver_name', 'plate_num', 'location','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating','distances'
+		'driver_name', 'plate_num', 'location','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating','distances','expire_date','licence_date'
 	];  
 
 
@@ -30,7 +30,7 @@ class Truck extends Model
 
 	public function customers()
 	{
-		return $this->hasMany(Customer::class);
+		return $this->hasMany(App\Customer::class);
 	}
 
 	public function getIsOnlineAttribute(){                   
@@ -41,7 +41,7 @@ class Truck extends Model
 
 	public function truck_logs()
 	{
-		return $this->hasMany(Bill::class);	
+		return $this->hasMany(Truck_log::class);	
 	}
 
 	public function getRatingAvgAttribute()
@@ -69,6 +69,15 @@ class Truck extends Model
 		return true;
 	}
 
+	public function getLicenceIsExpiredAttribute()
+	{
+		$sup_date = Carbon::parse($this->licence_date);
+		if($sup_date->gt(Carbon::now()))
+			return false;
+
+		return true;
+	}
+
 	public  function distance($lat2, $lon2, $unit) {
 		$lat1 = $this->lat;
 		$lon1 = $this->lng;
@@ -85,6 +94,10 @@ class Truck extends Model
 		} else {
 			return $miles;
 		}
+	}
+
+	public function pendingOrders(){
+		return $this->orders()->where('status',0);
 	}
 
 }

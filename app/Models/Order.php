@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;
+use App\Customer;
 
 class Order extends Model
 {
-	protected $fillable = ['location','lat','lng','status','rating','user_id','comment','truck_id'];
+	protected $fillable = ['location','lat','lng','status','rating','customer_id','comment','truck_id'];
 
-	public function user()
+	public function customer()
 	{
-		return $this->belongsTo(User::class);
+		return $this->belongsTo(Customer::class);
 	}
 
 	public function truck()

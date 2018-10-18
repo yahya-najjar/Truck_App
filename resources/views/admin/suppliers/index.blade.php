@@ -39,7 +39,7 @@ suppliers
 								<th>Description</th>
 								<th>Location</th>
 								<th>Phone</th>
-								<th>Expiration Date</th>
+								<!-- <th>Expiration Date</th> -->
 								<th>Actions</th>
 							</tr>
 						</thead>
@@ -52,13 +52,13 @@ suppliers
 								<td>{{ $supplier->description }}</td>
 								<td>{{ $supplier->location }}</td>
 								<td>{{ $supplier->phone }}</td>
-								<td><span class="label label-{{$supplier->IsExpired ?'danger':'info'}}">{{ $supplier->expire_date }}</span></td>
+								<!-- <td><span class="label label-{{$supplier->IsExpired ?'danger':'info'}}">{{ $supplier->expire_date }}</span></td> -->
 
 								<td class="text-nowrap">
 									<a class="btn default btn-outline" title="Edit Supplier" href="{{ action('Admin\SupplierController@edit', $supplier) }} "><i style="color: #1e88e5;" class="fas fa-edit" data-toggle="tooltip" data-placement="left" title="Edit Supplier"></i></a>
 
-									<a class="btn default btn-outline" title="Renew Account"role="button" data-toggle="modal"
-									data-target="#renewModal_{{$supplier->id}}"><i style="color: #16bf1e;" class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="left" title="Renew Account"></i></a>
+									<!-- <a class="btn default btn-outline" title="Renew Account"role="button" data-toggle="modal"
+									data-target="#renewModal_{{$supplier->id}}"><i style="color: #16bf1e;" class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="left" title="Renew Account"></i></a> -->
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
 										class="fas fa-{{$supplier->is_verified==1?'lock':'lock-open'}} text-{{$supplier->is_verified==1?'danger':'success'}} m-r-10" data-toggle="tooltip" data-placement="top" title="{{$supplier->is_verified==1?'Deactivate':'Activate'}} Supplier"></i></a>
@@ -110,11 +110,11 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 					<input type="text" name="description" class="form-control">
 				</div>
 				<div class="form-group">
-					<label for="phone">phone_Number</label>
+					<label for="phone">phone Number</label>
 					<input type="text" name="phone" class="form-control">
 				</div>
 				<div class="form-group">
-					<label for="expire_date">Expier_Date</label>
+					<label for="expire_date">Expier Date</label>
 					<input type="date" name="expire_date"  id="mdate"class="mdate form-control form-control-line">
 				</div>
 				<div class="col-md-12 form-group">

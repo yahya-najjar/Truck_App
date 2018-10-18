@@ -48,7 +48,8 @@ Trucks
 								<th>#</th>
 								<th>Driver Name</th>
 								<th>Supplier</th>
-								<th>Expire Date</th>
+								<th>Account Expire Date</th>
+								<th>Licence Expire Date</th>
 								<th>Rating</th>
 								<th>status</th>
 								<th>last update</th>
@@ -63,9 +64,10 @@ Trucks
 								<td>{{ strip_tags($truck->driver_name) ?? 'No Title' }}</td>
 								<td>{{ isset($truck->supplier)?$truck->supplier->name:'Private Truck' }}</td>
 								<td>
-									@if(!isset($truck->supplier))
 									<span class="label label-{{$truck->IsExpired ?'danger':'info'}}">{{ $truck->expire_date }}</span>
-									@endif
+								</td>
+								<td>
+									<span class="label label-{{$truck->LicenceIsExpired ?'danger':'info'}}">{{ $truck->licence_date }}</span>
 								</td>
 								<td>{{ $truck->rating}}</td>
 								<td>{{ $truck->status }}</td>
@@ -83,10 +85,10 @@ Trucks
 
 									<a class="btn default btn-outline" title="Show Truck Location" data-placement="top" data-toggle="tooltip" href="{{ action('Admin\TruckController@location',$truck) }} "> <i style="color:#000;" class="fas fa-map-marked-alt m-r-10"></i></a>
 
-									@if(!isset($truck->supplier))
+									
 									<a class="btn default btn-outline" title="Renew Account"role="button" data-toggle="modal"
 									data-target="#renewModal_{{$truck->id}}"><i style="color: #16bf1e;" class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="left" title="Renew Account"></i></a>
-									@endif
+									
 
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
 										class="fa fa-trash text-danger" data-toggle="tooltip" data-placement="top" title="Delete Truck"></i></a>
@@ -144,6 +146,14 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 					name="company_phone" >
 				</div>
 				<div class="form-group">
+					<label for="expire_date">Expier Date</label>
+					<input type="date" name="expire_date"  id="mdate"class="mdate form-control form-control-line">
+				</div>
+				<div class="form-group">
+					<label for="expire_date">Licence Date</label>
+					<input type="date" name="licence_date"  id="mdate"class="mdate form-control form-control-line">
+				</div>
+				<div class="form-group">
 					<label> Location <span class="help"> </span></label>
 					<input type="text" class="form-control form-control-line"
 					name="location"  >
@@ -151,7 +161,7 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 
 				<div class="form-group">
 					<label> Plate Number <span class="help"> </span></label>
-					<input type="number" class="form-control form-control-line"
+					<input type="text" class="form-control form-control-line"
 					name="plate_num"  >
 				</div>
 				<div class="form-group">
@@ -206,7 +216,6 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 
 {{--Add Bill Modal--}}
 @foreach($trucks as $truck)
-@if(!isset($truck->supplier))
 <div class="modal fade" id="renewModal_{{$truck->id}}" tabindex="-1" role="dialog"
 	aria-labelledby="myLargeModalLabel_{{$truck->id}}" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog modal-lg">
@@ -253,7 +262,6 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 		</div>
 	</div>
 </div>
-@endif
 @endforeach
 
 @endsection
