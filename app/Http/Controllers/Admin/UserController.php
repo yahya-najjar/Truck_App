@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
 
 
 class UserController extends Controller
@@ -132,5 +133,9 @@ class UserController extends Controller
         $user->is_verified = ($user->is_verified==1?-1:1);
         $user->save();
         return back()->with('danger','User Deactivated');
+    }
+
+    function like(){
+        return Response()->json("sese");
     }
 }

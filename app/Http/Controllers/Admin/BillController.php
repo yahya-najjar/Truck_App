@@ -59,8 +59,8 @@ class BillController extends Controller
      $diff = $licence_date->diffInMonths($expire_date);
 
      if($request['month_count'] > $diff){
-        $msg = 'Month Count Should Be Less Than'. $diff . 'Months, Or the client Should update his driving licence !';
-        return back()->with('danger','msg' );
+        $msg = 'Month Count Should Be Less Than '. $diff . ' Months, Or the client Should update his driving licence !';
+        return back()->withErrors([$msg]);
      }
      
      $bill = new Bill($request->all());

@@ -52,6 +52,8 @@ users
 								<td class="text-nowrap">
 									<a class="btn default btn-outline" title="Edit User" data-placement="top" href="{{ action('Admin\UserController@edit', $user) }} "><i style="color: #1e88e5;" class="fas fa-user-edit" data-toggle="tooltip" data-placement="left" title="Edit User"></i></a>
 
+									<a class="btn default btn-outline" title="Edit User" data-placement="top" id="my_button"><i style="color: #1e88e5;" class="fas fa-heart" data-toggle="tooltip" data-placement="left" title="Edit User"></i></a>
+
 									<a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
 										class="fas fa-user-{{$user->is_verified==1?'times':'check'}} text-{{$user->is_verified==1?'danger':'success'}} m-r-10" data-toggle="tooltip" data-placement="top" title="{{$user->is_verified==1?'Deactivate':'Activate'}} User"></i></a>
 
@@ -133,7 +135,23 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 <script type="text/javascript">
 	$(document).ready( function () {
 		$('#table_id').DataTable();
+
+
+		$('#my_button').click(function(){
+			console.log("button pressed");
+
+			$.ajax({
+				url: "/admin/like/users",
+				type: "get",
+				data: {},
+				success:function(data){
+					console.log(data);
+				}
+			})
+		});
 	} );
+
+
 
 </script>
 @endsection

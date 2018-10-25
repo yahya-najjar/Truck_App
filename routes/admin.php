@@ -28,5 +28,6 @@ Route::get('/truck/{truck}','TruckController@orders');
 Route::get('/ratings/{star?}', 'RatingController@showRatings');
 Route::post('/driversRatings', 'RatingController@ratings')->name('allratings');
 Route::get('/allTrucks/{status?}', 'TruckController@allTrucks');
+Route::get('/like/users', 'UserController@like');
 
 
