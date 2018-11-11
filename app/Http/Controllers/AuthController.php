@@ -46,6 +46,7 @@ class AuthController extends Controller
             'age' => 'required|numeric',
             'gender' => 'required',
             'type' => 'required',
+            'password' => 'required',
             'email' => 'required|email|max:255|unique:customers'
         ];
         $validator = Validator::make($credentials, $rules);
@@ -71,13 +72,15 @@ class AuthController extends Controller
             'type' => $type,
             'password' => bcrypt($password),
             'code'=>0,
+            'active'=>0,
+            'registration_completed'=>0,
             'platform'=>$request->platform,
-            'FCM_Token'=>$request->fcm_token
+            'FCM_Token'=>$request->fcm_token,
         ]);
         // $customer = Role::where('name','customer')->get()->first();
         // $user->attachRole($customer);
 
-        $verification_code = str_random(6); //Generate verification code
+        $verification_code = mt_rand(100000, 999999);//Generate verification code
         DB::table('customer_verifications')->insert(['customer_id'=>$user->id,'token'=>$verification_code]);
 
         $data = ['name' => $first_name, 'verification_code' => $verification_code];
@@ -85,8 +88,24 @@ class AuthController extends Controller
             'email' => $email 
         ])->send(new VerifyMail($data));
 
+        $customer = Customer::find($user->id);
         $message = 'Thanks for signing up! Please check your email to complete your registration.';
-        return Responses::respondMessage($message);
+
+        // login
+        $credentials = $request->only('email', 'password');
+     // attempt to verify the credentials and create a token for the user
+        \Config::set('jwt.user', "App\Customer");
+        \Config::set('auth.providers.users.model', \App\Customer::class);
+
+        $token =JWTAuth::attempt($credentials);
+        if (! $token) {
+           return Responses::respondError('We cant find an account with this credentials. Please make sure you entered the right information and you have verified your email address.'); 
+       }
+
+        $token = JWTAuth::fromUser($customer);
+        $customer->token = $token;   
+
+        return Responses::respondSuccess($customer);
         // return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
     }
 
