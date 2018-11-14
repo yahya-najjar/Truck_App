@@ -84,9 +84,9 @@ class AuthController extends Controller
         DB::table('customer_verifications')->insert(['customer_id'=>$user->id,'token'=>$verification_code]);
 
         $data = ['name' => $first_name, 'verification_code' => $verification_code];
-        Mail::to([
-            'email' => $email 
-        ])->send(new VerifyMail($data));
+        // Mail::to([
+        //     'email' => $email 
+        // ])->send(new VerifyMail($data));
 
         $customer = Customer::find($user->id);
         $message = 'Thanks for signing up! Please check your email to complete your registration.';
@@ -109,8 +109,18 @@ class AuthController extends Controller
         // return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
     }
 
-    public function verifyUserRequest(Request $request){
+     public function verifyUserRequest(Request $request){
         $verification_code = $request->code;
+        $user_id = $request->user_id;
+        if ($user_id) {
+            $user = Customer::find($user_id);
+            if($user->is_verified == 1){
+                return Responses::respondMessage('Account already verified');
+            }
+            $user->update(['is_verified' => 1]);
+            DB::table('customer_verifications')->where('customer_id',$user_id)->delete();
+            return Responses::respondMessage('You have successfully verified your email address');   
+        }
         return  $this->verifyUser($verification_code);
     }
 
