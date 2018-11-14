@@ -7,22 +7,23 @@
         <!-- Logo -->
         <!-- ============================================================== -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="/admin">
+            <a class="navbar-brand" href="/admin" style="color: #FFF;">
                 <!-- Logo icon --><b>
                     <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                     <!-- Dark Logo icon -->
-                    <img src="/assets/admin/images/logo-icon.png" alt="homepage" class="dark-logo"/>
+                    <!-- <img src="/assets/admin/images/logo-icon.png" alt="homepage" class="dark-logo"/> -->
                     <!-- Light Logo icon -->
-                    <img width="40px" height="40px" src="/assets/admin/images/logo-light-icon.png" alt="homepage"
-                         class="light-logo"/>
+                    MicroSolutions  &nbsp; &nbsp;<i class="fas fa-cogs"></i>
+                   <!--  <img width="40px" height="40px" src="/assets/admin/images/logo-light-icon.png" alt="homepage"
+                         class="light-logo"/> -->
                 </b>
                 <!--End Logo icon -->
                 <!-- Logo text --><span>
                          <!-- dark Logo text -->
-                         <img src="/assets/admin/images/logo-text.png" alt="homepage" class="dark-logo"/>
+                         <!-- <img src="/assets/admin/images/logo-text.png" alt="homepage" class="dark-logo"/> -->
                     <!-- Light Logo text -->
-                         <img width="108px" height="25px" src="/assets/admin/images/logo-light-text.png" class="light-logo"
-                              alt="homepage"/>
+                         <!-- <img width="108px" height="25px" src="/assets/admin/images/logo-light-text.png" class="light-logo"
+                              alt="homepage"/> -->
                 </span> </a>
         </div>
         <!-- ============================================================== -->
