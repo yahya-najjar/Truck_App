@@ -132,7 +132,7 @@ class OrderController extends Controller
 		$trucks = Truck::select('*')
 				->join('customers','trucks.id','=','customers.truck_id')->get();
 		// return $trucks;
-		$trucks = Truck::where('status',1);
+		$trucks = Truck::where('status',1)->orWhere('status',0);
 		foreach ($trucks->get() as $key => $truck) {
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;

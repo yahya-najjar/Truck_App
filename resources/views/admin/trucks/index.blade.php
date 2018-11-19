@@ -3,6 +3,23 @@
 Trucks
 @endsection
 
+@section('style')
+<style type="text/css">
+.modal-dialog{
+	max-width: 1000px;
+}
+@media (min-width: 992px)
+.modal-lg {
+	max-width: 900px;
+}
+@media (min-width: 576px)
+.modal-dialog {
+    max-width: 600px;
+    margin: 30px auto;
+}
+</style>
+@endsection
+
 @section('content')
 
 @if(!count($trucks))
@@ -114,158 +131,12 @@ Trucks
 	</div>
 </div>
 @endif
-{{--Add Truck Modal--}}
-<div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog"
-aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-<div class="modal-dialog modal-lg">
-	<div class="modal-content">
-		<div class="modal-header">
-			<h4 class="modal-title" id="myLargeModalLabel">Add new Truck</h4>
-			<button type="button" class="close" data-dismiss="modal"
-			aria-hidden="true">×
-		</button>
-	</div>
-	<form action="{{action("Admin\TruckController@store")}}" method="post">
-		<div class="modal-body">
-			<div class="modal-body">
-				{{ csrf_field() }}
-				<div class="form-group">
-					<label>Driver Name <span class="help"> </span></label>
-					<input type="text" class="form-control form-control-line"
-					name="driver_name"  >
-				</div>
-				<div class="form-group">
-					<label> Driver phone <span class="help"> </span></label>
-					<input type="tel" class="form-control form-control-line"
-					name="driver_phone"  >
-				</div>
-
-				<div class="form-group">
-					<label> Company Phone <span class="help"> </span></label>
-					<input type="tel" class="form-control form-control-line"
-					name="company_phone" >
-				</div>
-				<div class="form-group">
-					<label for="expire_date">Expier Date</label>
-					<input type="date" name="expire_date"  id="mdate"class="mdate form-control form-control-line">
-				</div>
-				<div class="form-group">
-					<label for="expire_date">Licence Date</label>
-					<input type="date" name="licence_date"  id="mdate"class="mdate form-control form-control-line">
-				</div>
-				<div class="form-group">
-					<label> Location <span class="help"> </span></label>
-					<input type="text" class="form-control form-control-line"
-					name="location"  >
-				</div> 
-
-				<div class="form-group">
-					<label> Plate Number <span class="help"> </span></label>
-					<input type="text" class="form-control form-control-line"
-					name="plate_num"  >
-				</div>
-				<div class="form-group">
-					<label> Capacity <span class="help"> </span></label>
-					<input type="number" class="form-control form-control-line"
-					name="capacity"  >
-				</div>
-				<div class="form-group">
-					<label>  Vehicle Model <span class="help"> </span></label>
-					<input type="text" class="form-control form-control-line"
-					name="model"  >
-				</div>
-				<div class="form-group">
-					<label> Price Per KM <span class="help"> </span></label>
-					<input type="number" class="form-control form-control-line"
-					name="price_km"  >
-				</div>
-				<div class="form-group">
-					<label> Price Per Hour <span class="help"> </span></label>
-					<input type="number" class="form-control form-control-line"
-					name="price_h"  >
-				</div>
-
-				<div class="col-md-12 form-group">
-					<label>Supplier Name </label>
-					<select style="width: 100%;" class="select2 m-b-10 select2-multiple" name="supplier_id">
-						<option selected>Open this select menu</option>
-
-						<option  value="">none</option>
-						@foreach($suppliers as $supplier)
-						<option value="{{$supplier->id}}">{{$supplier->name}}</option>
-						@endforeach
-					</select>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="submit"
-				class="btn btn-primary waves-effect waves-light">
-				Save
-			</button>
-			<button type="button"
-			class="btn btn-danger waves-effect text-left"
-			data-dismiss="modal">Cancel
-		</button>
-	</div>
-</div>
-</form>
-
-</div>
-</div>
-</div>
-
-{{--Add Bill Modal--}}
-@foreach($trucks as $truck)
-<div class="modal fade" id="renewModal_{{$truck->id}}" tabindex="-1" role="dialog"
-	aria-labelledby="myLargeModalLabel_{{$truck->id}}" aria-hidden="true" style="display: none;">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="myLargeModalLabel_{{$truck->id}}">Renew {{$truck->driver_name}} account</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X
-				</button>
-			</div>
-			<form action="{{action("Admin\BillController@store")}}" method="post">
-				<div class="modal-body">
-					{{ csrf_field() }}
-					<div class="form-group">
-						<label>Cash Amount <span class="help"> </span></label>
-						<input type="number" class="form-control form-control-line"
-						name="cash_amount"  >
-					</div>
-					<div class="form-group">
-						<label> Month Count <span class="help"> </span></label>
-						<input type="number" class="form-control form-control-line"
-						name="month_count"  >
-					</div>
-
-					<div class="form-group">
-						<label> Note <span class="help"> </span></label>
-						<textarea type="text" class="form-control form-control-line"
-						name="note" ></textarea>
-					</div>
-
-					<div class="col-md-12 form-group">
-						<input type="hidden" name="truck_id" value="{{$truck->id}}">
-					</div>
-
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary waves-effect waves-light">
-							Save
-						</button>
-						<button type="button" class="btn btn-danger waves-effect text-left"data-dismiss="modal">
-							Cancel
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-@endforeach
+@include('admin.modals.create_truck_modal')
+@include('admin.modals.create_bill_modal')
 
 @endsection
 @section('script')
+@include('admin.layouts.date_pickers')
 <script type="text/javascript">var url = "{{url('')}}";</script> 
 <script type="text/javascript">
 	$(document).ready( function () {

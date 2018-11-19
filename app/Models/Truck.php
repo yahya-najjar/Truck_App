@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class Truck extends Model
 {
 	protected $fillable = [
-		'driver_name', 'plate_num', 'location','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating','distances','expire_date','licence_date'
+		'driver_name', 'plate_num', 'location','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating','image','distances','expire_date','licence_date'
 	];  
 
 

@@ -112,7 +112,7 @@ class AuthController extends Controller
      public function verifyUserRequest(Request $request){
         $verification_code = $request->code;
         $user_id = $request->user_id;
-        if ($user_id) {
+        if ($user_id && $verification_code == 123456) {
             $user = Customer::find($user_id);
             if($user->is_verified == 1){
                 return Responses::respondMessage('Account already verified');

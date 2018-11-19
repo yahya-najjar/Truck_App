@@ -56,7 +56,6 @@ class TruckController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
      $this->validate(request(),[
         'driver_name'  =>      'required',
         'plate_num' =>      'required|unique:trucks',
@@ -65,14 +64,22 @@ class TruckController extends Controller
         'driver_phone' =>      'required | numeric',
         // 'location' =>      'required',
         // 'status' =>      'required',
+        'image' =>      'required | image',
         'price_km' =>      'required | numeric',
         'price_h' =>      'required | numeric',
         'company_phone' =>      'required | numeric',
         'expire_date' => 'required',
         'licence_date' => 'required',
     ]);
+
+        $input = $request->all();
+
+     if (isset($request->image)) {
+            $input['image'] = request('image')->store('images','public');
+        }
+
     
-     $truck = new Truck($request->all());
+     $truck = new Truck($input);
      $truck->save();
      $supplier = $request['supplier_id'];
      $truck->supplier()->associate($supplier);

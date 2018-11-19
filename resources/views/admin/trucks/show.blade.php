@@ -3,6 +3,10 @@
 Truck Detailes
 @endsection
 
+@section('style')
+<link href="{{asset('/assets/admin/plugins/Magnific-Popup-master/dist/magnific-popup.css')}}" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="row">
 	<div class="col-12">
@@ -161,10 +165,29 @@ Truck Detailes
 							</div>
 						</div>
 					</div>
+					<div class="col-lg-3" style="margin-top: -20px; ">
+						<div class="card " >
+							<div class="card-body" >
+								<div class="d-flex no-block">
+									<div id="image-popups">
+										<a href="{{url('/storage/'.$truck->image)}}" data-effect="mfp-zoom-in"><img src="{{url('/storage/'.$truck->image)}}" class="img-responsive" />
+											<br/></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
+
+
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-@endsection
+	@endsection
+	@section('script')
+	<script src="{{asset('/assets/admin/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js')}}"></script>
+	<script src="{{asset('/assets/admin/plugins/Magnific-Popup-master/dist/jquery.magnific-popup-init.js')}}"></script>
+	@endsection
+
