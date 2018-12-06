@@ -44,10 +44,10 @@ users
 							<tr>
 								<td>{{ $user->id }}</td>
 
-								<td>{{ strip_tags($user->name) ?? 'No Title' }}</td>
+								<td>{{ $user->roles()? $user->name : $user->first_name ." ".$user->last_name }}</td>
 
-								<td>{{ $user->roles()->first()? $user->roles()->first()->display_name :'' }}</td>
-								<td>{{$user->roles()->first()? $user->roles()->first()->description :''  }}</td>
+								<td>{{$user->roles()? ($user->roles()->first()? $user->roles()->first()->display_name :''):'Customer' }}</td>
+								<td>{{$user->roles()? $user->roles()->first()? $user->roles()->first()->description :'':'Customer Permissions' }}</td>
 
 								<td class="text-nowrap">
 									<a class="btn default btn-outline" title="Edit User" data-placement="top" href="{{ action('Admin\UserController@edit', $user) }} "><i style="color: #1e88e5;" class="fas fa-user-edit" data-toggle="tooltip" data-placement="left" title="Edit User"></i></a>

@@ -13,17 +13,19 @@
                     <!-- Dark Logo icon -->
                     <!-- <img src="/assets/admin/images/logo-icon.png" alt="homepage" class="dark-logo"/> -->
                     <!-- Light Logo icon -->
-                    MicroSolutions  &nbsp; &nbsp;<i class="fas fa-cogs"></i>
+                    <i class="fas fa-cogs"></i>
                    <!--  <img width="40px" height="40px" src="/assets/admin/images/logo-light-icon.png" alt="homepage"
                          class="light-logo"/> -->
                 </b>
                 <!--End Logo icon -->
-                <!-- Logo text --><span>
+                <!-- Logo text --><span style="color: white; margin-right: 20px;">
                          <!-- dark Logo text -->
                          <!-- <img src="/assets/admin/images/logo-text.png" alt="homepage" class="dark-logo"/> -->
                     <!-- Light Logo text -->
                          <!-- <img width="108px" height="25px" src="/assets/admin/images/logo-light-text.png" class="light-logo"
                               alt="homepage"/> -->
+
+                              MicroSolutions 
                 </span> </a>
         </div>
         <!-- ============================================================== -->

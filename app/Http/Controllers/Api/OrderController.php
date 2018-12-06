@@ -27,7 +27,7 @@ class OrderController extends Controller
 		$lng = $request['lng'];
 		$comment = $request['comment'];
 
-		$customer =  Customer::find(\Auth::user()->id);
+		$customer =  JWTAuth::parseToken()->authenticate();
 		$truck = Truck::find($request['truck_id']);
 
 		if(!isset($truck))        
@@ -70,7 +70,7 @@ class OrderController extends Controller
 
 	public function rating(Request $request)
 	{
-		$customer =  \Auth::user();
+		$customer =  JWTAuth::parseToken()->authenticate();
 		$truck = Truck::find($request['truck_id']);
 		$rating = $request['rating'];
 
@@ -125,8 +125,8 @@ class OrderController extends Controller
 
 		$lat = $request['lat'];
 		$lng = $request['lng'];
-		$user_id = \Auth::user()->id;
-		$customer = Customer::find($user_id);
+		$customer = JWTAuth::parseToken()->authenticate();
+		$user_id = $customer->id;
 		$type = $customer->type;
 
 		$trucks = Truck::select('*')
@@ -152,7 +152,7 @@ class OrderController extends Controller
 
 	public function Payment_type(Request $request)
 	{
-		$customer = Customer::find(\Auth::user()->id);
+		$customer = JWTAuth::parseToken()->authenticate();
 		$customer->payment_type = $request->payment_type;
 		return Responses::respondSuccess();
 	}

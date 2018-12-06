@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Customer;
 use App\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
@@ -19,25 +20,30 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $a_users = User::all();
+        $customers = Customer::all();
+
+        $users = $a_users->merge($customers);
+
         $roles = Role::all();
         return view ('admin.users.index',compact('users','roles'));
     }
 
     public function admins(){
 
-        $admins =  User::withRole('admin')->paginate(3);
+        $admins =  User::withRole('admin')->paginate(5);
         $roles = Role::all();
         return view('admin.users.admins',compact('admins','roles'));
     }
 
     public function customers(){
-        $customers = User::withRole('customer')->paginate(3);
+        // $customers = User::withRole('customer')->paginate(5);
+        $customers = Customer::paginate(5);
         return view('admin.users.customers',compact('customers'));
     }
 
     public function suppliers(){
-        $suppliers = User::withRole('supplier')->paginate(3);
+        $suppliers = User::withRole('supplier')->paginate(5);
         return view('admin.users.suppliers',compact('suppliers'));
     }
 
@@ -136,6 +142,6 @@ class UserController extends Controller
     }
 
     function like(){
-        return Response()->json("sese");
+        return Response()->json("test");
     }
 }

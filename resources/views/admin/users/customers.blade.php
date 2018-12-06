@@ -22,8 +22,9 @@ Customers
                 <th>#</th>
                 <th>Customer name</th>
                 <th>User email</th>
-                <th>User role</th>
-                <th>User role description</th>
+                <th>phone</th>
+                <th>Payment type</th>
+                <th>Registeration Completed</th>
 
                 <th>Actions</th>
               </tr>
@@ -33,11 +34,12 @@ Customers
               <tr>
                 <td>{{ $user->id }}</td>
 
-                <td>{{ strip_tags($user->name) ?? 'No Name' }}</td>
+                <td>{{ $user->first_name ." ".$user->last_name ?? 'No Name' }}</td>
 
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->roles()->first()->display_name  }}</td>
-                <td>{{ $user->roles()->first()->description   }}</td>
+                <td>{{ $user->phone  }}</td>
+                <td>{{ $user->payment_type?"cash":"Credit" }}</td>
+                <td>{{ $user->registeration_completed?"Yes":"No" }}</td>
 
 
                 

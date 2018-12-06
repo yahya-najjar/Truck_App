@@ -54,4 +54,13 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     public static function drivers(){
         return Customer::where('type',2);
     }
+
+    public function roles(){
+        return null;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . " " . $this->last_name ;
+    }
 }

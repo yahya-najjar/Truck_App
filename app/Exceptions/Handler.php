@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Http\Responses\Responses;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -48,6 +49,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if(strpos($exception->getMessage(),'count Disabled')){
+            return Responses::respondError(trans('messages.activate_account'));
+        }
+
+        if(strpos($exception->getMessage(),'oken')){
+            return Responses::respondError($exception->getMessage());
+        }
+
         return parent::render($request, $exception);
     }
 }
