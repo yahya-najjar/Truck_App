@@ -7,6 +7,7 @@ use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Order;
 
 
 class Customer extends \Eloquent implements Authenticatable ,JWTSubject
@@ -62,5 +63,25 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     public function getFullNameAttribute()
     {
         return $this->first_name . " " . $this->last_name ;
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Models\Order::class);
+    }
+
+    public function pending_orders(){
+        $orders = Order::where('status',1)->get();
+        return $orders;
+    }
+
+    public function completed_orders(){
+        $orders = Order::where('status',2)->get();
+        return $orders;
+    }
+
+    public function canceled_orders(){
+        $orders = Order::where('status',0)->get();
+        return $orders;
     }
 }

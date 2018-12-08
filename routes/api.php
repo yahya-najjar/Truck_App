@@ -26,7 +26,8 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 
     // Customer area
     Route::post('/OnlineTrucks','Api\OrderController@online');
-    Route::post('/order','Api\OrderController@order'); //user order for this Poll
+    Route::post('/order','Api\OrderController@order'); //user order for this
+    Route::post('/myOrders','Api\OrderController@myOrders'); //user order for this
     Route::post('/ratingOrder','Api\OrderController@rating');
 
     // Common routes
