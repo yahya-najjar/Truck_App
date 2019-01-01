@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Customer;
 use App\Role;
+use App\Models\Truck;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
+use Validator,DB;
 
 
 class UserController extends Controller
@@ -40,6 +42,14 @@ class UserController extends Controller
         // $customers = User::withRole('customer')->paginate(5);
         $customers = Customer::paginate(5);
         return view('admin.users.customers',compact('customers'));
+    }
+
+    public function drivers(){
+        $drivers = Customer::drivers()->get();
+        return response()->json([
+            'status' => true,
+            'drivers' => $drivers,
+        ]);
     }
 
     public function suppliers(){
@@ -143,5 +153,69 @@ class UserController extends Controller
 
     function like(){
         return Response()->json("test");
+    }
+
+    public function addShift(Request $request)
+    {
+        $credentials = $request->only('truck_id','driver_id','note','start_time','end_time');
+        $rules = [
+            'truck_id' => 'required',
+            'driver_id' => 'required',
+            'note' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+        ];
+        $validator = Validator::make($credentials, $rules);
+        if($validator->fails()) {
+            return Responses::respondError($validator->messages());
+        }
+        $driver_id = $request['driver_id'];
+        $note = $request['note'];
+        $start_time = $request['start_time'];
+        $end_time = $request['end_time'];
+
+        $truck = Truck::find($request['truck_id']);
+
+        $truck->customers()->attach($driver_id,['note'=> $note,'from'=>$start_time,'to'=>$end_time]);
+
+        return response()->json([
+            'status' => true,
+            'data' => $truck->customers()->first(),
+        ]);
+
+    }
+
+    public function deleteShift(Request $request)
+    {
+        $driver_id = $request['driver_id'];
+        $truck_id = $request['truck_id'];
+
+        DB::table('customer_truck')
+                            ->where('customer_id',$driver_id)
+                            ->where('truck_id',$truck_id)
+                            ->delete();
+
+        return response()->json([
+            'status' => true,
+            'data' => $truck_id,
+        ]);
+    }
+
+    public function updateShift(Request $request)
+    {
+        $driver_id = $request['driver_id'];
+        $truck_id = $request['truck_id'];
+        $from = $request['start_time'];
+        $to = $request['end_time'];
+
+        $shift = DB::table('customer_truck')
+                            ->where('customer_id',$driver_id)
+                            ->where('truck_id',$truck_id)
+                            ->update(['from'=>$from ,'to'=>$to]);
+
+        return response()->json([
+            'status' => true,
+            'data' => $shift,
+        ]);
     }
 }

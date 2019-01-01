@@ -24,6 +24,9 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     	'first_name','last_name','gender','age','type', 'phone','email', 'password', 'is_verified','code','platform','FCM_Token','payment_type','truck_id'
     ];
 
+    const DRIVER = 2;
+    const CUSTOMER = 1;
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -47,11 +50,6 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     	return [];
     }
 
-    public function truck()
-    {
-        return $this->belongsTo(Models\Truck::class);
-    }
-
     public static function drivers(){
         return Customer::where('type',2);
     }
@@ -71,6 +69,7 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     }
 
     public function pending_orders(){
+        // $orders = Order::join('')
         $orders = Order::where('status',1)->get();
         return $orders;
     }

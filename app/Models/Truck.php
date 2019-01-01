@@ -10,7 +10,11 @@ class Truck extends Model
 {
 	protected $fillable = [
 		'driver_name', 'plate_num', 'location','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating','image','distances','expire_date','licence_date'
-	];  
+	];
+
+	const ONLINE = 1;  
+	const BUSY = 2;  
+	const OFFLINE = 0;  
 
 
 	public function supplier()
@@ -26,11 +30,6 @@ class Truck extends Model
 	public function bills()
 	{
 		return $this->hasMany(Bill::class);	
-	}
-
-	public function customers()
-	{
-		return $this->hasMany(App\Customer::class);
 	}
 
 	public function getIsOnlineAttribute(){                   
@@ -96,8 +95,34 @@ class Truck extends Model
 		}
 	}
 
+	public function customers()
+    {
+        return $this->belongsToMany(\App\Customer::class)->withPivot('from','to','date','hours','note')->withTimestamps();   
+    }
+
 	public function pendingOrders(){
-		return $this->orders()->where('status',0);
+		return $this->orders()->where('status',1);
 	}
+
+	public function getImageAttribute()
+    {
+        return  action('ImageController@show', $this->attributes['image']);
+    }
+
+    public function getStatusNameAttribute()
+    {
+    	switch ($this->status) {
+    		case 0:
+    			return 'OFFLINE';
+    			break;
+    		case 1:
+    			return 'ONLINE';
+    			break;
+			case 2:
+    			return 'BUSY';
+    			break;
+    	}
+    }
+
 
 }

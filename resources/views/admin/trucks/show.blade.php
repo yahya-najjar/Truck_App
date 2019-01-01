@@ -170,7 +170,7 @@ Truck Detailes
 							<div class="card-body" >
 								<div class="d-flex no-block">
 									<div id="image-popups">
-										<a href="{{url('/storage/'.$truck->image)}}" data-effect="mfp-zoom-in"><img src="{{url('/storage/'.$truck->image)}}" class="img-responsive" />
+										<a href="{{ $truck->image }}?w=400" data-effect="mfp-zoom-in"><img src="{{ $truck->image }}?w=400" class="img-responsive" />
 											<br/></a>
 										</div>
 									</div>

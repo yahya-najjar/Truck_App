@@ -12,12 +12,19 @@ Route::resource('/bills','BillController');
 Route::resource('/orders','OrderController');
 
 Route::get('/location/{truck}','TruckController@location');
+Route::get('/shifts/{truck}','TruckController@shifts');
 
 
 Route::get('admins/','UserController@admins');
 // Route::delete('admins/{admin}','UserController@destroy');
 
 Route::get('customers/','UserController@customers');
+Route::get('drivers/','UserController@drivers');
+Route::post('drivers/shift/','UserController@addShift');
+Route::post('drivers/shift/delete','UserController@deleteShift');
+Route::post('drivers/shift/update','UserController@updateShift');
+Route::get('/drivers/get_driver_working_hours/{id}','TruckController@get_truck_shifts');
+
 // Route::delete('users/{user}','UserController@destroy');
 Route::post('users/store','UserController@store');
 

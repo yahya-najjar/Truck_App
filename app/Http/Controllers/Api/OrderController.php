@@ -73,8 +73,9 @@ class OrderController extends Controller
 		$ord = Order::where('customer_id',$customer->id)
 		->where('truck_id',$truck->id)
 		->first();
-		if(isset($ord))        
-			return Responses::respondSuccess($ord);
+		if(isset($ord)){
+			return Responses::respondError('truck already booked by you');			
+		}        
 
 		$order = new Order([
 			'status'=>1,
@@ -169,7 +170,7 @@ class OrderController extends Controller
 		$trucks = Truck::select('*')
 				->join('customers','trucks.id','=','customers.truck_id')->get();
 		// return $trucks;
-		$trucks = Truck::where('status',1)->orWhere('status',0);
+		$trucks = Truck::where('status',Truck::ONLINE)->orWhere('status',0);
 		foreach ($trucks->get() as $key => $truck) {
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;

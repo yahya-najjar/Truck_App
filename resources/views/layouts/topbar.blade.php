@@ -6,7 +6,7 @@
         <nav class="navbar navbar-expand-md navbar-light p-l-0">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
             <!-- Logo will be here -->
-            <a class="navbar-brand" href="index.html"><!-- <img src="{{asset('/assets/homepage/images/logo-icon.png')}}" alt="logo" /> --> <img src="{{asset('/assets/homepage/images/logo-text.png')}}" alt="logo" /></a>
+            <a class="navbar-brand" href="index.html"><!-- <img src="{{asset('/assets/homepage/images/logo-icon.png')}}" alt="logo" /> --> <img height="80px" width="120px" src="{{asset('/assets/admin/images/logo_splash.png')}}" alt="logo" /></a>
 
             <!-- This is the navigation menu -->
             <div class="collapse navbar-collapse" id="navbarNavDropdown">

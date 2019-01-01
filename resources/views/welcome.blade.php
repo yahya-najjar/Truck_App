@@ -21,7 +21,7 @@
                 <!-- ============================================================== -->
                 <div class="row light-blue">
                     <div class="col-md-12" id="demos">
-                        <div class="text-center"> <small class="text-info">The Most Beautiful Bootstrap Truck Application</small>
+                        <div class="text-center"> <small class="text-info">The Most Beautiful Truck Application</small>
                             <h2 class="display-7">Powerful Admin panel of 2018</h2>
                             <p>Don’t go by our Words, checkout our awesome demos and verify yourself.
                                 <br/>You will surely fall in love over the fresh design & brilliant code.</p>

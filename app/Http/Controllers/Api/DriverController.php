@@ -12,7 +12,7 @@ use App\Models\Truck_log;
 use App\Http\Responses\Responses;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use Validator;
+use Validator,DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -128,23 +128,30 @@ class DriverController extends Controller
 
     public function online(Request $request)
     {
-        $validator = Validator::make($request->all(),['plate_num' => 'required',]);
-        if ($validator->fails())
-        {
-            $message = $validator->errors();
-            $msg = $message->first();
-            return Responses::respondError($msg);
-        }
-        $user_id = \Auth::user()->id;
-        $driver = Customer::find($user_id);
-        $plate_num = $request->plate_num;
-        $truck = Truck::where('plate_num',$plate_num)->first();
+        // $validator = Validator::make($request->all(),['plate_num' => 'required',]);
+        // if ($validator->fails())
+        // {
+        //     $message = $validator->errors();
+        //     $msg = $message->first();
+        //     return Responses::respondError($msg);
+        // // }
+        // $user_id = \Auth::user()->id;
+        // $driver = Customer::find($user_id);
+        $driver =  JWTAuth::parseToken()->authenticate();
+
+        // $plate_num = $request->plate_num;
+        // $truck = Truck::where('user_id',$driver->id)->first();
+        $truck_id = DB::table('customer_truck')
+                            ->where('customer_id',$driver->id)
+                            ->first()->truck_id;
+
+        $truck = Truck::find($truck_id);
+
         if(!$truck){
-            return Responses::respondError("Please enter a valid plate number");
+            return Responses::respondError("You Don't have any truck yet");
         }
 
         $truck->status = 1;
-        $truck->save();
 
         $lat = $request['lat'];
         $lng = $request['lng'];
@@ -157,12 +164,12 @@ class DriverController extends Controller
         ]);
         $log->save();
         $log->truck()->associate($truck);
-        if ($driver->truck) {
-            $driver->truck()->dissociate();
-        }
-        $driver->truck_id = $truck->id;
-        $driver->save();
-        $driver->truck()->associate($truck);
+        // if ($driver->truck) {
+        //     $driver->truck()->dissociate();
+        // }
+        // $driver->truck_id = $truck->id;
+        // $driver->save();
+        // $driver->truck()->associate($truck);
 
         return Responses::respondSuccess([]);
     }
@@ -205,8 +212,16 @@ class DriverController extends Controller
         $limit = $request->limit ? : 5 ;
         if($limit > 30 ) $limit =30 ;
         
-        $driver = Customer::find(\Auth::user()->id);
-        $orders = $driver->truck->pendingOrders()->paginate($limit);
+        $driver =  JWTAuth::parseToken()->authenticate();
+        $truck_id = DB::table('customer_truck')
+                    ->where('customer_id',$driver->id)
+                    ->first()->truck_id;
+        $truck = Truck::find($truck_id);
+
+        $orders = $truck->pendingOrders()->paginate($limit);
+        // return Responses::respondSuccess($truck->ord);
+
+
 
         $paginator = [
             'total_count' => $orders->total(),

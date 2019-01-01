@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- Favicon icon -->
 <link rel="icon" type="/image/png" sizes="16x16" hhref="{{asset('/assets/admin/images/favicon.png')}}">
 <title>Admin Pro Admin Template - The Ultimate Bootstrap 4 Admin Template</title>
@@ -46,3 +47,5 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <link rel="stylesheet" href="{{asset('css/pages/google-vector-map.css')}}">
+<link href="{{asset('/assets/admin/plugins/footable/css/footable.core.css')}}" rel="stylesheet">
+<link href="{{asset('css/pages/footable-page.css')}}" rel="stylesheet">

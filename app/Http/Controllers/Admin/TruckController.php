@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Truck;
 use App\Models\Supplier;
-use Carbon\Carbon;
+use App\Customer;
+use Carbon\Carbon,DB;
 
 class TruckController extends Controller
 {
@@ -56,35 +57,38 @@ class TruckController extends Controller
      */
     public function store(Request $request)
     {
-     $this->validate(request(),[
-        'driver_name'  =>      'required',
-        'plate_num' =>      'required|unique:trucks',
-        'capacity' =>      'required | numeric',
-        'model' =>      'required',
-        'driver_phone' =>      'required | numeric',
-        // 'location' =>      'required',
-        // 'status' =>      'required',
-        'image' =>      'required | image',
-        'price_km' =>      'required | numeric',
-        'price_h' =>      'required | numeric',
-        'company_phone' =>      'required | numeric',
-        'expire_date' => 'required',
-        'licence_date' => 'required',
-    ]);
+        $this->validate(request(),[
+            'driver_name'  =>      'required',
+            'plate_num' =>      'required|unique:trucks',
+            'capacity' =>      'required | numeric',
+            'model' =>      'required',
+            'driver_phone' =>      'required | numeric',
+            // 'location' =>      'required',
+            // 'status' =>      'required',
+            'image' =>      'required | image',
+            'price_km' =>      'required | numeric',
+            'price_h' =>      'required | numeric',
+            'company_phone' =>      'required | numeric',
+            'expire_date' => 'required',
+            'licence_date' => 'required',
+        ]);
 
         $input = $request->all();
 
-     if (isset($request->image)) {
+        if (isset($request->image))
+        {
             $input['image'] = request('image')->store('images','public');
         }
 
-    
-     $truck = new Truck($input);
-     $truck->save();
-     $supplier = $request['supplier_id'];
-     $truck->supplier()->associate($supplier);
-     return back()->with('success','Item created successfully !');
- }
+        $input['status'] = Truck::OFFLINE;
+
+        
+        $truck = new Truck($input);
+        $truck->save();
+        $supplier = $request['supplier_id'];
+        $truck->supplier()->associate($supplier);
+        return back()->with('success','Item created successfully !');
+     }
 
     /**
      * Display the specified resource.
@@ -144,22 +148,44 @@ class TruckController extends Controller
         return back()->with('danger','Item Deleted');
     }
 
-    public function online(){
+    public function online()
+    {
         $allTrucks = Truck::all();
         $trucks = array();
-        foreach ($allTrucks as $key => $truck) {
+        foreach ($allTrucks as $key => $truck)
+        {
             if($truck->IsOnline)
                 if($truck->IsOnline->online)
                     array_push($trucks,$truck);
-            }
-            return view('admin.trucks.online',compact('trucks'));
         }
-
-        public function orders(Truck $truck)
-        {
-            $orders = $truck->orders;
-            return view('admin.trucks.orders',compact('truck','orders'));
-        }
-
-
+        return view('admin.trucks.online',compact('trucks'));
     }
+
+    public function orders(Truck $truck)
+    {
+        $orders = $truck->orders;
+        return view('admin.trucks.orders',compact('truck','orders'));
+    }
+
+    public function shifts(Truck $truck)
+    {
+        $drivers = Customer::drivers()->get();
+       return view('admin.trucks.shifts',compact('truck','drivers'));
+    }
+
+    public function get_truck_shifts($truck_id)
+    {
+        $truck = Truck::find($truck_id);
+        $shifts = DB::table('customer_truck')
+                            ->where('truck_id',$truck->id)
+                            ->get();
+
+
+        return response()->json([
+            'status' => true,
+            'data' => $shifts,
+        ]);
+    }
+
+
+}

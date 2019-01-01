@@ -22,6 +22,27 @@ Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
 Route::post('recover', 'AuthController@recover');
 Route::post('verify', 'AuthController@verifyUserRequest'); // send code so you verify your account
+
+Route::post('check', function () {
+            // if (!request()->has('token')) {
+            //     return \App\Http\Responses\Responses::respondError('token required');
+            // }
+            $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+            unset($user->password);
+            unset($user->active_code);
+
+            $data = array(
+                'user' => $user,
+                'android-version' => '1',
+                'ios-version' => '1',
+                'google-url' => 'https://www.google.com',
+                'appstore-url' => 'https://www.apple.com',
+            );
+
+            return \App\Http\Responses\Responses::respondSuccess($data);
+
+        });
+
 Route::group(['middleware' => ['jwt.auth']], function() {
 
     // Customer area

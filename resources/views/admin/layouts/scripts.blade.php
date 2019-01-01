@@ -28,13 +28,8 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!-- Plugin JavaScript -->
-<script src="{{asset('/assets/admin/plugins/moment/moment.js')}}"></script>
-<script src="{{asset('/assets/admin/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
 
 <script>
-
-    $('#date-format').bootstrapMaterialDatePicker({ format: 'dddd DD MMMM YYYY - HH:mm' });
-
     $('[data-delete]').click(function (e) {
         e.preventDefault();
 
@@ -280,5 +275,10 @@
 
     </script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<!-- Footable -->
+    <script src="{{asset('/assets/admin/plugins/footable/js/footable.all.min.js')}}"></script>
+    <script src="{{asset('/assets/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
+    <!--FooTable init-->
+    <script src="{{asset('js/footable-init.js')}}"></script>
 
 <!-- <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script> -->
