@@ -20,7 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone');
-            $table->integer('age');
+            $table->string('dob');
             $table->integer('gender');
             $table->integer('type');
             $table->integer('payment_type')->default(0);

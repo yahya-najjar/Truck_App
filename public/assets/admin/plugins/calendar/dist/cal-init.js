@@ -96,7 +96,7 @@
                         if (drivers.includes(categoryClass)) {
                             alert('You Cannot add 2 shifts for the same driver');
                         }else
-                        if (note !== null && note.length != 0) {
+                        if (note !== null && note.length != 0 && driver_id != null) {
                             $this.$calendarObj.fullCalendar('renderEvent', {
                                 title: title,
                                 description: categoryClass,
@@ -110,19 +110,19 @@
                             }, true);  
                                 $this.$modal.modal('hide');
                                 var $period = {};
-                                if (driver_id == null) {
-                                alert("Please select a driver");
-                                } else {
                                     $period['truck_id'] = truck_id;
                                     $period['note'] = note;
                                     $period['driver_id'] = driver_id;
                                     $period['start_time'] = moment(start).format('YYYY-MM-DD HH:mm:ss');
                                     $period['end_time'] = moment(end).format('YYYY-MM-DD HH:mm:ss');
                                     add_user_working_hours($period);
-                                }
                             }
                             else{
-                                alert('You have to give a note to your event');
+                                if (driver_id == null) {
+                                    alert("Please select a driver");
+                                }else {
+                                    alert('You have to give a note to your event');
+                                }
                             }
                         return false;
                         
@@ -167,10 +167,13 @@
             slotDuration: '00:30:00', /* If we want to split day time each 15minutes */
             minTime: '08:00:00',
             maxTime: '22:00:00',  
-            defaultView: 'agendaDay',  
+            defaultView: 'agendaDay',
             handleWindowResize: true,
             eventOverlap: false,
-             
+            columnHeader:true,
+            columnHeaderText:function(mom){
+              return 'Pick a period';
+            },
             header: {
                 right: 'agendaDay'
             },

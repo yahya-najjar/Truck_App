@@ -59,14 +59,14 @@ Trucks
 					</select>
 				</div>
 				<div class="table-responsive">
-					<table id="demo-foo-addrow" class="table m-t-30 table-hover no-wrap contact-list" data-page-size="10" >
+					<table id="demo-foo-addrow" class="table m-t-30 table-hover contact-list" data-page-size="10" >
 						<thead>
 							<tr>
 								<!-- <th>#</th> -->
 								<th>Driver Name</th>
 								<th>Supplier</th>
-								<th>Account Expire Date</th>
-								<th>Licence Expire Date</th>
+								<th>Account ED</th>
+								<th>Licence ED</th>
 								<th>Rating</th>
 								<th>status</th>
 								<th>last update</th>

@@ -22,6 +22,8 @@ Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
 Route::post('recover', 'AuthController@recover');
 Route::post('verify', 'AuthController@verifyUserRequest'); // send code so you verify your account
+Route::post('resetPassword','AuthController@resetPassword');
+Route::post('reset','AuthController@reset');
 
 Route::post('check', function () {
             // if (!request()->has('token')) {

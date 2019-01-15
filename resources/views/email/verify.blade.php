@@ -187,14 +187,14 @@
                 <!-- Body content -->
                 <tr>
                   <td class="content-cell">
-                    <h1>  Hi {{ $data['name'] }}, Verify your email address</h1>
+                    <h1>  Hi {{ $name }}, Verify your email address</h1>
                     <p>Thanks for signing up for Our Application! We're excited to have you as an early user.</p>
                     <!-- Action -->
                     <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td align="center">
                           <div>
-                            <a href="" class="button button--blue">{{ substr($data['verification_code'],0,3)}} - {{substr($data['verification_code'],3) }}</a>
+                            <a href="" class="button button--blue">{{ substr($verification_code,0,3)}} - {{substr($verification_code,3) }}</a>
                           </div>
                         </td>
                       </tr>
@@ -206,7 +206,7 @@
                         <td>
                           <p class="sub">If you’re having trouble clicking the button, copy and paste the URL below into your web browser.
                           </p>
-                          <p class="sub"><a href="{{ url('user/verify', $data['verification_code'])}}">{{$data['verification_code']}}</a></p>
+                          <p class="sub"><a href="{{ url('user/verify', $verification_code)}}">{{$verification_code}}</a></p>
                         </td>
                       </tr>
                     </table>

@@ -21,7 +21,7 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
 
     protected $guard = 'customer';
     protected $fillable = [
-    	'first_name','last_name','gender','age','type', 'phone','email', 'password', 'is_verified','code','platform','FCM_Token','payment_type','truck_id'
+    	'first_name','last_name','gender','dob','type', 'phone','email', 'password', 'is_verified','code','platform','FCM_Token','payment_type','truck_id'
     ];
 
     const DRIVER = 2;

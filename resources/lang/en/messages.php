@@ -5,7 +5,7 @@ return array(
     'phone_exist' => 'Phone Number Already Exist',
     'email_not_found' => 'Your email address was not found.',
     'ac_al_ver' => 'Account Already Verified',
-    'invalid_code' => 'Verification code is invalid.',
+    'invalid_code' => 'code is invalid.',
     'invalid_credentials' => 'Invalid Credentials',
     'try_again' => 'Please Try Again Later',
     'token_required' => 'Token Required',
@@ -15,5 +15,8 @@ return array(
     'invalid_information' => 'Invalid Information',
     'balance_low' => 'You Need to Charge You Balance',
     'activate_account' => 'Your Account is Disabled',
+    'no_account' => 'Your Account is Not Found',
+    'invalid_unitsCount' => 'Invalid Units Count!',
+    'account_not_found' => 'Account Not Found!',
 
 );

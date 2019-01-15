@@ -74,7 +74,8 @@ class OrderController extends Controller
 		->where('truck_id',$truck->id)
 		->first();
 		if(isset($ord)){
-			return Responses::respondError('truck already booked by you');			
+
+			return Responses::respondError('truck already requested by you');			
 		}        
 
 		$order = new Order([
@@ -91,6 +92,9 @@ class OrderController extends Controller
 		$order->save();
 		$order->customer()->associate($customer);
 		$order->truck()->associate($truck);
+
+		// $truck->status = Truck::BUSY;
+		// $truck->save();
 
 		$order_log = new Order_log([
 			'status'=>0,

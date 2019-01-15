@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Mail\Message;
 use App\Http\Responses\Responses;
 use App\Mail\VerifyMail;
+use App\Mail\ResendPassword;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Carbon\Carbon;
 
 
 
@@ -37,13 +39,13 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $credentials = $request->only('first_name','last_name','phone','age','type','gender', 'email', 'password');
+        $credentials = $request->only('first_name','last_name','phone','dob','type','gender', 'email', 'password');
         
         $rules = [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'phone' => 'required|numeric',
-            'age' => 'required|numeric',
+            'dob' => 'required',
             'gender' => 'required',
             'type' => 'required',
             'password' => 'required',
@@ -56,7 +58,7 @@ class AuthController extends Controller
         $first_name = $request->first_name;
         $last_name = $request->last_name;
         $phone = $request->phone;
-        $age = $request->age;
+        $dob = $request->dob;
         $gender = $request->gender;
         $type = $request->type;
         $email = $request->email;
@@ -67,7 +69,7 @@ class AuthController extends Controller
             'last_name' => $last_name,
             'email' => $email,
             'phone' => $phone,
-            'age' => $age,
+            'dob' => $dob,
             'gender' => $gender,
             'type' => $type,
             'password' => bcrypt($password),
@@ -87,13 +89,20 @@ class AuthController extends Controller
         // Mail::to([
         //     'email' => $email 
         // ])->send(new VerifyMail($data));
+        $subject = "Please verify your email address.";
+
+        // Mail::send('email.verify', ['name' => $first_name, 'verification_code' => $verification_code],
+        //     function ($mail) use ($email, $first_name, $subject) {
+        //         $mail->from(getenv('FROM_EMAIL_ADDRESS'), "From " . getenv('APP_NAME'));
+        //         $mail->to($email, $first_name);
+        //         $mail->subject($subject);
+        // });
 
         $customer = Customer::find($user->id);
-        $message = 'Thanks for signing up! Please check your email to complete your registration.';
 
         // login
         $credentials = $request->only('email', 'password');
-     // attempt to verify the credentials and create a token for the user
+        // attempt to verify the credentials and create a token for the user
         \Config::set('jwt.user', "App\Customer");
         \Config::set('auth.providers.users.model', \App\Customer::class);
 
@@ -215,28 +224,126 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return Responses::respondError(trans('messages.input_sure'));
         }
-        $customer = User::where('email', $request->email)->first();
+        $customer = Customer::where('email', $request->email)->first();
         if (!$customer) {
             return Responses::respondError(trans('messages.email_not_found'));
         }
         // if ($customer->active_status) {
         //     return Responses::respondError(trans('messages.activate_account'));
         // }
-        if(DB::table('user_verifications')->where('user_id',$customer->id)->first())
-            DB::table('user_verifications')->where('user_id',$customer->id)->delete();
+        if(DB::table('customer_verifications')->where('customer_id',$customer->id)->first())
+            DB::table('customer_verifications')->where('customer_id',$customer->id)->delete();
 
-        $verification_code = str_random(6); //Generate verification code
-        DB::table('user_verifications')->insert(['user_id'=>$customer->id,'token'=>$verification_code]);
+        $verification_code = mt_rand(100000, 999999);//Generate verification code
+        DB::table('customer_verifications')->insert(['customer_id'=>$customer->id,'token'=>$verification_code]);
 
         $customer->save();
 
         $data = ['name' => $customer->name, 'verification_code' => $verification_code];
-        Mail::to([
-            'email' => $request->email 
-        ])->send(new VerifyMail($data));
+        // Mail::to([
+        //     'email' => $request->email 
+        // ])->send(new VerifyMail($data));
+        Mail::send('email.verify', ['name' => $customer->name, 'verification_code' => $verification_code],
+            function ($mail) use ($email, $first_name, $subject) {
+                $mail->from(getenv('FROM_EMAIL_ADDRESS'), "From " . getenv('APP_NAME'));
+                $mail->to($email, $first_name);
+                $mail->subject($subject);
+        });
 
         $message = 'A reset email has been sent! Please check your email.';
         return Responses::respondMessage($message);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $rules = [
+            'email' => 'required'
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            foreach ($rules as $key => $rule) {
+                if ($validator->errors()->has($key)) {
+                    return Responses::respondError($validator->errors()->first($key));
+                }
+            }
+            return Responses::respondError(trans('messages.invalid_information'));
+        }
+
+        $customer = Customer::where('email', $request->email)->first();
+        if (!isset($customer)) {
+            return Responses::respondError(trans('messages.account_not_found'));
+        }
+
+        $customer->code = mt_rand(100000, 999999); //Generate Reset code;
+        $customer->save();
+
+        $subject = "Reset Password";
+        $name = $customer->first_name . ' ' . $customer->last_name;
+        $email = $customer->email;
+        // Mail::send('email.resend', ['name' => $name, 'reset_code' => $customer->code],
+        //     function ($mail) use ($email, $name, $subject) {
+        //         $mail->from(getenv('FROM_EMAIL_ADDRESS'), "From " . getenv('APP_NAME'));
+        //         $mail->to($email, $name);
+        //         $mail->subject($subject);
+        //     });
+        return Responses::respondSuccess(Carbon::now());
+    }
+
+    public function reset(Request $request)
+    {
+        $rules = [
+            'email' => 'required',
+            'reset_code' => 'required',
+            'new_password' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            foreach ($rules as $key => $rule) {
+                if ($validator->errors()->has($key)) {
+                    return Responses::respondError($validator->errors()->first($key));
+                }
+            }
+            return Responses::respondError(trans('messages.invalid_information'));
+        }
+
+        // $customer = JWTAuth::parseToken()->authenticate();
+        // if (!isset($customer)) {
+        //     return Responses::respondError(trans('messages.account_not_found'));
+        // }
+
+        $customer = Customer::where('email', $request->email)->first();
+        if (!isset($customer)) {
+            return Responses::respondError(trans('messages.account_not_found'));
+        }
+
+        if ($request->reset_code != $customer->code) {
+            return Responses::respondError(trans('messages.invalid_code'));
+        }
+
+        $customer->password = bcrypt($request->new_password);
+        $customer->code = 0;
+        $customer->save();
+
+        // login
+        $credentials = [];
+        $credentials['email'] = $request['email'];
+        $credentials['password'] = $request['new_password'];
+
+        // attempt to verify the credentials and create a token for the user
+        \Config::set('jwt.user', "App\Customer");
+        \Config::set('auth.providers.users.model', \App\Customer::class);
+
+        $token =JWTAuth::attempt($credentials);
+        if (! $token) {
+           return Responses::respondError('We cant find an account with this credentials. Please make sure you entered the right information and you have verified your email address.'); 
+       }
+
+        $token = JWTAuth::fromUser($customer);
+        $customer->token = $token;   
+
+        return Responses::respondSuccess($customer);
+
     }
 
     protected function guard()
