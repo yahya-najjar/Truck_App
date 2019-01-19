@@ -243,6 +243,10 @@ class AuthController extends Controller
         // Mail::to([
         //     'email' => $request->email 
         // ])->send(new VerifyMail($data));
+         $email = $request->email;
+         $first_name = $customer->first_name;
+         $subject = 'Reset Password';
+
         Mail::send('email.verify', ['name' => $customer->name, 'verification_code' => $verification_code],
             function ($mail) use ($email, $first_name, $subject) {
                 $mail->from(getenv('FROM_EMAIL_ADDRESS'), "From " . getenv('APP_NAME'));
@@ -280,12 +284,12 @@ class AuthController extends Controller
         $subject = "Reset Password";
         $name = $customer->first_name . ' ' . $customer->last_name;
         $email = $customer->email;
-        // Mail::send('email.resend', ['name' => $name, 'reset_code' => $customer->code],
-        //     function ($mail) use ($email, $name, $subject) {
-        //         $mail->from(getenv('FROM_EMAIL_ADDRESS'), "From " . getenv('APP_NAME'));
-        //         $mail->to($email, $name);
-        //         $mail->subject($subject);
-        //     });
+         Mail::send('email.resend', ['name' => $name, 'reset_code' => $customer->code],
+             function ($mail) use ($email, $name, $subject) {
+                 $mail->from(getenv('FROM_EMAIL_ADDRESS'), "From " . getenv('APP_NAME'));
+                 $mail->to($email, $name);
+                 $mail->subject($subject);
+             });
         return Responses::respondSuccess(Carbon::now());
     }
 
