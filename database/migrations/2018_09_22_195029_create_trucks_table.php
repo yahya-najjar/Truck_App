@@ -18,6 +18,7 @@ class CreateTrucksTable extends Migration
             $table->string('driver_name');
             $table->string('plate_num');
             $table->text('location')->nullable();
+            $table->text('desc')->nullable();
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
             $table->double('distances')->nullable();

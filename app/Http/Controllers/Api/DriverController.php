@@ -213,11 +213,16 @@ class DriverController extends Controller
         if($limit > 30 ) $limit =30 ;
         
         $driver =  JWTAuth::parseToken()->authenticate();
-        $truck_id = DB::table('customer_truck')
+        $truck = DB::table('customer_truck')
                     ->where('customer_id',$driver->id)
-                    ->first()->truck_id;
-        $truck = Truck::find($truck_id);
+                    ->first();
+        // $truck_id = isset($truck_id);
+        // $truck = Truck::find($truck_id);
+        if (!isset($truck)) {
+            return Responses::respondSuccess([]);
+        }
 
+        $truck = Truck::find($truck->truck_id);
         $orders = $truck->pendingOrders()->paginate($limit);
         // return Responses::respondSuccess($truck->ord);
 

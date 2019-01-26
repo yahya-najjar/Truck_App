@@ -37,6 +37,12 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 						<input type="file" name="image" class="dropify">
 					</div>
 				</div>
+				<div class="row col-md-12">
+					<div class="col-md-12 form-group">
+						<label>Description <span class="help"> </span></label>
+						<textarea id="desc" name="desc" placeholder="Description" class="form-control form-control-line"></textarea>
+					</div>
+				</div>
 				<hr>
 				<div class="row col-md-12">
 					<div class="col-md-6 form-group">

@@ -65,6 +65,7 @@ class TruckController extends Controller
             'driver_phone' =>      'required | numeric',
             // 'location' =>      'required',
             // 'status' =>      'required',
+            'desc' => 'required',
             'image' =>      'required | image',
             'price_km' =>      'required | numeric',
             'price_h' =>      'required | numeric',

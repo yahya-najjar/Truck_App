@@ -178,6 +178,7 @@ class OrderController extends Controller
 		foreach ($trucks->get() as $key => $truck) {
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;
+			// $truck->setAttribute('supplier_name',isset($truck->suppler)?$truck->suppler->name:null);
 			$truck->save();
 		}
 		$trucks =  $trucks->orderBy('distances', 'asc')->paginate($limit);
