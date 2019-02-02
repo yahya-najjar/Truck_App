@@ -6,8 +6,19 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
-                <li class="nav-devider"></li>
                 <li class="nav-small-cap">Control Web App Content</li>
+
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="mdi mdi-arrange-bring-forward"></i>
+                        <span class="hide-menu">
+                        Company Profile </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="{{ action('Admin\CompanyController@index', 'company') }}">settings </a></li>
+
+                    </ul>
+                </li>
                 <li>
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                         <i class="mdi  mdi-account-multiple-plus"></i>

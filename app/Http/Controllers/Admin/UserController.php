@@ -11,6 +11,7 @@ use App\Models\Truck;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Validator,DB;
+use Carbon\Carbon;
 
 
 class UserController extends Controller
@@ -174,6 +175,25 @@ class UserController extends Controller
         $start_time = $request['start_time'];
         $end_time = $request['end_time'];
 
+
+        $from_hours = Carbon::parse($start_time)->hour;
+        $to_hours = Carbon::parse($end_time)->hour;
+
+        $shifts = DB::table('customer_truck')
+                            ->where('customer_id',$driver_id)
+                            ->get();
+        $msg = "Shift Conflicted with another Truck shift for this driver, Truck ID is : ";
+        foreach ($shifts as $key => $shift) {
+            $s_from = Carbon::parse($shift->from)->hour;
+            $s_to = Carbon::parse($shift->to)->hour;
+            if (($from_hours > $s_from && $from_hours < $s_to) || ($to_hours > $s_from && $to_hours < $s_to) || ($from_hours < $s_from && $to_hours > $s_to) ) {
+                return response()->json([
+                    'status' => false,
+                    'data' => $msg . $shift->truck_id,
+                ]);
+            }
+        }
+
         $truck = Truck::find($request['truck_id']);
 
         $truck->customers()->attach($driver_id,['note'=> $note,'from'=>$start_time,'to'=>$end_time]);
@@ -207,6 +227,25 @@ class UserController extends Controller
         $truck_id = $request['truck_id'];
         $from = $request['start_time'];
         $to = $request['end_time'];
+
+        $from_hours = Carbon::parse($from)->format('H:i');
+        $to_hours = Carbon::parse($to)->format('H:i');
+
+        
+        $shifts = DB::table('customer_truck')
+                            ->where('customer_id',$driver_id)
+                            ->get();
+        $msg = "Shift Conflicted with another Truck shift for this driver, Truck ID is : ";
+        foreach ($shifts as $key => $shift) {
+            $s_from = Carbon::parse($shift->from)->format('H:i');
+            $s_to = Carbon::parse($shift->to)->format('H:i');
+            if (($from_hours > $s_from && $from_hours < $s_to) || ($to_hours > $s_from && $to_hours < $s_to) || ($from_hours < $s_from && $to_hours > $s_to) ) {
+                return response()->json([
+                    'status' => false,
+                    'data' => $msg . $shift->truck_id,
+                ]);
+            }
+        }
 
         $shift = DB::table('customer_truck')
                             ->where('customer_id',$driver_id)

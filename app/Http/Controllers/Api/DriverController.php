@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Validator,DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Carbon\Carbon;
 
 class DriverController extends Controller
 {
@@ -128,30 +129,34 @@ class DriverController extends Controller
 
     public function online(Request $request)
     {
-        // $validator = Validator::make($request->all(),['plate_num' => 'required',]);
-        // if ($validator->fails())
-        // {
-        //     $message = $validator->errors();
-        //     $msg = $message->first();
-        //     return Responses::respondError($msg);
-        // // }
-        // $user_id = \Auth::user()->id;
-        // $driver = Customer::find($user_id);
         $driver =  JWTAuth::parseToken()->authenticate();
-
-        // $plate_num = $request->plate_num;
-        // $truck = Truck::where('user_id',$driver->id)->first();
-        $truck_id = DB::table('customer_truck')
+        $shifts = DB::table('customer_truck')
                             ->where('customer_id',$driver->id)
-                            ->first()->truck_id;
+                            ->get();
+        if (!isset($shifts)) 
+            return Responses::respondError("You Don't have any shift yet");
 
-        $truck = Truck::find($truck_id);
-
-        if(!$truck){
-            return Responses::respondError("You Don't have any truck yet");
+        $my_shift =null;
+        foreach ($shifts as $key => $shift) {
+            $now = Carbon::now('Asia/Damascus')->hour;
+            $from = Carbon::parse($shift->from)->hour;
+            $to = Carbon::parse($shift->to)->hour;
+            if ($from <= $now && $now < $to) {
+                $my_shift = $shift; 
+                continue;
+            }
         }
 
-        $truck->status = 1;
+        if ($my_shift == null)
+            return Responses::respondError("Please check your shift time");
+
+        $truck = Truck::find($my_shift->truck_id);
+        if(!$truck)
+            return Responses::respondError("You Don't have any truck yet");
+
+        $truck->status = Truck::ONLINE;
+        $truck->driver_name = $driver->FullName;
+        $truck->save();
 
         $lat = $request['lat'];
         $lng = $request['lng'];
@@ -164,13 +169,6 @@ class DriverController extends Controller
         ]);
         $log->save();
         $log->truck()->associate($truck);
-        // if ($driver->truck) {
-        //     $driver->truck()->dissociate();
-        // }
-        // $driver->truck_id = $truck->id;
-        // $driver->save();
-        // $driver->truck()->associate($truck);
-
         return Responses::respondSuccess([]);
     }
 
@@ -189,7 +187,7 @@ class DriverController extends Controller
         if(!$truck){
             return Responses::respondError("Please enter a valid plate number");
         }
-        $truck->status = 0;
+        $truck->status = Truck::OFFLINE;
         $truck->save();
 
         $lat = $request['lat'];
@@ -207,7 +205,7 @@ class DriverController extends Controller
         return Responses::respondSuccess([]);
     }
 
-    public function getOrders(Request $request)
+    public function getOrder(Request $request)
     {
         $limit = $request->limit ? : 5 ;
         if($limit > 30 ) $limit =30 ;
@@ -216,25 +214,15 @@ class DriverController extends Controller
         $truck = DB::table('customer_truck')
                     ->where('customer_id',$driver->id)
                     ->first();
-        // $truck_id = isset($truck_id);
-        // $truck = Truck::find($truck_id);
         if (!isset($truck)) {
             return Responses::respondSuccess([]);
         }
 
         $truck = Truck::find($truck->truck_id);
-        $orders = $truck->pendingOrders()->paginate($limit);
+        $order = $truck->pendingOrder()->first();
         // return Responses::respondSuccess($truck->ord);
 
-
-
-        $paginator = [
-            'total_count' => $orders->total(),
-            'limit'       => $orders->perPage(),
-            'total_page'  => ceil($orders->total() / $orders->perPage()),
-            'current_page'=> $orders->currentPage()
-        ];
-        return Responses::respondSuccess($orders->all(),$paginator);
+        return Responses::respondSuccess($order);
     }
 
     public function reject(Request $request)
@@ -253,8 +241,12 @@ class DriverController extends Controller
             return Responses::respondError("order not exist any more !");
         }
 
-        $order->status = -1;
+        $order->status = Order::REJECTED;
         $order->save();
+
+        $truck = $order->truck;
+        $truck->status = Truck::ONLINE;
+        $truck->save();
 
         $order_log = new Order_log([
             'status'=>-1,
@@ -285,8 +277,12 @@ class DriverController extends Controller
             return Responses::respondError("order not exist any more !");
         }
 
-        $order->status = 1;
+        $order->status = Order::ACCEPTED;
         $order->save();
+
+        $truck = $order->truck;
+        $truck->status = Truck::BUSY;
+        $truck->save();
 
         $order_log = new Order_log([
             'status'=>1,
@@ -296,10 +292,6 @@ class DriverController extends Controller
         ]);
         $order_log->save();
         $order_log->order()->associate($order);
-
-        $truck = $order->truck;
-        $truck->status = 2;
-        $truck->save();
 
         $truck_log = new Truck_log([
             'online'=>2,
@@ -331,8 +323,12 @@ class DriverController extends Controller
             return Responses::respondError("order not exist any more !");
         }
 
-        $order->status = 2;
+        $order->status = Order::DONE;
         $order->save();
+
+        $truck = $order->truck;
+        $truck->status = Truck::ONLINE;
+        $truck->save();
 
         $order_log = new Order_log([
             'status'=>2,
@@ -359,5 +355,36 @@ class DriverController extends Controller
         if ($order && $order_log && $truck && $truck_log) {
             return Responses::respondSuccess([]);
         }
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $driver =  JWTAuth::parseToken()->authenticate();
+        $shifts = DB::table('customer_truck')
+                            ->where('customer_id',$driver->id)
+                            ->get();
+        if (!isset($shifts)) 
+            return Responses::respondError("You Don't have any shift yet");
+
+        $my_shift =null;
+        foreach ($shifts as $key => $shift) {
+            $now = Carbon::now('Asia/Damascus')->hour;
+            $from = Carbon::parse($shift->from)->hour;
+            $to = Carbon::parse($shift->to)->hour;
+            if ($from <= $now && $now < $to) {
+                $my_shift = $shift; 
+                continue;
+            }
+        }
+
+        if ($my_shift == null)
+            return Responses::respondError("Please check your shift time");
+
+        $truck = Truck::find($my_shift->truck_id);
+        $truck->lat = $request['lat'];
+        $truck->lng = $request['lng'];
+        $truck->updated_at = Carbon::now('Asia/Damascus');
+        $truck->save();
+        return Responses::respondSuccess($truck->pendingOrder()->first());
     }
 }

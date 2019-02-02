@@ -12,9 +12,10 @@ class Truck extends Model
 		'driver_name', 'plate_num', 'location','desc','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating','image','distances','expire_date','licence_date'
 	];
 
+	const OFFLINE = 0;  
 	const ONLINE = 1;  
 	const BUSY = 2;  
-	const OFFLINE = 0;  
+	const ONREQUEST = 3;  
 
 
 	public function supplier()
@@ -100,8 +101,8 @@ class Truck extends Model
         return $this->belongsToMany(\App\Customer::class)->withPivot('from','to','date','hours','note')->withTimestamps();   
     }
 
-	public function pendingOrders(){
-		return $this->orders()->where('status',1);
+	public function pendingOrder(){
+		return $this->orders()->where('status',0);
 	}
 
 	public function getImageAttribute()
@@ -120,6 +121,9 @@ class Truck extends Model
     			break;
 			case 2:
     			return 'BUSY';
+    			break;
+			case 3:
+    			return 'ONREQUEST';
     			break;
     	}
     }

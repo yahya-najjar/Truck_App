@@ -171,6 +171,7 @@
             handleWindowResize: true,
             eventOverlap: false,
             columnHeader:true,
+            allDaySlot:false,
             columnHeaderText:function(mom){
               return 'Pick a period';
             },
@@ -181,11 +182,13 @@
             editable: true,
             eventDrop: function(event, delta, revertFunc) {
 
-                alert(event.title + " was dropped on " + event.start.format());
+                // alert(event.title + " was dropped on " + event.start.format());
+                alert(event.title + " can't dropped . If you want to change shift start time you can delete it and create new one");
+                revertFunc();
 
-                if (!confirm("Are you sure about this change?")) {
-                  revertFunc();
-                }
+                // if (!confirm("Are you sure about this change?")) {
+                //   revertFunc();
+                // }
 
               },
             droppable: true, // this allows things to be dropped onto the calendar !!!
@@ -256,8 +259,10 @@ function add_user_working_hours($period) {
                 periods.push(result);
                 $("#eventContent").dialog('close');
 
-            } else
-                show_error("Error in add new calander event");
+            } else{
+                alert(response.data);
+                location.reload();
+            }
         }
     });
 }
@@ -285,8 +290,10 @@ function update_user_working_hours($period) {
                 result = response.data;
                 console.log("resized");
                 console.log(result);
-            } else
-                show_error("Error in add new calander event");
+            } else{
+                alert(response.data);
+                location.reload();
+            }
         }
     });
 }
@@ -342,7 +349,7 @@ function deleteShift(event) {
                 $("#eventContent").dialog('close');
 
             } else
-                show_error("Error in add new calander event");
+                alert("Error in add new calander event");
         }
     });
 }
@@ -364,7 +371,7 @@ function get_driver_working_hours() {
                     add_period_to_calander(result[i]);
                 }
             } else
-                show_error("Error in loading calander events");
+                alert("Error in loading calander events");
         }
     });
 }
@@ -434,7 +441,7 @@ function get_events() {
                 result = response.data;
                my_events = get_events_objects(result)
             } else
-                show_error("Error in loading calander events");
+                alert("Error in loading calander events");
         }
     });
 

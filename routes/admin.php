@@ -10,6 +10,7 @@ Route::resource('/trucks','TruckController');
 Route::resource('/roles','RoleController');
 Route::resource('/bills','BillController');
 Route::resource('/orders','OrderController');
+Route::resource('company','CompanyController');
 
 Route::get('/location/{truck}','TruckController@location');
 Route::get('/shifts/{truck}','TruckController@shifts');
@@ -36,5 +37,6 @@ Route::get('/ratings/{star?}', 'RatingController@showRatings');
 Route::post('/driversRatings', 'RatingController@ratings')->name('allratings');
 Route::get('/allTrucks/{status?}', 'TruckController@allTrucks');
 Route::get('/like/users', 'UserController@like');
+
 
 

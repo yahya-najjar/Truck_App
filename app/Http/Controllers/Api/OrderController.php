@@ -39,10 +39,10 @@ class OrderController extends Controller
 		$status = $request['status'];
 
 		switch ($status) {
-			case 0:
+			case -1:
 				$orders = $customer->canceled_orders();
 				break;
-			case 1:
+			case 0:
 				$orders = $customer->pending_orders();
 				break;	
 			case 2:
@@ -79,7 +79,7 @@ class OrderController extends Controller
 		}        
 
 		$order = new Order([
-			'status'=>1,
+			'status'=>0,
 			'rating'=>0,
 			'customer_id'=>$customer->id,
 			'truck_id'=>$truck->id,
@@ -93,8 +93,8 @@ class OrderController extends Controller
 		$order->customer()->associate($customer);
 		$order->truck()->associate($truck);
 
-		// $truck->status = Truck::BUSY;
-		// $truck->save();
+		$truck->status = Truck::ONREQUEST;
+		$truck->save();
 
 		$order_log = new Order_log([
 			'status'=>0,
@@ -153,28 +153,33 @@ class OrderController extends Controller
 			return Responses::respondError($msg);
 		}
 
-		// $allTrucks = Truck::all();
-		// $trucks = array();
-		// foreach ($allTrucks as $key => $truck)
-		// {
-		// 	if($truck->IsOnline)
-		// 		if($truck->IsOnline->online)
-		// 			array_push($trucks,$truck);
-		// 	}
-
-		// 	$trucks = Collection::make($trucks)->first();
-		// 	$trucks = $trucks->paginate($limit);
-
 		$lat = $request['lat'];
 		$lng = $request['lng'];
 		$customer = JWTAuth::parseToken()->authenticate();
 		$user_id = $customer->id;
 		$type = $customer->type;
 
-		$trucks = Truck::select('*')
-				->join('customers','trucks.id','=','customers.truck_id')->get();
-		// return $trucks;
-		$trucks = Truck::where('status',Truck::ONLINE)->orWhere('status',0);
+		// $truck = Truck::find(4);
+		// $last_seen = Carbon::parse($truck->updated_at,'Asia/Damascus');
+		// $now = Carbon::now('Asia/Damascus');
+		// $diff = $now->diffInSeconds($last_seen);
+		// return Responses::respondSuccess([$now,$last_seen,$diff]);
+
+		$all_trucks = Truck::all();
+		foreach ($all_trucks as $key => $truck) {
+			$last_seen = Carbon::parse($truck->updated_at,'Asia/Damascus');
+			$now = Carbon::now('Asia/Damascus');
+			$diff = $now->diffInSeconds($last_seen);
+			if ($diff < 60) {
+				$truck->status = Truck::ONLINE;
+			}else
+				$truck->status = Truck::OFFLINE;
+			$truck->save();
+		}
+
+
+
+		$trucks = Truck::where('status',Truck::ONLINE);
 		foreach ($trucks->get() as $key => $truck) {
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;

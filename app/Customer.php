@@ -70,7 +70,7 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
 
     public function pending_orders(){
         // $orders = Order::join('')
-        $orders = Order::where('status',1)->get();
+        $orders = Order::where('status',0)->get();
         return $orders;
     }
 
@@ -80,7 +80,7 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     }
 
     public function canceled_orders(){
-        $orders = Order::where('status',0)->get();
+        $orders = Order::where('status',-1)->get();
         return $orders;
     }
 }
