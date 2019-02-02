@@ -109,6 +109,14 @@
                     </ul>
                 </li>
 
+                @role('admin')
+                <li><a class="waves-effect waves-dark" href="{{ action('Admin\FCMCustomNotificationController@sendForm') }}"
+                       aria-expanded="false">
+                        <i class="mdi mdi-message-alert"></i><span class="hide-menu">Custom Notification</span>
+                    </a>
+                </li>
+                @endrole
+
 
             </ul>
         </nav>

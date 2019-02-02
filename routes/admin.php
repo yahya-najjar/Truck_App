@@ -39,4 +39,10 @@ Route::get('/allTrucks/{status?}', 'TruckController@allTrucks');
 Route::get('/like/users', 'UserController@like');
 
 
+// FCM Custom Notification
+Route::get('fcm_custom_notes/create', 'FCMCustomNotificationController@sendForm');
+Route::post('fcm_custom_notes/send', 'FCMCustomNotificationController@sendPost');
+Route::get('customersJson/search', 'FCMCustomNotificationController@getCustomers');
+
+
 
