@@ -68,7 +68,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/updateStatus','Api\DriverController@updateStatus');
 
 
-    Route::post('/company','Api\CompanyController@about');
+    Route::post('/company','Api\CompanyController@terms');
 
     Route::get('test', function(){
         return response()->json(['foo'=>'bar']);
