@@ -165,8 +165,9 @@ class OrderController extends Controller
 		// $diff = $now->diffInSeconds($last_seen);
 		// return Responses::respondSuccess([$now,$last_seen,$diff]);
 
-		$all_trucks = Truck::all();
-		foreach ($all_trucks as $key => $truck) {
+		$date = Carbon::Now()->addSeconds(-60);
+		$trucks = Truck::where('updated_at','>=',$date)->where('status',Truck::ONLINE);
+		/*foreach ($all_trucks as $key => $truck) {
 			$last_seen = Carbon::parse($truck->updated_at,'Asia/Damascus');
 			$now = Carbon::now('Asia/Damascus');
 			$diff = $now->diffInSeconds($last_seen);
@@ -175,18 +176,24 @@ class OrderController extends Controller
 			}else
 				$truck->status = Truck::OFFLINE;
 			$truck->save();
-		}
+		}*/
 
 
 
-		$trucks = Truck::where('status',Truck::ONLINE);
+		// $trucks = Truck::where('status',Truck::ONLINE);
 		foreach ($trucks->get() as $key => $truck) {
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;
 			// $truck->setAttribute('supplier_name',isset($truck->suppler)?$truck->suppler->name:null);
-			$truck->save();
+			// $truck->save();
 		}
 		$trucks =  $trucks->orderBy('distances', 'asc')->paginate($limit);
+		foreach ($trucks as $key => $truck) {
+			$d = $truck->distance($lat,$lng,'K');
+			$truck->distances = $d;
+			// $truck->setAttribute('supplier_name',isset($truck->suppler)?$truck->suppler->name:null);
+			// $truck->save();
+		}
 
 		$paginator = [
 			'total_count' => $trucks->total(),

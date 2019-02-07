@@ -52,6 +52,7 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = 'Asia/Damascus'",
             'modes'  => [
             'ONLY_FULL_GROUP_BY',
             'STRICT_TRANS_TABLES',

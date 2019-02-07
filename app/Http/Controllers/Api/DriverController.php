@@ -383,6 +383,7 @@ class DriverController extends Controller
         $truck = Truck::find($my_shift->truck_id);
         $truck->lat = $request['lat'];
         $truck->lng = $request['lng'];
+        $truck->status = Truck::ONLINE;
         $truck->updated_at = Carbon::now('Asia/Damascus');
         $truck->save();
         return Responses::respondSuccess($truck->pendingOrder()->first());
