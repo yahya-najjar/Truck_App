@@ -161,6 +161,7 @@
 
         my_events = get_events();
         var defaultEvents =  my_events;
+        console.log(defaultEvents);
 
         var $this = this;
         $this.$calendarObj = $this.$calendar.fullCalendar({
@@ -194,6 +195,7 @@
             droppable: true, // this allows things to be dropped onto the calendar !!!
             eventLimit: true, // allow "more" link when too many events
             selectable: true,
+            selectOverlap : false,
             drop: function(date) { $this.onDrop($(this), date); },
             select: function (start, end, allDay) { $this.onSelect(start, end, allDay); },
             eventClick: function(calEvent, jsEvent, view) { $this.onEventClick(calEvent, jsEvent, view); },
@@ -400,12 +402,17 @@ function add_period_to_calander(period) {
 
 function get_events_objects(periods){
 var colors = ["#23b8d1", "#f2653a", "#47b85d", "#f89732"];
+//full calender show the period by exact day and we want to show same data for all the days
+
+var day = moment().date();
+var month = moment().month();
+var year = moment().year();
     var my_events = [];
     for (var i = 0; i < periods.length; i++) {
         var title = "";
         title += "#" + periods[i].note;
-        start = $.fullCalendar.moment(periods[i].from);
-        end = $.fullCalendar.moment(periods[i].to);
+        start = $.fullCalendar.moment(periods[i].from).date(day).month(month).year(year);
+        end = $.fullCalendar.moment(periods[i].to).date(day).month(month).year(year);
         if (end == "00:00:00")
             end = "24:00:00";
         var  new_event = {

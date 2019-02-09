@@ -176,10 +176,11 @@ class TruckController extends Controller
 
     public function get_truck_shifts($truck_id)
     {
-        $truck = Truck::find($truck_id);
+        // $truck = Truck::find($truck_id);
         $shifts = DB::table('customer_truck')
-                            ->where('truck_id',$truck->id)
+                            ->where('truck_id',$truck_id)
                             ->get();
+        
 
 
         return response()->json([
