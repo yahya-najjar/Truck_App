@@ -102,7 +102,9 @@ class Truck extends Model
     }
 
 	public function pendingOrder(){
-		return $this->orders()->where('status',0)->orWhere('status',1);
+		// return $this->orders()->where('status',0)->orWhere('status',1);
+		$order = $this->orders()->with('customer')->where('status',0)->orWhere('status',1)->first();
+		return $order;
 	}
 
 	public function getImageAttribute()

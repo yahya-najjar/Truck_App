@@ -74,7 +74,7 @@ class OrderController extends Controller
 		// ->where('truck_id',$truck->id)
 		// ->first();
 
-		if($truck->status == Truck::ONREQUEST){
+		if($truck->status != Truck::ONLINE){
 			return Responses::respondError('truck already requested');			
 		}        
 

@@ -231,7 +231,7 @@ class DriverController extends Controller
         }
 
         $truck = Truck::find($truck->truck_id);
-        $order = $truck->pendingOrder()->first();
+        $order = $truck->pendingOrder();
         // return Responses::respondSuccess($truck->ord);
 
         return Responses::respondSuccess($order);
@@ -351,9 +351,6 @@ class DriverController extends Controller
         $order_log->save();
         $order_log->order()->associate($order);
 
-        $truck = $order->truck;
-        $truck->status = 1;
-        $truck->save();
 
         $truck_log = new Truck_log([
             'online'=>1,
@@ -395,9 +392,9 @@ class DriverController extends Controller
         $truck = Truck::find($my_shift->truck_id);
         $truck->lat = $request['lat'];
         $truck->lng = $request['lng'];
-        $truck->status = Truck::ONLINE;
+        // $truck->status = Truck::ONLINE;
         $truck->updated_at = Carbon::now('Asia/Damascus');
         $truck->save();
-        return Responses::respondSuccess($truck->pendingOrder()->first());
+        return Responses::respondSuccess($truck->pendingOrder());
     }
 }
