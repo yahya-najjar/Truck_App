@@ -70,12 +70,12 @@ class OrderController extends Controller
 		if(!isset($truck))        
 			return Responses::respondError('truck not found');
 
-		$ord = Order::where('customer_id',$customer->id)
-		->where('truck_id',$truck->id)
-		->first();
-		if(isset($ord)){
+		// $ord = Order::where('customer_id',$customer->id)
+		// ->where('truck_id',$truck->id)
+		// ->first();
 
-			return Responses::respondError('truck already requested by you');			
+		if($truck->status == Truck::ONREQUEST){
+			return Responses::respondError('truck already requested');			
 		}        
 
 		$order = new Order([

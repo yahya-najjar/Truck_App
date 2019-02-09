@@ -260,6 +260,8 @@ class AuthController extends Controller
 
     public function resetPassword(Request $request)
     {
+        return Responses::respondSuccess(Carbon::now());
+        
         $rules = [
             'email' => 'required'
         ];

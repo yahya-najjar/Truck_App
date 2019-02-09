@@ -42,7 +42,7 @@ Truck {{$truck->id}} Orders
 							<tr>
 								<td>{{ $order->id }}</td>
 
-								<td>{{ strip_tags($order->user->name) ?? 'No Title' }}</td>
+								<td>{{ isset($order->customer)? strip_tags($order->customer->FullName) ?? 'No Title' : 'No driver for now' }}</td>
 								<td>{{ $order->truck->driver_name }}</td>
 								<td>{{ $order->location }}</td>
 

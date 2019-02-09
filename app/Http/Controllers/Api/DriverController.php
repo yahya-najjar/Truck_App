@@ -174,32 +174,44 @@ class DriverController extends Controller
 
     public function offline(Request $request)
     {
-        $validator = Validator::make($request->all(), ['plate_num' => 'required']);
-        if ($validator->fails()) {
-            $message = $validator->errors();
-            $msg = $message->first();
-            return Responses::respondError($msg);
+       $driver =  JWTAuth::parseToken()->authenticate();
+        $shifts = DB::table('customer_truck')
+                            ->where('customer_id',$driver->id)
+                            ->get();
+        if (!isset($shifts)) 
+            return Responses::respondError("You Don't have any shift yet");
+
+        $my_shift =null;
+        foreach ($shifts as $key => $shift) {
+            $now = Carbon::now('Asia/Damascus')->hour;
+            $from = Carbon::parse($shift->from)->hour;
+            $to = Carbon::parse($shift->to)->hour;
+            if ($from <= $now && $now < $to) {
+                $my_shift = $shift; 
+                continue;
+            }
         }
-        $user_id = \Auth::user()->id;
-        $driver = Customer::find($user_id);
-        $plate_num = $request->plate_num;
-        $truck = Truck::where('plate_num',$plate_num)->first();
-        if(!$truck){
-            return Responses::respondError("Please enter a valid plate number");
-        }
+
+        if ($my_shift == null)
+            return Responses::respondError("Please check your shift time");
+
+        $truck = Truck::find($my_shift->truck_id);
+        if(!$truck)
+            return Responses::respondError("You Don't have any truck yet");
+
         $truck->status = Truck::OFFLINE;
+        $truck->driver_name = $driver->FullName;
         $truck->save();
 
         $lat = $request['lat'];
         $lng = $request['lng'];
 
         $log = new Truck_log([
-            'online' => 0,
+            'online' => Truck::OFFLINE,
             'truck_id' => $truck->id,
             'lat'=>$lat,
             'lng'=>$lng
         ]);
-
         $log->save();
         $log->truck()->associate($truck);
         return Responses::respondSuccess([]);
