@@ -20,9 +20,18 @@ class TruckController extends Controller
     {
         $trucks=Truck::all();
         $suppliers = Supplier::all();
-        $from_status = 3;
+        $from_status = 4;
         return view ('admin.trucks.index',compact('trucks','suppliers','from_status'));
     }
+
+    public function locations(){
+        $date = Carbon::Now()->addSeconds(-60);
+        $trucks = Truck::where('updated_at','>=',$date)->where('status',Truck::ONLINE)->get();
+
+        $trucks = Truck::all(); // temp
+        return json_encode($trucks);
+    }
+
 
     public function allTrucks(Request $request,$status = null)
     {
@@ -30,10 +39,19 @@ class TruckController extends Controller
             $from_status = $status;
         else
             $from_status = 1;
-        if($from_status==3)
-            $trucks=Truck::all();
-        else
-            $trucks = Truck::where('status',$from_status)->get();
+        switch ($from_status) {
+            case 4:
+                $trucks=Truck::all();
+                break;
+            case 1:
+                $date = Carbon::Now()->addSeconds(-60);
+                $trucks = Truck::where('updated_at','>=',$date)->where('status',Truck::ONLINE)->get();
+                break;
+            case 2:
+            case 3:
+                $trucks = Truck::where('status',$from_status)->get();
+                break;
+        }
         $suppliers = Supplier::all();
         return view ('admin.trucks.index',compact('trucks','suppliers','from_status'));
     }
@@ -151,15 +169,79 @@ class TruckController extends Controller
 
     public function online()
     {
-        $allTrucks = Truck::all();
-        $trucks = array();
-        foreach ($allTrucks as $key => $truck)
-        {
-            if($truck->IsOnline)
-                if($truck->IsOnline->online)
-                    array_push($trucks,$truck);
+            return view('admin.trucks.online');
+    }
+
+    public function online_trucks(Request $request)
+    {
+        $date = Carbon::Now()->addSeconds(-60);
+        $trucks = Truck::where('updated_at','>=',$date)->where('status',Truck::ONLINE);
+        // if (! $request->ajax()) 
+        //     $trucks = $trucks->get();
+        //     return view('admin.trucks.online',compact('trucks'));
+
+        $columns = array( 
+                            0 =>'id', 
+                            1 =>'driver_name',
+                            2=> 'status',
+                            3=> 'location',
+                            4=> 'updated_at',
+                            5=> 'id',
+                        );
+        $totalData = count($trucks->get());
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+         if(empty($request->input('search.value')))
+            {            
+                $trucks = $trucks->offset($start)
+                             ->limit($limit)
+                             ->orderBy($order,$dir)
+                             ->get();
+            }
+            else {
+                $search = $request->input('search.value'); 
+
+                $trucks = Truck::where('updated_at','>=',$date)->where('status',Truck::ONLINE)->where('trucks.id','LIKE',"%{$search}%")
+                                ->orWhere('trucks.driver_name', 'LIKE',"%{$search}%")
+                                ->offset($start)
+                                ->limit($limit)
+                                ->orderBy($order,$dir)
+                                ->get();
+
+
+                $totalFiltered = Truck::where('updated_at','>=',$date)->where('status',Truck::ONLINE)->where('trucks.id','LIKE',"%{$search}%")
+                                ->orWhere('trucks.driver_name', 'LIKE',"%{$search}%")
+                                ->count();
+            }
+
+        $data = array();
+        if($trucks){
+        foreach ($trucks as $truck) {
+
+                $nestedData['id']= $truck->id;
+                $nestedData['driver']= $truck->driver_name;
+                $nestedData['status']= $truck->status;
+                $nestedData['location']= $truck->location;
+                $nestedData['last_update']= $truck->updated_at->format('d M Y - H:i:s');
+                $nestedData['show']= $truck->id;
+                $data[] = $nestedData;
+            }
         }
-        return view('admin.trucks.online',compact('trucks'));
+     
+        $json_data = array(
+                    "draw"            => intval($request->input('draw')),  
+                    "recordsTotal"    => intval($totalData),  
+                    "recordsFiltered" => intval($totalFiltered), 
+                    "data"            => $data   
+                    );
+
+           echo json_encode($json_data);
+
     }
 
     public function orders(Truck $truck)
@@ -176,11 +258,14 @@ class TruckController extends Controller
 
     public function get_truck_shifts($truck_id)
     {
-        // $truck = Truck::find($truck_id);
+
         $shifts = DB::table('customer_truck')
-                            ->where('truck_id',$truck_id)
-                            ->get();
-        
+                    ->join('customers', function ($join) use ($truck_id) {
+                        $join->on('customer_truck.customer_id', '=', 'customers.id')
+                             ->where('customer_truck.truck_id', '=', $truck_id);
+                    })
+                    ->select('customer_truck.*','customers.first_name','customers.last_name')
+                    ->get();      
 
 
         return response()->json([

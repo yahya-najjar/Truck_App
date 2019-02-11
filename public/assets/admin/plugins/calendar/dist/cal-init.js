@@ -276,6 +276,7 @@ function update_user_working_hours($period) {
     Data['start_time'] = $period.start_time;
     Data['end_time'] = $period.end_time;
 
+    console.log(Data);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -314,7 +315,7 @@ function get_drivers(form){
             var drivers = response['drivers'];
             for (var i = 0; i < drivers.length; i++) {
                 var driver = drivers[i];
-                html += ' <option value="'+driver['id']+'">'+ driver['first_name'] +'</option> '
+                html += ' <option value="'+driver['id']+'">'+ driver['first_name']+ ' ' + driver['last_name'] +'</option> '
             }   
 
             form.find("select[name='category']")
@@ -381,7 +382,7 @@ function get_driver_working_hours() {
 function add_period_to_calander(period) {
 
     var title = "";
-    title += "#" + period.note;
+    title += "Driver Name :"+ period.first_name +" "+ period.last_name + " Note: #" + period.note;
     start = new Date(period.from);
     end = new Date(period.to);
     if (end == "00:00:00")
@@ -410,7 +411,7 @@ var year = moment().year();
     var my_events = [];
     for (var i = 0; i < periods.length; i++) {
         var title = "";
-        title += "#" + periods[i].note;
+        title += "Driver Name :"+ periods[i].first_name +" "+ periods[i].last_name + " |  Admin Note: #" + periods[i].note;
         start = $.fullCalendar.moment(periods[i].from).date(day).month(month).year(year);
         end = $.fullCalendar.moment(periods[i].to).date(day).month(month).year(year);
         if (end == "00:00:00")

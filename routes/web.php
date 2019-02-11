@@ -33,3 +33,11 @@ Route::get('img/{path}', 'ImageController@show')->where('path', '.*');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+use App\Models\Truck;
+Route::get('/test',function(){
+		$date = Carbon\Carbon::Now()->addSeconds(-60);
+		$trucks = App\Models\Truck::where('updated_at','>=',$date)->where('status',Truck::ONLINE)->get(); 
+
+         return $trucks;
+});

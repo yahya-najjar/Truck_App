@@ -31,6 +31,8 @@ Route::post('users/store','UserController@store');
 
 Route::get('suppliers_users/','UserController@suppliers');
 Route::get('/onlineTrucks','TruckController@online');
+Route::post('/get_online_trucks','TruckController@online_trucks');
+Route::get('/ajaxLocations', 'TruckController@locations');
 Route::get('/truck/{truck}','TruckController@orders');
 
 Route::get('/ratings/{star?}', 'RatingController@showRatings');
