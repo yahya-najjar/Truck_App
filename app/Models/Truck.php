@@ -28,6 +28,26 @@ class Truck extends Model
 		return $this->hasMany(Order::class);
 	}
 
+	public function accepted_orders()
+	{
+		return $this->orders()->where('status',Order::ACCEPTED);
+	}
+
+	public function rejected_orders()
+	{
+		return $this->orders()->where('status',Order::REJECTED);
+	}
+
+	public function done_orders()
+	{
+		return $this->orders()->where('status',Order::DONE);
+	}
+
+	public function pendingOrder(){
+
+		return $this->orders()->with('customer')->where('status',Order::PENDING)->first();		 
+	}
+
 	public function bills()
 	{
 		return $this->hasMany(Bill::class);	
@@ -100,12 +120,6 @@ class Truck extends Model
     {
         return $this->belongsToMany(\App\Customer::class)->withPivot('from','to','date','hours','note')->withTimestamps();   
     }
-
-	public function pendingOrder(){
-		// return $this->orders()->where('status',0)->orWhere('status',1);
-		$order = $this->orders()->with('customer')->where('status',0)->orWhere('status',1)->first();
-		return $order;
-	}
 
 	public function getImageAttribute()
     {

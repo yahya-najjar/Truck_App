@@ -12,7 +12,8 @@ class Order extends Model
 	const PENDING = 0;  
 	const ACCEPTED = 1;  
 	const DONE = 2;  
-	const REJECTED = 3;  
+	const REJECTED = 3;
+	const CANCELED = 4;  
 
 	public function customer()
 	{

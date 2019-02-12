@@ -36,8 +36,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 use App\Models\Truck;
 Route::get('/test',function(){
-		$date = Carbon\Carbon::Now()->addSeconds(-60);
-		$trucks = App\Models\Truck::where('updated_at','>=',$date)->where('status',Truck::ONLINE)->get(); 
+        $driver_id = 11;
+        $shifts = DB::table('customer_truck')
+                ->join('trucks', function ($join) use ($driver_id) {
+                    $join->on('customer_truck.truck_id', '=', 'trucks.id')
+                         ->where('customer_truck.customer_id', '=', $driver_id);
+                })
+                ->select('trucks.*')->pluck('id')
+           ;  
 
-         return $trucks;
+           return $shifts;
 });

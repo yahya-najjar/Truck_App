@@ -397,4 +397,35 @@ class DriverController extends Controller
         $truck->save();
         return Responses::respondSuccess($truck->pendingOrder());
     }
+
+    public function driver_orders(Request $request)
+    {
+        $limit = $request->limit ? : 5 ;
+        if($limit > 30 ) $limit =30 ;
+        $validator = Validator::make($request->all(), [
+            'status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $message = $validator->errors();
+            $msg = $message->first();
+            return Responses::respondError($msg);
+        }
+
+        $customer = JWTAuth::parseToken()->authenticate();
+        $status = $request['status'];
+
+        // return Responses::respondSuccess($customer->all_orders($status));
+        $orders = $customer->all_orders($status)->paginate($limit);
+        $paginator = [
+            'total_count' => $orders->total(),
+            'limit'       => $orders->perPage(),
+            'total_page'  => ceil($orders->total() / $orders->perPage()),
+            'current_page'=> $orders->currentPage()
+        ];
+
+        
+
+        return Responses::respondSuccess($orders->all(),$paginator);
+    }
 }

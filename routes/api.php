@@ -50,7 +50,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     // Customer area
     Route::post('/OnlineTrucks','Api\OrderController@online');
     Route::post('/order','Api\OrderController@order'); //user order for this
-    Route::post('/myOrders','Api\OrderController@myOrders'); //user order for this
+    Route::post('/myOrders','Api\OrderController@myOrders'); //user orders 
     Route::post('/ratingOrder','Api\OrderController@rating');
 
     // Common routes
@@ -66,7 +66,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/rejctOrder','Api\DriverController@reject');
     Route::post('/doneOrder','Api\DriverController@done');
     Route::post('/updateStatus','Api\DriverController@updateStatus');
-
+    Route::post('/driverOrders','Api\DriverController@driver_orders'); //driver orders
 
     Route::post('/company','Api\CompanyController@terms');
 

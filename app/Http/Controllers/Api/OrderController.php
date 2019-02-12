@@ -37,24 +37,15 @@ class OrderController extends Controller
 
 		$customer = JWTAuth::parseToken()->authenticate();
 		$status = $request['status'];
+        $orders = $customer->driver_orders($status)->paginate($limit);
+		$paginator = [
+			'total_count' => $orders->total(),
+			'limit'       => $orders->perPage(),
+			'total_page'  => ceil($orders->total() / $orders->perPage()),
+			'current_page'=> $orders->currentPage()
+		];	
 
-		switch ($status) {
-			case -1:
-				$orders = $customer->canceled_orders();
-				break;
-			case 0:
-				$orders = $customer->pending_orders();
-				break;	
-			case 2:
-				$orders = $customer->completed_orders();
-				break;
-			default:
-				$orders = $customer->orders;
-				break;
-		}
-		
-
-		return Responses::respondSuccess($orders);
+		return Responses::respondSuccess($orders->all(),$paginator);
 
 	}
 
