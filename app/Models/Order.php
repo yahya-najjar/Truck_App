@@ -10,10 +10,11 @@ class Order extends Model
 	protected $fillable = ['location','lat','lng','status','rating','customer_id','comment','truck_id'];
 
 	const PENDING = 0;  
-	const ACCEPTED = 1;  
-	const DONE = 2;  
-	const REJECTED = 3;
-	const CANCELED = 4;  
+	const ACCEPTED = 1;
+	const ARRIVED = 2;  
+	const DONE = 3;  
+	const REJECTED = -1;
+	const CANCELED = -2;  
 
 	public function customer()
 	{

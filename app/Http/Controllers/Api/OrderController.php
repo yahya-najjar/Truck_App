@@ -124,11 +124,8 @@ class OrderController extends Controller
 		return Responses::respondError('order not found');      
 	}
 
-	public function accept(Request $request)
-	{
 
-	}
-
+	// get the nearest online trucks
 	public function online(Request $request){
 
 		$limit = $request->limit ? : 5 ;
@@ -150,40 +147,17 @@ class OrderController extends Controller
 		$user_id = $customer->id;
 		$type = $customer->type;
 
-		// $truck = Truck::find(4);
-		// $last_seen = Carbon::parse($truck->updated_at,'Asia/Damascus');
-		// $now = Carbon::now('Asia/Damascus');
-		// $diff = $now->diffInSeconds($last_seen);
-		// return Responses::respondSuccess([$now,$last_seen,$diff]);
-
 		$date = Carbon::Now()->addSeconds(-60);
 		$trucks = Truck::where('updated_at','>=',$date)->where('status',Truck::ONLINE);
-		/*foreach ($all_trucks as $key => $truck) {
-			$last_seen = Carbon::parse($truck->updated_at,'Asia/Damascus');
-			$now = Carbon::now('Asia/Damascus');
-			$diff = $now->diffInSeconds($last_seen);
-			if ($diff < 60) {
-				$truck->status = Truck::ONLINE;
-			}else
-				$truck->status = Truck::OFFLINE;
-			$truck->save();
-		}*/
 
-
-
-		// $trucks = Truck::where('status',Truck::ONLINE);
 		foreach ($trucks->get() as $key => $truck) {
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;
-			// $truck->setAttribute('supplier_name',isset($truck->suppler)?$truck->suppler->name:null);
-			// $truck->save();
 		}
 		$trucks =  $trucks->orderBy('distances', 'asc')->paginate($limit);
 		foreach ($trucks as $key => $truck) {
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;
-			// $truck->setAttribute('supplier_name',isset($truck->suppler)?$truck->suppler->name:null);
-			// $truck->save();
 		}
 
 		$paginator = [

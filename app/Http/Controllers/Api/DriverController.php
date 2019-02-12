@@ -252,6 +252,9 @@ class DriverController extends Controller
         if(!$order){
             return Responses::respondError("order not exist any more !");
         }
+        if ($order->status != Order::PENDING) {
+            return Responses::respondError("The Order is not pending any more");
+        }
 
         $order->status = Order::REJECTED;
         $order->save();
@@ -288,6 +291,9 @@ class DriverController extends Controller
         if(!$order){
             return Responses::respondError("order not exist any more !");
         }
+        if ($order->status != Order::PENDING) {
+            return Responses::respondError("The Order is not pending any more");
+        }
 
         $order->status = Order::ACCEPTED;
         $order->save();
@@ -297,7 +303,56 @@ class DriverController extends Controller
         $truck->save();
 
         $order_log = new Order_log([
-            'status'=>1,
+            'status'=>1, // log status const
+            'lat'=>$lat,
+            'lng'=>$lng,
+            'order_id'=>$order->id,
+        ]);
+        $order_log->save();
+        $order_log->order()->associate($order);
+
+        $truck_log = new Truck_log([
+            'online'=>2,
+            'lat'=>$lat,
+            'lng'=>$lng,
+            'truck_id'=>$truck->id, 
+        ]);
+        $truck_log->save();
+        $truck_log->truck()->associate($truck);
+
+        if ($order && $order_log && $truck && $truck_log) {
+            return Responses::respondSuccess([]);
+        }
+    }
+
+    public function arrived(Request $request)
+    {
+        $validator = Validator::make($request->all(), ['order_id' => 'required']);
+        if ($validator->fails()) {
+            $message = $validator->errors();
+            $msg = $message->first();
+            return Responses::respondError($msg);
+        }
+        $lat = $request['lat'];
+        $lng = $request['lng'];
+
+        $order = Order::find($request->order_id);
+        if(!$order){
+            return Responses::respondError("order not exist any more !");
+        }
+        if ($order->status != Order::ACCEPTED) {
+            return Responses::respondError("You should accept the order then set it as arrived");
+        }
+
+        $order->status = Order::ARRIVED;
+        $order->save();
+
+        $truck = $order->truck;
+        $truck->status = Truck::BUSY;
+        $truck->save();
+
+        $order_log = new Order_log([
+            'status'=>1, // log status const
             'lat'=>$lat,
             'lng'=>$lng,
             'order_id'=>$order->id,
@@ -333,6 +388,9 @@ class DriverController extends Controller
         $order = Order::find($request->order_id);
         if(!$order){
             return Responses::respondError("order not exist any more !");
+        }
+        if ($order->status != Order::ARRIVED) {
+            return Responses::respondError("The Order is not arrived yet");
         }
 
         $order->status = Order::DONE;

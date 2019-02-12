@@ -38,6 +38,11 @@ class Truck extends Model
 		return $this->orders()->where('status',Order::REJECTED);
 	}
 
+	public function arrived_orders()
+	{
+		return $this->orders()->where('status',Order::ARRIVED);
+	}
+
 	public function done_orders()
 	{
 		return $this->orders()->where('status',Order::DONE);

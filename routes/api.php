@@ -64,6 +64,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/getOrder','Api\DriverController@getOrder');
     Route::post('/acceptOrder','Api\DriverController@accept');
     Route::post('/rejctOrder','Api\DriverController@reject');
+    Route::post('/arrivedOrder','Api\DriverController@arrived');
     Route::post('/doneOrder','Api\DriverController@done');
     Route::post('/updateStatus','Api\DriverController@updateStatus');
     Route::post('/driverOrders','Api\DriverController@driver_orders'); //driver orders

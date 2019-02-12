@@ -81,6 +81,9 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
             case Order::REJECTED:
                 $trucks = Truck::with('rejected_orders')->whereIn('id',$trucks_ids);
                 break;
+            case Order::ARRIVED:
+                $trucks = Truck::with('arrived_orders')->whereIn('id',$trucks_ids);
+                break;
             case Order::DONE:
                 $trucks = Truck::with('done_orders')->whereIn('id',$trucks_ids);
                 break;
@@ -108,6 +111,9 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
                 break;
             case Order::PENDING:
                 return $this->orders()->where('status',Order::PENDING);
+                break;
+            case Order::ARRIVED:
+                return $this->orders()->where('status',Order::ARRIVED);
                 break;
             case Order::CANCELED:
                 return $this->orders()->where('status',Order::CANCELED);
