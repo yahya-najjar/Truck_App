@@ -252,6 +252,9 @@ class DriverController extends Controller
         if(!$order){
             return Responses::respondError("order not exist any more !");
         }
+        if ($order->status == Order::REJECTED) {
+            return Responses::respondError("The order is already set as rejected");
+        }
         if ($order->status != Order::PENDING) {
             return Responses::respondError("The Order is not pending any more");
         }
@@ -290,6 +293,9 @@ class DriverController extends Controller
         $order = Order::find($request->order_id);
         if(!$order){
             return Responses::respondError("order not exist any more !");
+        }
+        if ($order->status == Order::ACCEPTED) {
+            return Responses::respondError("The Order is already set as accepted");
         }
         if ($order->status != Order::PENDING) {
             return Responses::respondError("The Order is not pending any more");
@@ -340,6 +346,9 @@ class DriverController extends Controller
         if(!$order){
             return Responses::respondError("order not exist any more !");
         }
+        if ($order->status == Order::ARRIVED) {
+            return Responses::respondError("The order is already set as arrived");
+        }
         if ($order->status != Order::ACCEPTED) {
             return Responses::respondError("You should accept the order then set it as arrived");
         }
@@ -388,6 +397,9 @@ class DriverController extends Controller
         $order = Order::find($request->order_id);
         if(!$order){
             return Responses::respondError("order not exist any more !");
+        }
+        if ($order->status == Order::DONE) {
+            return Responses::respondError("The Order id already set as done");
         }
         if ($order->status != Order::ARRIVED) {
             return Responses::respondError("The Order is not arrived yet");
