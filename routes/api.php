@@ -52,6 +52,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/order','Api\OrderController@order'); //user order for this
     Route::post('/myOrders','Api\OrderController@myOrders'); //user orders 
     Route::post('/ratingOrder','Api\OrderController@rating');
+    Route::post('/getOrderById','Api\OrderController@getOrderById');
 
     // Common routes
     Route::post('logout', 'AuthController@logout');

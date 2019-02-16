@@ -65,7 +65,7 @@ class OrderController extends Controller
 		// ->where('truck_id',$truck->id)
 		// ->first();
 
-		if($truck->status != Truck::ONLINE){
+		if($truck->status != Truck::ONLINE or isset($truck->pendingOrder()->id)){
 			return Responses::respondError('truck already requested');			
 		}        
 
@@ -175,5 +175,20 @@ class OrderController extends Controller
 		$customer = JWTAuth::parseToken()->authenticate();
 		$customer->payment_type = $request->payment_type;
 		return Responses::respondSuccess();
+	}
+
+	public function getOrderById(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'order_id' => 'required',
+		]);
+
+		if ($validator->fails()) {
+			$message = $validator->errors();
+			$msg = $message->first();
+			return Responses::respondError($msg);
+		}
+		$order = Order::find($request->order_id);
+		return Responses::respondSuccess($order);
 	}
 }
