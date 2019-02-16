@@ -50,7 +50,7 @@ class Truck extends Model
 
 	public function pendingOrder(){
 
-		return $this->orders()->with('customer')->where('status',Order::PENDING)->first();		 
+		return $this->orders()->with('customer')->where('status','!=',Order::DONE)->latest()->first();
 	}
 
 	public function bills()
