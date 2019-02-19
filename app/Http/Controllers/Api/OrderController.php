@@ -154,7 +154,10 @@ class OrderController extends Controller
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;
 		}
-		$trucks =  $trucks->orderBy('distances', 'asc')->paginate($limit);
+		if(isset($request['distance']))
+			$trucks =  $trucks->where('distances','<',$request['distance'])->orderBy('distances', 'asc')->paginate($limit);
+		else
+			$trucks =  $trucks->orderBy('distances', 'asc')->paginate($limit);
 		foreach ($trucks as $key => $truck) {
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;
@@ -191,4 +194,5 @@ class OrderController extends Controller
 		$order = Order::find($request->order_id);
 		return Responses::respondSuccess($order);
 	}
+
 }

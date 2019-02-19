@@ -101,25 +101,25 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     {
         switch ($status) {
             case Order::ACCEPTED:
-                return $this->orders()->where('status',Order::ACCEPTED);
+                return $this->orders()->with('truck')->where('status',Order::ACCEPTED);
                 break;
             case Order::REJECTED:
-                return $this->orders()->where('status',Order::REJECTED);
+                return $this->orders()->with('truck')->where('status',Order::REJECTED);
                 break;
             case Order::DONE:
-                return $this->orders()->where('status',Order::DONE);;
+                return $this->orders()->with('truck')->where('status',Order::DONE);;
                 break;
             case Order::PENDING:
-                return $this->orders()->where('status',Order::PENDING);
+                return $this->orders()->with('truck')->where('status',Order::PENDING);
                 break;
             case Order::ARRIVED:
-                return $this->orders()->where('status',Order::ARRIVED);
+                return $this->orders()->with('truck')->where('status',Order::ARRIVED);
                 break;
             case Order::CANCELED:
-                return $this->orders()->where('status',Order::CANCELED);
+                return $this->orders()->with('truck')->where('status',Order::CANCELED);
                 break;
             default:
-                return $this->orders();
+                return $this->orders()->with('truck');
                 break;
         }
     }
