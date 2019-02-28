@@ -21,28 +21,24 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $a_users = User::all();
-        $customers = Customer::all();
-
-        $users = $a_users->merge($customers);
-
+    public function index(){
+        $users = User::all();
+        // $customers = Customer::all();
+        // $users = $a_users->merge($customers);
         $roles = Role::all();
         return view ('admin.users.index',compact('users','roles'));
     }
 
     public function admins(){
-
         $admins =  User::withRole('admin')->paginate(5);
         $roles = Role::all();
         return view('admin.users.admins',compact('admins','roles'));
     }
 
-    public function customers(){
-        // $customers = User::withRole('customer')->paginate(5);
-        $customers = Customer::paginate(5);
-        return view('admin.users.customers',compact('customers'));
+
+    public function suppliers(){
+        $suppliers = User::withRole('supplier')->paginate(5);
+        return view('admin.users.suppliers',compact('suppliers'));
     }
 
     public function drivers(){
@@ -51,11 +47,6 @@ class UserController extends Controller
             'status' => true,
             'drivers' => $drivers,
         ]);
-    }
-
-    public function suppliers(){
-        $suppliers = User::withRole('supplier')->paginate(5);
-        return view('admin.users.suppliers',compact('suppliers'));
     }
 
     /**

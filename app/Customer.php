@@ -70,7 +70,39 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
         return $this->hasMany(Models\Order::class);
     }
 
-    // for driver
+    public function orders_driver()
+    {
+        return $this->hasMany(Models\Order::class,'driver_id');
+    }
+
+    public function driver_orders($status)
+    {
+        switch ($status) {
+            case Order::ACCEPTED:
+                return $this->orders_driver()->with('truck')->where('status',Order::ACCEPTED);
+                break;
+            case Order::REJECTED:
+                return $this->orders_driver()->with('truck')->where('status',Order::REJECTED);
+                break;
+            case Order::DONE:
+                return $this->orders_driver()->with('truck')->where('status',Order::DONE);;
+                break;
+            case Order::PENDING:
+                return $this->orders_driver()->with('truck')->where('status',Order::PENDING);
+                break;
+            case Order::ARRIVED:
+                return $this->orders_driver()->with('truck')->where('status',Order::ARRIVED);
+                break;
+            case Order::CANCELED:
+                return $this->orders_driver()->with('truck')->where('status',Order::CANCELED);
+                break;
+            default:
+                return $this->orders_driver()->with('truck','customer');
+                break;
+        }
+    }
+
+    // for driver --- Each Truck with it orders
     public function all_orders($status)
     {
         $trucks_ids = $this->shifts()->pluck('truck_id');
@@ -97,7 +129,7 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
         return $trucks;
     }
 
-    public function driver_orders($status)
+    public function customer_orders($status)
     {
         switch ($status) {
             case Order::ACCEPTED:
@@ -164,3 +196,4 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     }
 
 }
+

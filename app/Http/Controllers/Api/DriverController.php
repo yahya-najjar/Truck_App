@@ -156,7 +156,9 @@ class DriverController extends Controller
 
         $truck->status = Truck::ONLINE;
         $truck->driver_name = $driver->FullName;
+        $truck->currentDriver()->associate($driver);
         $truck->save();
+
 
         $lat = $request['lat'];
         $lng = $request['lng'];
@@ -252,6 +254,10 @@ class DriverController extends Controller
         if(!$order){
             return Responses::respondError("order not exist any more !");
         }
+        $driver =  JWTAuth::parseToken()->authenticate();
+        if ($order->driver->id != $driver->id) {
+            return Responses::respondError("You're not authorized to reject this order");
+        }
         if ($order->status == Order::REJECTED) {
             return Responses::respondError("The order is already set as rejected");
         }
@@ -291,8 +297,12 @@ class DriverController extends Controller
         $lng = $request['lng'];
 
         $order = Order::find($request->order_id);
+        $driver =  JWTAuth::parseToken()->authenticate();
         if(!$order){
             return Responses::respondError("order not exist any more !");
+        }
+        if ($order->driver->id != $driver->id) {
+            return Responses::respondError("You're not authorized to accept this order");
         }
         if ($order->status == Order::ACCEPTED) {
             return Responses::respondError("The Order is already set as accepted");
@@ -343,8 +353,12 @@ class DriverController extends Controller
         $lng = $request['lng'];
 
         $order = Order::find($request->order_id);
+        $driver =  JWTAuth::parseToken()->authenticate();
         if(!$order){
             return Responses::respondError("order not exist any more !");
+        }
+        if ($order->driver->id != $driver->id) {
+            return Responses::respondError("You're not authorized to change this order");
         }
         if ($order->status == Order::ARRIVED) {
             return Responses::respondError("The order is already set as arrived");
@@ -395,8 +409,12 @@ class DriverController extends Controller
         $lng = $request['lng'];
 
         $order = Order::find($request->order_id);
+        $driver =  JWTAuth::parseToken()->authenticate();
         if(!$order){
             return Responses::respondError("order not exist any more !");
+        }
+        if ($order->driver->id != $driver->id) {
+            return Responses::respondError("You're not authorized to change this order");
         }
         if ($order->status == Order::DONE) {
             return Responses::respondError("The Order id already set as done");
@@ -486,7 +504,7 @@ class DriverController extends Controller
         $status = $request['status'];
 
         // return Responses::respondSuccess($customer->all_orders($status));
-        $orders = $customer->all_orders($status)->paginate($limit);
+        $orders = $customer->driver_orders($status)->paginate($limit);
         $paginator = [
             'total_count' => $orders->total(),
             'limit'       => $orders->perPage(),

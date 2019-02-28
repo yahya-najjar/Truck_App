@@ -37,7 +37,7 @@ class OrderController extends Controller
 
 		$customer = JWTAuth::parseToken()->authenticate();
 		$status = $request['status'];
-        $orders = $customer->driver_orders($status)->paginate($limit);
+        $orders = $customer->customer_orders($status)->paginate($limit);
 		$paginator = [
 			'total_count' => $orders->total(),
 			'limit'       => $orders->perPage(),
@@ -69,6 +69,7 @@ class OrderController extends Controller
 			return Responses::respondError('truck already requested');			
 		}        
 
+
 		$order = new Order([
 			'status'=>0,
 			'rating'=>0,
@@ -80,9 +81,11 @@ class OrderController extends Controller
 			'location'=>''
 		]);
 
-		$order->save();
+		$driver = $truck->currentDriver ;
+		$order->driver()->associate($driver);
 		$order->customer()->associate($customer);
 		$order->truck()->associate($truck);
+		$order->save();
 
 		$truck->status = Truck::ONREQUEST;
 		$truck->save();
@@ -103,25 +106,32 @@ class OrderController extends Controller
 
 	public function rating(Request $request)
 	{
+		$validator = Validator::make($request->all(), [
+			'order_id' => 'required',
+			'rating' => 'required',
+		]);
+
+		if ($validator->fails()) {
+			$message = $validator->errors();
+			$msg = $message->first();
+			return Responses::respondError($msg);
+		}
 		$customer =  JWTAuth::parseToken()->authenticate();
-		$truck = Truck::find($request['truck_id']);
+		$order = Order::find($request['order_id']);
 		$rating = $request['rating'];
 
-		if(!isset($truck))        
-			return Responses::respondError('truck not found');
+		if(!isset($order))        
+			return Responses::respondError('order not found');
+		$truck = $order->truck;
 
-		$ord = Order::where('customer_id',$customer->id)
-		->where('truck_id',$truck->id)
-		->first();
-		if(isset($ord)){
-			$ord->rating = $rating;
-			$ord->save();
+		if(isset($order)){
+			$order->rating = $rating;
+			$order->save();
 			$truck->rating = $truck->RatingAvg;
 			$truck->save();
 			return Responses::respondSuccess([]);
 		} 
 
-		return Responses::respondError('order not found');      
 	}
 
 
@@ -193,6 +203,48 @@ class OrderController extends Controller
 		}
 		$order = Order::find($request->order_id);
 		return Responses::respondSuccess($order);
+	}
+
+	public function cancelOrder(Request $request)
+	{
+		$validator = Validator::make($request->all(), ['order_id' => 'required']);
+		if ($validator->fails()) {
+		    $message = $validator->errors();
+		    $msg = $message->first();
+		    return Responses::respondError($msg);
+		}
+		$lat = $request['lat'];
+		$lng = $request['lng'];
+
+		$order = Order::find($request->order_id);
+		if(!$order){
+		    return Responses::respondError("order not exist any more !");
+		}
+		if ($order->status == Order::CANCELED) {
+		    return Responses::respondError("The order is already set as CANCELED");
+		}
+		if ($order->status != Order::PENDING) {
+		    return Responses::respondError("The Order is not pending any more");
+		}
+
+		$order->status = Order::CANCELED;
+		$order->save();
+
+		$truck = $order->truck;
+		$truck->status = Truck::ONLINE;
+		$truck->save();
+
+		$order_log = new Order_log([
+		    'status'=>-2,
+		    'lat'=>$lat,
+		    'lng'=>$lng,
+		    'order_id'=>$order->id,
+		]);
+		$order_log->save();
+		$order_log->order()->associate($order);
+		if ($order) {
+		    return Responses::respondSuccess([]);
+		}
 	}
 
 }

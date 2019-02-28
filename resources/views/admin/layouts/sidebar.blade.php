@@ -28,9 +28,9 @@
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="{{ action('Admin\UserController@index', 'users') }}">All </a></li>
                         <li><a href="{{ action('Admin\UserController@admins', 'admins') }}">Users </a></li>
-                        <li><a href="{{ action('Admin\UserController@customers', 'customers') }}">Customers</a></li>
-                        <li><a href="{{ action('Admin\UserController@suppliers', 'suppliers') }}">Suppliers(users)</a></li>
-
+                        <li><a href="{{ action('Admin\UserController@suppliers', 'suppliers') }}">Suppliers users </a></li>
+                        <li><a href="{{ action('Admin\CustomerController@customers', 'customers') }}">Customers</a></li>
+                        <li><a href="{{ action('Admin\CustomerController@drivers', 'drivers') }}">Drivers</a></li>
                     </ul>
                 </li>
 

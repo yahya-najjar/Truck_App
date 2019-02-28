@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Carbon\Carbon;
+use App\Customer;
 
 class Truck extends Model
 {
 	protected $fillable = [
-		'driver_name', 'plate_num', 'location','desc','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating','image','distances','expire_date','licence_date'
+		'driver_name', 'plate_num', 'location','desc','capacity','model','driver_phone','company_phone','status','supplier_id','price_km','price_h','lat','lng','rating','image','distances','expire_date','licence_date','driver_id'
 	];
 
 	const OFFLINE = 0;  
@@ -21,6 +22,11 @@ class Truck extends Model
 	public function supplier()
 	{
 		return $this->belongsTo(Supplier::class);
+	}
+
+	public function currentDriver()
+	{
+		return $this->belongsTo(Customer::class,'driver_id');
 	}
 
 	public function orders()
@@ -50,7 +56,7 @@ class Truck extends Model
 
 	public function pendingOrder(){
 
-		return $this->orders()->with('customer')->where('status',[Order::PENDING,Order::ACCEPTED,Order::ARRIVED])->latest()->first();
+		return $this->orders()->with('customer')->whereIn('status',[Order::PENDING,Order::ACCEPTED,Order::ARRIVED])->latest()->first();
 	}
 
 	public function bills()
@@ -149,5 +155,16 @@ class Truck extends Model
     	}
     }
 
+    public function truck_shifts()
+    {
+    	$truck_id = $this->id;
+    	$shifts = DB::table('customer_truck')
+    	            ->join('customers', function ($join) use ($truck_id) {
+    	                $join->on('customer_truck.customer_id', '=', 'customers.id')
+    	                     ->where('customer_truck.truck_id', '=', $truck_id);
+    	            })
+    	            ->select('customer_truck.*','customers.*')
+    	            ->get();
 
+	}
 }

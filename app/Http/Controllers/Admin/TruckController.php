@@ -185,8 +185,9 @@ class TruckController extends Controller
                             1 =>'driver_name',
                             2=> 'status',
                             3=> 'location',
-                            4=> 'updated_at',
-                            5=> 'id',
+                            4=> 'lat',
+                            5=> 'updated_at',
+                            6=> 'id',
                         );
         $totalData = count($trucks->get());
         $totalFiltered = $totalData;
@@ -227,6 +228,7 @@ class TruckController extends Controller
                 $nestedData['driver']= $truck->driver_name;
                 $nestedData['status']= $truck->status;
                 $nestedData['location']= $truck->location;
+                $nestedData['coordinates']= $truck->lat . ' ' . $truck->lng;
                 $nestedData['last_update']= $truck->updated_at->format('d M Y - H:i:s');
                 $nestedData['show']= $truck->id;
                 $data[] = $nestedData;

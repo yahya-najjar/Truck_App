@@ -30,8 +30,8 @@ class CreateCustomersTable extends Migration
             $table->string('Platform')->nullable();
             $table->string('FCM_Token')->nullable();
 
-            $table->integer('truck_id')->unsigned()->nullable();
-            $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
+            // $table->integer('truck_id')->unsigned()->nullable();
+            // $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
 
             $table->rememberToken();
             $table->timestamps();

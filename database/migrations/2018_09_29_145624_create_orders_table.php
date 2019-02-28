@@ -23,9 +23,11 @@ class CreateOrdersTable extends Migration
             $table->text('comment')->nullable();
             $table->integer('customer_id')->unsigned()->nullable();
             $table->integer('truck_id')->unsigned()->nullable();
+            $table->integer('driver_id')->unsigned()->nullable();
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
+            $table->foreign('driver_id')->references('id')->on('customers')->onDelete('cascade');
             $table->timestamps();
         });
     }

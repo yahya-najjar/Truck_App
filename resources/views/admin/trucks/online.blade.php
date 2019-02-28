@@ -28,7 +28,8 @@ Trucks
 								<th>#</th>
 								<th>Driver Name</th>
 								<th>status</th>
-								<th>Current Location</th>
+                                <th>Current Location</th>
+								<th>Coordinates</th>
 								<th>last update</th>
 								<th>Actions</th>
 							</tr>
@@ -64,7 +65,8 @@ Trucks
 			{"data": "id"},
 			{"data": "driver"},
 			{"data": "status"},
-			{"data": "location"},
+            {"data": "location"},
+			{"data": "coordinates"},
 			{"data": "last_update"},
 			{"data": "show"},
 			],
@@ -206,6 +208,6 @@ Trucks
     }
 </script>
 @endsection
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAI0S27Loc1RoYrhQYVPke_31aiF7lzXPQ&sensor=false"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfqfNvE-Tof6EFFrTuHobGrUzUq_lQNSQ"
-    async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAI0S27Loc1RoYrhQYVPke_31aiF7lzXPQ"></script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfqfNvE-Tof6EFFrTuHobGrUzUq_lQNSQ"
+    async defer></script> -->

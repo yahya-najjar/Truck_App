@@ -53,7 +53,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/myOrders','Api\OrderController@myOrders'); //user orders 
     Route::post('/ratingOrder','Api\OrderController@rating');
     Route::post('/getOrderById','Api\OrderController@getOrderById');
-
+    Route::post('/cancelOrder','Api\OrderController@cancelOrder');
     // Common routes
     Route::post('logout', 'AuthController@logout');
     Route::post('/payment_type','Api\OrderController@Payment_type');

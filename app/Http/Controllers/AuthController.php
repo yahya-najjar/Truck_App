@@ -158,12 +158,14 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        $my_request = $request->only('email', 'password','type');
         
         $rules = [
             'email' => 'required|email',
             'password' => 'required',
+            'type' => 'required',
         ];
-        $validator = Validator::make($credentials, $rules);
+        $validator = Validator::make($my_request, $rules);
         if($validator->fails()) {
             return response()->json(['success'=> false, 'error'=> $validator->messages()], 401);
         }
@@ -187,6 +189,10 @@ class AuthController extends Controller
         }
         // all good so return the token
         $user = Customer::where('email', $request->email)->first();
+
+        if ($user->type != $request->type) {
+            return Responses::respondError('Failed to login, please check if you are using right app');   
+        }
         $token = JWTAuth::fromUser($user);
         $user->token = $token;
         return Responses::respondSuccess($user);
