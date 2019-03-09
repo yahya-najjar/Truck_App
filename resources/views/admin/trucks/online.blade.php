@@ -1,8 +1,10 @@
 @extends('admin.layouts.app')
 @section('title')
-Trucks
+Online Trucks
 @endsection
-
+@section('bread')
+    <li class="breadcrumb-item active">online trucks</li>
+@endsection
 @section('content')
 <div class="row">
 	<div class="col-12">
@@ -10,7 +12,7 @@ Trucks
 			<div class="card-body">
 				<h4 class="card-title">Online trucks on map </h4>
 				<h6 class="card-subtitle">data will update automatically every 10 seconds</h6>
-    				<div id="map-canvas"></div>
+    				<!-- <div id="map-canvas" class="gmaps"></div> -->
 			</div>
 		</div>
 	</div>
@@ -46,6 +48,7 @@ Trucks
 </div>
 @endsection
 @section('script')
+<script type="text/javascript" charset="utf8" src="{{asset('/assets/admin/js/jquery.dataTables.js')}}"></script>
 <script type="text/javascript">var url = "{{url('')}}";</script> 
 <script type="text/javascript">
 	$(document).ready( function () {

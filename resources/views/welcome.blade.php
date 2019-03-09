@@ -1,6 +1,8 @@
+
 @extends('layouts.app')
-   
-       
+@section('title')
+Home Page
+@endsection    
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 @section('content')
@@ -8,8 +10,8 @@
                     <div class="row banner-text">
                         <div class="col-lg-5 m-t-20">
                             <h1>The Most Beautiful &amp; Powerful <span class="text-info">Trucks Application</span> based Admin Dashboard</h1>
-                            <p class="subtext"><span class="font-medium">Bootstrap 4 </span>Admin Template + Angular cli Starter kit, <span class="font-medium">Light &amp; Dark</span> Versions, Landing Page, <span class="font-medium">8 Demo</span> Variations, <span class="font-medium">4 Dashboard</span> Variations, <span class="font-medium">100+</span> Integrated Plugins, <span class="font-medium">800+</span> Pages, <span class="font-medium">3000+</span> Font Icons, <span class="font-medium">500+</span> UI Components &amp; much more...</p>
-                            <div class="down-btn"> <a href="#demos" class="btn btn-info m-b-10">SEE SERVICES</a> <a href="" class="btn btn-success m-b-10">BUY NOW</a> </div>
+                            <p class="subtext"><span class="font-medium">TruckUp </span>Web Application provide admin panel for Truck Suppliers, <span class="font-medium">Managed &amp; Private</span> Trucks, which have, <span class="font-medium">Android</span> applicatoin, <span class="font-medium">IOS</span> Application, <span class="font-medium">100+</span> Integrated Featurs, <span class="font-medium">800+</span> Supplier, <span class="font-medium">3000+</span> Trucks, <span class="font-medium">500+</span> Order per day &amp; much more...</p>
+                            <div class="down-btn"> <a href="#demos" class="btn btn-info m-b-10" style="background-color:#f28f15; color: #fff; border: 1px solid #f28f15;">Download Now</a> <a href="" class="btn btn-info m-b-10" style="background-color: #0c695d; color: #fff; border: 1px solid #0c695d;">Register</a> </div>
                         </div>
                         <div class="col-lg-7">
                             <div class="hero-banner"> <img src="{{asset('/assets/homepage/images/banner.jpg')}}" alt="Truck App admin template" /> </div>
@@ -22,27 +24,27 @@
                 <div class="row light-blue">
                     <div class="col-md-12" id="demos">
                         <div class="text-center"> <small class="text-info">The Most Beautiful Truck Application</small>
-                            <h2 class="display-7">Powerful Admin panel of 2018</h2>
-                            <p>Don’t go by our Words, checkout our awesome demos and verify yourself.
-                                <br/>You will surely fall in love over the fresh design & brilliant code.</p>
+                            <h2 class="display-7">Best Trucks Services App in 2019</h2>
+                            <p>Don’t go by our Words, checkout our awesome applications and verify yourself.
+                                <br/>You will surely fall in love over the fresh design & brilliant services.</p>
                         </div>
                         <div class="max-width">
                             <div class="row text-center">
                                 <div class="col-md-4 m-t-40">
-                                    <div class="image-box"> <img src="{{asset('/assets/homepage/images/adminpro-demo2.jpg')}}" alt="demo1" class="img-responsive" />
-                                        <div class="image-overly"> <a class="btn btn-rounded btn-info" href="https://wrappixel.com/demos/admin-templates/admin-pro/main/index2.html" target="_blank">Live Preview</a> </div>
+                                    <div class="image-box"> <img width="500px" height="475px" src="{{asset('/assets/homepage/images/Loading.png')}}" alt="demo1" class="img-responsive" />
+                                        <div class="image-overly"> <a style="background-color:#f28f15; color: #ffffff; border: 1px solid #f28f15; " class="btn btn-rounded btn-info" href="#" target="_blank">Download Driver Application</a> </div>
                                     </div>
-                                    <h5 class="p-20">Main Demo Version</h5> </div>
+                                    <h5 class="p-20">Driver Android Application</h5> </div>
                                     <div class="col-md-4 m-t-40">
-                                    <div class="image-box"> <img src="{{asset('/assets/homepage/images/adminpro-demo1.jpg')}}" alt="demo2" class="img-responsive" />
-                                        <div class="image-overly"> <a class="btn btn-rounded btn-info" href="https://wrappixel.com/demos/admin-templates/admin-pro/minisidebar/index.html" target="_blank">Live Preview</a> </div>
+                                    <div class="image-box"> <img src="{{asset('/assets/homepage/images/c_loading.png')}}" alt="demo2" class="img-responsive" />
+                                        <div class="image-overly"> <a style="background-color: #0c695d; color: #ffffff; border: 1px solid #0c695d;" class="btn btn-rounded btn-info" href="#" target="_blank">Download Customer Application</a> </div>
                                     </div>
-                                    <h5 class="p-20">Mini Sidebar Demo Version</h5> </div>
+                                    <h5 class="p-20">Customer Android Application</h5> </div>
                                     <div class="col-md-4 m-t-40">
-                                    <div class="image-box"> <img src="{{asset('/assets/homepage/images/adminpro-demo4.jpg')}}" alt="demo5" class="img-responsive" />
-                                        <div class="image-overly"> <a class="btn btn-rounded btn-info" href="https://wrappixel.com/demos/admin-templates/admin-pro/minimal/index4.html" target="_blank">Live Preview</a> </div>
+                                    <div class="image-box"> <img src="{{asset('/assets/homepage/images/web.png')}}" alt="demo5" class="img-responsive" />
+                                        <div class="image-overly"> <a class="btn btn-rounded btn-info" href="#" target="_blank">Create Supplier Account</a> </div>
                                     </div>
-                                    <h5 class="p-20">Mini Sidebar Demo Version</h5> </div>
+                                    <h5 class="p-20">Supplier Account</h5></div>
                             </div>
                         </div>
                     </div>
@@ -50,43 +52,43 @@
                 <!-- ============================================================== -->
                 <!-- Feature with Icons -->
                 <!-- ============================================================== -->
-                <div class="row white-space">
+                <!-- div class="row white-space">
                     <div class="col-md-12">
                         <div class="fix-width icon-section"> <small class="text-info">ALMOST COVERED EVERYTHING</small>
                             <h2 class="display-7">Amazing Features & Flexibility Provided</h2>
-                            <!-- Row -->
+                            
                             <div class="row m-t-40">
-                                <!-- .col -->
+                            
                                 <div class="col-lg-3 col-md-6"> <img src="{{asset('/assets/homepage/images/color-skim.png')}}" alt="Truck App admin template">
                                     <h4 class="font-500">6 Color Schemes</h4>
                                     <p>We have included 6 pre-defined color schemes with Truck App admin.</p>
                                 </div>
-                                <!-- /.col -->
-                                <!-- .col -->
+                            
+                            
                                 <div class="col-lg-3 col-md-6"> <img src="{{asset('/assets/homepage/images/sidebars.png')}}" alt="Truck App admin template">
                                     <h4 class="font-500">Dark &amp; Light Sidebar</h4>
                                     <p>Included Dark and Light Sidebar for getting desire look and feel.</p>
                                 </div>
-                                <!-- /.col -->
-                                <!-- .col -->
+                            
+                            
                                 <div class="col-lg-3 col-md-6"> <img src="{{asset('/assets/homepage/images/pages.png')}}" alt="Truck App admin template">
                                     <h4 class="font-500">800+ Page Templates</h4>
                                     <p>Yes, we have 8 demos &amp; 120+ Pages per demo to make it easier.</p>
                                 </div>
-                                <!-- /.col -->
+                            
                                
                             </div>
                             <div class="text-center">
-                                <!-- Row --><a href="https://wrappixel.com/templates/adminpro/" class="btn btn-lg btn-success m-t-40"> Buy Truck App Now</a>
-                                <!-- Row -->
+                                    <a href="https://wrappixel.com/templates/adminpro/" class="btn btn-lg btn-success m-t-40"> Buy Truck App Now</a>
+                                
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- ============================================================== -->
                 <!-- Testimonial -->
                 <!-- ============================================================== -->
-                <div class="row light-blue">
+                <!-- <div class="row light-blue">
                     <div class="col-md-12">
                         <div class="fix-width text-center"> <small class="text-info">ALMOST COVERED EVERYTHING</small>
                             <h2 class="display-7">What Real Buyers have to <br/>Say about Truck App Admin</h2>
@@ -106,7 +108,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- ============================================================== -->
                 <!-- Call to action bar -->
                 <!-- ============================================================== -->
@@ -114,8 +116,8 @@
                     <div class="col-md-12 call-to-action bg-success">
                         <div class="fix-width">
                             <div class="row">
-                                <div class="col-md-6 m-t-20 m-b-20"><span>Are you Satisfied with what we Offer?</span></div>
-                                <div class="col-md-6 align-self-center text-right"><a href="https://wrappixel.com/templates/adminpro/" target="_blank" class="btn btn-outline btn-rounded btn-default buy-btn m-t-10 m-b-10">Buy Truck App admin </a></div>
+                                <div class="col-md-6 m-t-20 m-b-20"><span>IOS Application Coming Soon</span></div>
+                                <div class="col-md-6 align-self-center text-right"><a href="#" target="_blank" class="btn btn-outline btn-rounded btn-default buy-btn m-t-10 m-b-10">Subscribe TruckUp News</a></div>
                             </div>
                         </div>
                     </div>

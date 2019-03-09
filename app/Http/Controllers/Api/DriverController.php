@@ -129,6 +129,18 @@ class DriverController extends Controller
 
     public function online(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'lat' => 'required',
+            'lng' => 'required',
+            'location' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $message = $validator->errors();
+            $msg = $message->first();
+            return Responses::respondError($msg);
+        }
+
         $driver =  JWTAuth::parseToken()->authenticate();
         $shifts = DB::table('customer_truck')
                             ->where('customer_id',$driver->id)
@@ -153,8 +165,11 @@ class DriverController extends Controller
         $truck = Truck::find($my_shift->truck_id);
         if(!$truck)
             return Responses::respondError("You Don't have any truck yet");
+        // return Responses::respondSuccess($truck->pendingOrder()->id);
 
-        $truck->status = Truck::ONLINE;
+        if(!isset($truck->pendingOrder()->id)){
+            $truck->status = Truck::ONLINE;
+        }
         $truck->driver_name = $driver->FullName;
         $truck->currentDriver()->associate($driver);
         $truck->save();
@@ -162,12 +177,14 @@ class DriverController extends Controller
 
         $lat = $request['lat'];
         $lng = $request['lng'];
+        $location = $request['location'];
 
         $log = new Truck_log([
             'online' => 1,
             'truck_id' => $truck->id,
             'lat'=>$lat,
-            'lng'=>$lng
+            'lng'=>$lng,
+            'location' => $location
         ]);
         $log->save();
         $log->truck()->associate($truck);
@@ -176,7 +193,18 @@ class DriverController extends Controller
 
     public function offline(Request $request)
     {
-       $driver =  JWTAuth::parseToken()->authenticate();
+        $validator = Validator::make($request->all(), [
+            'lat' => 'required',
+            'lng' => 'required',
+            'location' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $message = $validator->errors();
+            $msg = $message->first();
+            return Responses::respondError($msg);
+        }
+        $driver =  JWTAuth::parseToken()->authenticate();
         $shifts = DB::table('customer_truck')
                             ->where('customer_id',$driver->id)
                             ->get();
@@ -241,19 +269,27 @@ class DriverController extends Controller
 
     public function reject(Request $request)
     {
-        $validator = Validator::make($request->all(), ['order_id' => 'required']);
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'location' => 'required'
+        ]);
         if ($validator->fails()) {
             $message = $validator->errors();
             $msg = $message->first();
             return Responses::respondError($msg);
         }
+
         $lat = $request['lat'];
         $lng = $request['lng'];
+        $location = $request['location'];
 
         $order = Order::find($request->order_id);
         if(!$order){
             return Responses::respondError("order not exist any more !");
         }
+
         $driver =  JWTAuth::parseToken()->authenticate();
         if ($order->driver->id != $driver->id) {
             return Responses::respondError("You're not authorized to reject this order");
@@ -273,9 +309,10 @@ class DriverController extends Controller
         $truck->save();
 
         $order_log = new Order_log([
-            'status'=>-1,
+            'status'=>Order::REJECTED,
             'lat'=>$lat,
             'lng'=>$lng,
+            'location'=>$location,
             'order_id'=>$order->id,
         ]);
         $order_log->save();
@@ -287,7 +324,12 @@ class DriverController extends Controller
 
     public function accept(Request $request)
     {
-        $validator = Validator::make($request->all(), ['order_id' => 'required']);
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'location' => 'required'
+        ]);
         if ($validator->fails()) {
             $message = $validator->errors();
             $msg = $message->first();
@@ -295,6 +337,7 @@ class DriverController extends Controller
         }
         $lat = $request['lat'];
         $lng = $request['lng'];
+        $location =$request['location'];
 
         $order = Order::find($request->order_id);
         $driver =  JWTAuth::parseToken()->authenticate();
@@ -311,6 +354,7 @@ class DriverController extends Controller
             return Responses::respondError("The Order is not pending any more");
         }
 
+
         $order->status = Order::ACCEPTED;
         $order->save();
 
@@ -322,13 +366,14 @@ class DriverController extends Controller
             'status'=>1, // log status const
             'lat'=>$lat,
             'lng'=>$lng,
+            'location'=>$location,
             'order_id'=>$order->id,
         ]);
         $order_log->save();
         $order_log->order()->associate($order);
 
         $truck_log = new Truck_log([
-            'online'=>2,
+            'online'=>Order::ACCEPTED,
             'lat'=>$lat,
             'lng'=>$lng,
             'truck_id'=>$truck->id, 
@@ -343,7 +388,12 @@ class DriverController extends Controller
 
     public function arrived(Request $request)
     {
-        $validator = Validator::make($request->all(), ['order_id' => 'required']);
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'location' => 'required'
+        ]);
         if ($validator->fails()) {
             $message = $validator->errors();
             $msg = $message->first();
@@ -351,6 +401,7 @@ class DriverController extends Controller
         }
         $lat = $request['lat'];
         $lng = $request['lng'];
+        $location = $request['location'];
 
         $order = Order::find($request->order_id);
         $driver =  JWTAuth::parseToken()->authenticate();
@@ -378,13 +429,14 @@ class DriverController extends Controller
             'status'=>1, // log status const
             'lat'=>$lat,
             'lng'=>$lng,
+            'location'=>$location,
             'order_id'=>$order->id,
         ]);
         $order_log->save();
         $order_log->order()->associate($order);
 
         $truck_log = new Truck_log([
-            'online'=>2,
+            'online'=>Order::ARRIVED,
             'lat'=>$lat,
             'lng'=>$lng,
             'truck_id'=>$truck->id, 
@@ -399,7 +451,12 @@ class DriverController extends Controller
 
     public function done(Request $request)
     {
-        $validator = Validator::make($request->all(), ['order_id' => 'required']);
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'location' => 'required'
+        ]);
         if ($validator->fails()) {
             $message = $validator->errors();
             $msg = $message->first();
@@ -407,6 +464,7 @@ class DriverController extends Controller
         }
         $lat = $request['lat'];
         $lng = $request['lng'];
+        $location = $request['location'];
 
         $order = Order::find($request->order_id);
         $driver =  JWTAuth::parseToken()->authenticate();
@@ -431,9 +489,10 @@ class DriverController extends Controller
         $truck->save();
 
         $order_log = new Order_log([
-            'status'=>2,
+            'status'=>Order::DONE,
             'lat'=>$lat,
             'lng'=>$lng,
+            'location'=>$location,
             'order_id'=>$order->id,
         ]);
         $order_log->save();

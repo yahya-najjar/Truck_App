@@ -242,12 +242,8 @@
         })
     });
 
-    </script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-<!-- Footable -->
-    <script src="{{asset('/assets/admin/plugins/footable/js/footable.all.min.js')}}"></script>
-    <script src="{{asset('/assets/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
-    <!--FooTable init-->
-    <script src="{{asset('js/footable-init.js')}}"></script>
+    </script>    
+    <script src="{{asset('/assets/admin/js/dashboard3.js')}}"></script>
+
 
 <!-- <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script> -->

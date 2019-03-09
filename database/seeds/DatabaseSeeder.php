@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        $this->call(PermissionSeeder::class);
 
     	DB::table('users')->delete();
         //1) Create Admin Role

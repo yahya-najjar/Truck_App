@@ -56,7 +56,7 @@ Rating
 
 .rating label .icon {
 	float: left;
-	color: transparent;
+	color: #00000012;
 }
 
 .rating label:last-child .icon {
@@ -65,7 +65,7 @@ Rating
 
 .rating:not(:hover) label input:checked ~ .icon,
 .rating:hover label:hover input ~ .icon {
-	color: #09f;
+	color: #0c695d;
 }
 
 .rating label input:focus:not(:checked) ~ .icon:last-child {

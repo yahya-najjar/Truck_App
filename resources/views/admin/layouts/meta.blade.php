@@ -7,7 +7,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- Favicon icon -->
 <link rel="icon" type="/image/png" sizes="16x16" hhref="{{asset('/assets/admin/images/favicon.png')}}">
-<title>Admin Pro Admin Template - The Ultimate Bootstrap 4 Admin Template</title>
+<title>TruckUp</title>
 <!-- Bootstrap Core CSS -->
 <link href="{{asset('/assets/admin/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 <!-- Custom CSS -->
@@ -41,11 +41,8 @@
 <link rel="stylesheet" href="{{asset('/assets/admin/plugins/dropify/dist/css/dropify.min.css')}}">
 <!-- <link href="/assets/admin/css/pages/user-card.css" rel="stylesheet">
 <link href="/assets/admin/css/pages/card-page.css" rel="stylesheet"> -->
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"> -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <link rel="stylesheet" href="{{asset('css/pages/google-vector-map.css')}}">
-<link href="{{asset('/assets/admin/plugins/footable/css/footable.core.css')}}" rel="stylesheet">
-<link href="{{asset('css/pages/footable-page.css')}}" rel="stylesheet">
+

@@ -54,6 +54,16 @@ class Truck extends Model
 		return $this->orders()->where('status',Order::DONE);
 	}
 
+	public function canceled_orders()
+	{
+		return $this->orders()->where('status',Order::CANCELED);
+	}
+
+	public function ongoing_orders()
+	{
+		return $this->orders()->whereIn('status',[Order::PENDING,Order::ACCEPTED,Order::ARRIVED]);
+	}
+
 	public function pendingOrder(){
 
 		return $this->orders()->with('customer')->whereIn('status',[Order::PENDING,Order::ACCEPTED,Order::ARRIVED])->latest()->first();
@@ -165,6 +175,8 @@ class Truck extends Model
     	            })
     	            ->select('customer_truck.*','customers.*')
     	            ->get();
+
+    	return $shifts;
 
 	}
 }

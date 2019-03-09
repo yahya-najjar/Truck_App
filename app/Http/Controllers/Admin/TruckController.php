@@ -76,11 +76,9 @@ class TruckController extends Controller
     public function store(Request $request)
     {
         $this->validate(request(),[
-            'driver_name'  =>      'required',
             'plate_num' =>      'required|unique:trucks',
             'capacity' =>      'required | numeric',
             'model' =>      'required',
-            'driver_phone' =>      'required | numeric',
             // 'location' =>      'required',
             // 'status' =>      'required',
             'desc' => 'required',
@@ -117,7 +115,24 @@ class TruckController extends Controller
      */
     public function show(Truck $truck)
     {
-        return view ('admin.trucks.show',compact('truck'));
+        $shifts = $truck->truck_shifts();
+        $truck->count = $truck->orders()->count();
+        $truck->done = $truck->done_orders()->count();
+        $truck->on_going = $truck->ongoing_orders()->count();
+        $truck->canceled = $truck->canceled_orders()->count();
+        $truck->rejected = $truck->rejected_orders()->count();
+        if ($truck->count > 0) {
+            $truck->done_rat = $truck->done * 100 / $truck->count;
+
+            $truck->on_going_rat = $truck->on_going * 100 / $truck->count;
+
+            $truck->canceled_rat = $truck->canceled * 100 / $truck->count;
+
+            $truck->rejected_rat = $truck->rejected * 100 / $truck->count;
+        }
+       
+        $suppliers = Supplier::all();
+        return view ('admin.trucks.show',compact('truck','shifts','suppliers'));
     }
 
 
@@ -148,7 +163,13 @@ class TruckController extends Controller
      */
     public function update(Request $request, Truck $truck)
     {
-        $truck->update($request->all());
+        $truck->update($request->except(['image']));
+        if($request->hasFile('image')){
+            if(file_exists(storage_path('app/public/' . $truck->image)))
+            unlink(storage_path('app/public/' . $truck->image));
+            $truck->image = $request->file('image')->store('trucks', 'public');
+        }
+
         $truck->save();
 
         return back()->with('success','Item Updated successfully');

@@ -75,7 +75,7 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
         return $this->hasMany(Models\Order::class,'driver_id');
     }
 
-    public function driver_orders($status)
+    public function driver_orderss($status)
     {
         switch ($status) {
             case Order::ACCEPTED:
@@ -101,59 +101,107 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
                 break;
         }
     }
-
-    // for driver --- Each Truck with it orders
-    public function all_orders($status)
+    public function driver_orders($status)
     {
-        $trucks_ids = $this->shifts()->pluck('truck_id');
         switch ($status) {
             case Order::ACCEPTED:
-                $trucks = Truck::with('accepted_orders')->whereIn('id',$trucks_ids);
-                break;
             case Order::REJECTED:
-                $trucks = Truck::with('rejected_orders')->whereIn('id',$trucks_ids);
-                break;
-            case Order::ARRIVED:
-                $trucks = Truck::with('arrived_orders')->whereIn('id',$trucks_ids);
-                break;
             case Order::DONE:
-                $trucks = Truck::with('done_orders')->whereIn('id',$trucks_ids);
-                break;
             case Order::PENDING:
-                $trucks = Truck::with('pendingOrder')->whereIn('id',$trucks_ids);
+            case Order::ARRIVED:
+            case Order::CANCELED:
+                return $this->DriverOrders($status);
                 break;
             default:
-                $trucks = Truck::with('orders')->whereIn('id',$trucks_ids);
+                return $this->DriverOrders(-5);
                 break;
         }
-        return $trucks;
     }
+
+    public function DriverOrders($status)
+    {
+        $orders = DB::table('orders')->where('orders.driver_id','=',$this->id);
+        if ($status != -5) {
+            $orders->where('orders.status','=',$status);
+        }
+        $orders->join('order_logs',function ($join){
+                    $join->on('order_logs.order_id','=','orders.id')
+                    ->where('order_logs.status',Order::ACCEPTED);
+                    })
+                    ->join('trucks',function ($query)
+                    {
+                        $query->on('orders.truck_id','=','trucks.id');
+                    })
+                    ->join('customers',function ($query)
+                    {
+                        $query->on('orders.customer_id','=','customers.id');
+                    })
+                    ->select('orders.*','order_logs.location as location_from','orders.location as location_to','trucks.location as location_current','order_logs.lat as lat_from','order_logs.lng as lng_from','orders.lat as lat_to','orders.lng as lng_to','trucks.lat as lat_current','trucks.lng as lng_current','trucks.driver_name as current_driver','trucks.plate_num','trucks.desc','trucks.lat as truck_lat','trucks.lng as truck_lng','trucks.status as truck_status','trucks.image','orders.status as order_status',DB::raw('CONCAT(first_name, " ", last_name) AS customer_name'),'customers.email as customer_email','customers.phone as customer_phone');
+
+        return $orders;
+    }
+
+    // for driver --- Each Truck with it orders
+    // public function all_orders($status)
+    // {
+    //     $trucks_ids = $this->shifts()->pluck('truck_id');
+    //     switch ($status) {
+    //         case Order::ACCEPTED:
+    //             $trucks = Truck::with('accepted_orders')->whereIn('id',$trucks_ids);
+    //             break;
+    //         case Order::REJECTED:
+    //             $trucks = Truck::with('rejected_orders')->whereIn('id',$trucks_ids);
+    //             break;
+    //         case Order::ARRIVED:
+    //             $trucks = Truck::with('arrived_orders')->whereIn('id',$trucks_ids);
+    //             break;
+    //         case Order::DONE:
+    //             $trucks = Truck::with('done_orders')->whereIn('id',$trucks_ids);
+    //             break;
+    //         case Order::PENDING:
+    //             $trucks = Truck::with('pendingOrder')->whereIn('id',$trucks_ids);
+    //             break;
+    //         default:
+    //             $trucks = Truck::with('orders')->whereIn('id',$trucks_ids);
+    //             break;
+    //     }
+    //     return $trucks;
+    // }
 
     public function customer_orders($status)
     {
         switch ($status) {
             case Order::ACCEPTED:
-                return $this->orders()->with('truck')->where('status',Order::ACCEPTED);
-                break;
             case Order::REJECTED:
-                return $this->orders()->with('truck')->where('status',Order::REJECTED);
-                break;
             case Order::DONE:
-                return $this->orders()->with('truck')->where('status',Order::DONE);;
-                break;
             case Order::PENDING:
-                return $this->orders()->with('truck')->where('status',Order::PENDING);
-                break;
             case Order::ARRIVED:
-                return $this->orders()->with('truck')->where('status',Order::ARRIVED);
-                break;
             case Order::CANCELED:
-                return $this->orders()->with('truck')->where('status',Order::CANCELED);
+                return $this->CustomerOrders($status);
                 break;
             default:
-                return $this->orders()->with('truck');
+                return $this->CustomerOrders(-5);
                 break;
         }
+    }
+
+    public function CustomerOrders($status)
+    {
+        $orders = DB::table('orders')->where('orders.customer_id','=',$this->id);
+        if ($status != -5) {
+            $orders->where('orders.status','=',$status);
+        }
+        $orders->join('order_logs',function ($join){
+                    $join->on('order_logs.order_id','=','orders.id')
+                    ->where('order_logs.status',Order::ACCEPTED);
+                    })
+                    ->join('trucks',function ($query)
+                    {
+                        $query->on('orders.truck_id','=','trucks.id');
+                    })
+                    ->select('orders.*','order_logs.location as location_from','orders.location as location_to','trucks.location as location_current','order_logs.lat as lat_from','order_logs.lng as lng_from','orders.lat as lat_to','orders.lng as lng_to','trucks.lat as lat_current','trucks.lng as lng_current','trucks.driver_name as current_driver','trucks.plate_num','trucks.desc','trucks.lat as truck_lat','trucks.lng as truck_lng','trucks.status as truck_status','trucks.image','orders.status as order_status');
+
+        return $orders;
     }
 
     public function pending_orders(){

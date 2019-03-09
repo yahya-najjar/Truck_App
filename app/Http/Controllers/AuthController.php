@@ -91,12 +91,12 @@ class AuthController extends Controller
         // ])->send(new VerifyMail($data));
         $subject = "Please verify your email address.";
 
-        // Mail::send('email.verify', ['name' => $first_name, 'verification_code' => $verification_code],
-        //     function ($mail) use ($email, $first_name, $subject) {
-        //         $mail->from(getenv('FROM_EMAIL_ADDRESS'), "From " . getenv('APP_NAME'));
-        //         $mail->to($email, $first_name);
-        //         $mail->subject($subject);
-        // });
+        Mail::send('email.verify', ['name' => $first_name, 'verification_code' => $verification_code],
+            function ($mail) use ($email, $first_name, $subject) {
+                $mail->from(getenv('FROM_EMAIL_ADDRESS'), "From " . getenv('APP_NAME'));
+                $mail->to($email, $first_name);
+                $mail->subject($subject);
+        });
 
         $customer = Customer::find($user->id);
 

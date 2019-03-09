@@ -2,7 +2,9 @@
 @section('title')
 Company Profile
 @endsection
-
+@section('bread')
+    <li class="breadcrumb-item active">Company Profile</li>
+@endsection
 @section('content')
 <div class="row">
 	<div class="col-md-12">

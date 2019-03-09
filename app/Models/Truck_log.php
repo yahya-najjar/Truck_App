@@ -7,7 +7,7 @@ use DB;
 
 class Truck_log extends Model
 {
-	protected $fillable = ['online','truck_id','lat','lng'];
+	protected $fillable = ['online','truck_id','lat','lng','location'];
 
 	public function truck()
 	{

@@ -77,6 +77,7 @@ Truck {{$truck->id}} Orders
 @endif
 @endsection
 @section('script')
+<script type="text/javascript" charset="utf8" src="{{asset('/assets/admin/js/jquery.dataTables.js')}}"></script>
 <script type="text/javascript">
 	$(document).ready( function () {
 		$('#table_id').DataTable(); });

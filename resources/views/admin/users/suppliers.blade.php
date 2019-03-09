@@ -1,10 +1,10 @@
 @extends('admin.layouts.app')
 @section('title')
-Suppliers (Users)
+Suppliers Web Uses
 @endsection
 
 @section('bread')
-<li class="breadcrumb-item active">All Suppliers(Users)</li>
+<li class="breadcrumb-item active">All Suppliers</li>
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@ Suppliers (Users)
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">All Suppliers(Users) </h4>
+        <h4 class="card-title">Suppliers Web Users</h4>
         <h6 class="card-subtitle"></h6>
         <div class="table-responsive">
           <table class="table table-striped table-bordered" style="width:100%" id="table_id">

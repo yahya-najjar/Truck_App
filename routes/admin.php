@@ -1,8 +1,6 @@
 <?php 
 
-Route::get('/', function(){
-	return view('admin.dashboard');
-});
+Route::get('/','DashboardController@index');
 
 Route::resource('/users','UserController');
 Route::resource('/suppliers','SupplierController');
@@ -27,8 +25,12 @@ Route::post('drivers/shift/update','UserController@updateShift');
 Route::get('/drivers/get_driver_working_hours/{id}','TruckController@get_truck_shifts');
 
 // Customers
-Route::get('customers/','CustomerController@customers');
+// Route::get('customers/','CustomerController@customers');
 Route::get('customers_drivers/','CustomerController@drivers');
+Route::post('/all_customers', 'CustomerController@all_customers')->name('allcustomers');
+Route::post('/all_drivers', 'CustomerController@all_drivers')->name('alldrivers');
+Route::post('/all_orders', 'OrderController@orders')->name('allorders');
+
 
 // Route::delete('users/{user}','UserController@destroy');
 Route::post('users/store','UserController@store');

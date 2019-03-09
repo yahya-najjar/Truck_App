@@ -5,7 +5,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('/assets/homepage/assets/images/favicon.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('/assets/homepage/images/logo.png')}}?v=2">
     
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('/assets/homepage/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">

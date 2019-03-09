@@ -4,7 +4,7 @@ Users
 @endsection
 
 @section('bread')
-<li class="breadcrumb-item active">All Users</li>
+<li class="breadcrumb-item active">Web App Users</li>
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@ Users
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">All Users</h4>
+        <h4 class="card-title">Web App Users</h4>
      <h6 class="card-subtitle">you can't delete last user</h6>
      <div class="table-responsive">
       <table class="table table-striped table-bordered" style="width:100%" id="table_id">

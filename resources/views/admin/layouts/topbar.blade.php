@@ -11,11 +11,11 @@
                 <!-- Logo icon --><b>
                     <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                     <!-- Dark Logo icon -->
-                    <!-- <img src="/assets/admin/images/logo-icon.png" alt="homepage" class="dark-logo"/> -->
+                    <!-- <img src="/assets/admin/images/logo.png" alt="homepage" class="dark-logo"/> -->
                     <!-- Light Logo icon -->
-                    <i class="fas fa-cogs"></i>
-                   <!--  <img width="40px" height="40px" src="/assets/admin/images/logo-light-icon.png" alt="homepage"
-                         class="light-logo"/> -->
+                    <!-- <i class="fas fa-cogs"></i> -->
+                    <img width="40px" height="40px" src="{{asset('/assets/admin/images/raw_logo.png')}}" alt="homepage"
+                         class="light-logo"/>
                 </b>
                 <!--End Logo icon -->
                 <!-- Logo text --><span style="color: white; margin-right: 20px;">
@@ -25,7 +25,7 @@
                          <!-- <img width="108px" height="25px" src="/assets/admin/images/logo-light-text.png" class="light-logo"
                               alt="homepage"/> -->
 
-                              <img width="100px" height="60px" src="{{asset('/assets/admin/images/logo.png')}}" alt="homepage" class="light-logo"/>
+                              <img width="110px" height="40px" src="{{asset('/assets/admin/images/logo_splash.png')}}" alt="homepage" class="light-logo"/>
                 </span> </a>
         </div>
         <!-- ============================================================== -->

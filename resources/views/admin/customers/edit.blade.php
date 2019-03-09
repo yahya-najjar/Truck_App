@@ -1,4 +1,11 @@
 @extends('admin.layouts.app')
+@section('title')
+Edit Customer
+@endsection
+@section('bread')
+<li class="breadcrumb-item "><a href="{{asset('admin/customers')}}">all customers</a></li>
+<li class="breadcrumb-item active">edit customers</li>
+@endsection
 @section('content')
 <div class="row">
     <div class="col-sm-12">

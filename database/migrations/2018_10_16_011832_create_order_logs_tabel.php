@@ -13,18 +13,19 @@ class CreateOrderLogsTabel extends Migration
      */
     public function up()
     {
-     Schema::create('order_logs', function (Blueprint $table) {
-        $table->increments('id');
-        $table->integer('status');
-        $table->double('kilometrage')->nullable();
-        $table->double('lat')->nullable();
-        $table->double('lng')->nullable();
-        
-        $table->integer('order_id')->unsigned()->nullable();
-        $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-        $table->timestamps();
-    });
- }
+        Schema::create('order_logs', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('status');
+            $table->double('kilometrage')->nullable();
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
+            $table->text('location')->nullable();
+            
+            $table->integer('order_id')->unsigned()->nullable();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
@@ -34,5 +35,5 @@ class CreateOrderLogsTabel extends Migration
     public function down()
     {
        Schema::dropIfExists('order_logs');
-   }
+    }
 }

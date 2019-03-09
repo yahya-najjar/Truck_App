@@ -5,6 +5,12 @@
     <title>Admin Panel - @yield('title')</title>
     @include('admin.layouts.meta')
     @yield('style')
+    <style>
+        .modal-header{
+            background-color: #f5a848;
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">

@@ -2552,7 +2552,7 @@ Form-control
   color: #67757c;
   min-height: 38px;
   display: initial; 
-  border: 1px solid rgba(0,0,255,.55);}
+  border: 1px solid #263238;}
 
 .form-control-sm {
   min-height: 20px; }

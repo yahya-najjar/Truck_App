@@ -18,6 +18,7 @@ class CreateTruckLogsTable extends Migration
             $table->integer('online');
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
+            $table->text('location')->nullable();
             
             $table->integer('truck_id')->unsigned()->nullable();
             $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');

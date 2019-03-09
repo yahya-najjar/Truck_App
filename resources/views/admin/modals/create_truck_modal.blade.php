@@ -16,20 +16,14 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 				<div class="row col-md-12">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Driver Name <span class="help"> </span></label>
-							<input type="text" class="form-control form-control-line"
-							name="driver_name"  >
-						</div>
-						<div class="form-group">
-							<label> Driver phone <span class="help"> </span></label>
-							<input type="tel" class="form-control form-control-line"
-							name="driver_phone">
-						</div>
-
-						<div class="form-group">
 							<label> Company Phone <span class="help"> </span></label>
 							<input type="tel" class="form-control form-control-line"
 							name="company_phone" >
+						</div>
+						<div class="form-group">
+							<label> Plate Number <span class="help"> </span></label>
+							<input type="text" class="form-control form-control-line"
+							name="plate_num"  >
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -52,13 +46,6 @@ aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
 					<div class="col-md-6 form-group">
 						<label for="expire_date">Licence Date</label>
 						<input type="text" name="licence_date"  id="mdate" class=" mdate form-control ">
-					</div>
-				</div>
-				<div class="row col-md-12">
-					<div class="col-md-12 form-group">
-						<label> Plate Number <span class="help"> </span></label>
-						<input type="text" class="form-control form-control-line"
-						name="plate_num"  >
 					</div>
 				</div>
 				<div class="row col-md-12">

@@ -15,6 +15,22 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        // view()->composer('admin.layouts.sidebar', function($view){
+        //     $counts['slider'] = Slider::all()->count();
+        //     $counts['team'] = Member::all()->count();
+        //     $counts['project'] = Project::all()->count();
+        //     $counts['solutions'] = Solution::all()->count();
+        //     $counts['mssoft'] = Mssoft::all()->count();
+        //     $counts['services'] = Service::all()->count();
+        //     $counts['product'] = Product::all()->count();
+        //     $counts['category'] = Category::all()->count();
+        //     $counts['pages'] = Page::all()->count();
+
+        //     return $view->with('counts', $counts);
+
+        // });
+        
     }
 
     /**

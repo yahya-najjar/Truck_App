@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
- <title>Trucks App - @yield('title')</title>
+ <title>TruckUp - @yield('title')</title>
  @include('layouts.meta')
  @yield('style')
 </head>

@@ -1,8 +1,10 @@
 @extends('admin.layouts.app')
 @section('title')
-users
+Users
 @endsection
-
+@section('bread')
+    <li class="breadcrumb-item active">All Users</li>
+@endsection
 @section('content')
 
 @if(!count($users))

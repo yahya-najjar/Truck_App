@@ -16,7 +16,7 @@ use App\Customer;
 use App\Http\Responses\Responses;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use Validator;
+use Validator,DB;
 
 class OrderController extends Controller
 {
@@ -51,23 +51,32 @@ class OrderController extends Controller
 
 	public function order(Request $request)
 	{
+		$validator = Validator::make($request->all(), [
+			'lst' => 'required',
+			'lng' => 'required',
+			'comment' => 'required',
+			'location' => 'required',
+		]);
+
+		if ($validator->fails()) {
+			$message = $validator->errors();
+			$msg = $message->first();
+			return Responses::respondError($msg);
+		}
 		$lat = $request['lat'];
 		$lng = $request['lng'];
 		$comment = $request['comment'];
+		$location = $request['location'];
 
 		$customer =  JWTAuth::parseToken()->authenticate();
 		$truck = Truck::find($request['truck_id']);
 
-		if(!isset($truck))        
+		if(!isset($truck))
 			return Responses::respondError('truck not found');
-
-		// $ord = Order::where('customer_id',$customer->id)
-		// ->where('truck_id',$truck->id)
-		// ->first();
 
 		if($truck->status != Truck::ONLINE or isset($truck->pendingOrder()->id)){
 			return Responses::respondError('truck already requested');			
-		}        
+		}
 
 
 		$order = new Order([
@@ -78,7 +87,7 @@ class OrderController extends Controller
 			'lat'=>$lat,
 			'lng'=>$lng,
 			'comment'=>$comment,
-			'location'=>''
+			'location'=>$location
 		]);
 
 		$driver = $truck->currentDriver ;
@@ -91,9 +100,10 @@ class OrderController extends Controller
 		$truck->save();
 
 		$order_log = new Order_log([
-			'status'=>0,
+			'status'=>Order::PENDING,
 			'lat'=>$lat,
 			'lng'=>$lng,
+			'location'=>$location,
 			'order_id'=>$order->id,
 		]);
 		$order_log->save();
@@ -201,13 +211,29 @@ class OrderController extends Controller
 			$msg = $message->first();
 			return Responses::respondError($msg);
 		}
-		$order = Order::find($request->order_id);
+		// $order = Order::with('truck','order_logs')->find($request->order_id);
+		$order = DB::table('orders')->where('orders.id',$request->order_id)
+					->join('order_logs',function ($join){
+						$join->on('order_logs.order_id','=','orders.id')
+						->where('order_logs.status',Order::ACCEPTED);
+					})
+					->join('trucks',function ($query)
+					{
+						$query->on('orders.truck_id','=','trucks.id');
+					})
+					->select('orders.*','order_logs.location as location_from','orders.location as location_to','trucks.location as location_current','order_logs.lat as lat_from','order_logs.lng as lng_from','orders.lat as lat_to','orders.lng as lng_to','trucks.lat as lat_current','trucks.lng as lng_current','trucks.driver_name as current_driver','trucks.plate_num','trucks.desc','trucks.lat as truck_lat','trucks.lng as truck_lng','trucks.status as truck_status','trucks.image','orders.status as order_status')
+					->get();
 		return Responses::respondSuccess($order);
 	}
 
 	public function cancelOrder(Request $request)
 	{
-		$validator = Validator::make($request->all(), ['order_id' => 'required']);
+		$validator = Validator::make($request->all(), [
+			'order_id' => 'required',
+			'lat' => 'required',
+			'lng' => 'required',
+			'location' =>'required'
+		]);
 		if ($validator->fails()) {
 		    $message = $validator->errors();
 		    $msg = $message->first();
@@ -215,6 +241,7 @@ class OrderController extends Controller
 		}
 		$lat = $request['lat'];
 		$lng = $request['lng'];
+		$location = $request['location'];
 
 		$order = Order::find($request->order_id);
 		if(!$order){
@@ -235,9 +262,10 @@ class OrderController extends Controller
 		$truck->save();
 
 		$order_log = new Order_log([
-		    'status'=>-2,
+		    'status'=> Order::CANCELED,
 		    'lat'=>$lat,
 		    'lng'=>$lng,
+		    'location' => $location,
 		    'order_id'=>$order->id,
 		]);
 		$order_log->save();

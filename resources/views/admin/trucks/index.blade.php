@@ -1,8 +1,10 @@
 @extends('admin.layouts.app')
 @section('title')
-Trucks
+All Trucks
 @endsection
-
+@section('bread')
+    <li class="breadcrumb-item active">all trucks</li>
+@endsection
 @section('style')
 <style type="text/css">
 .modal-dialog{
@@ -17,7 +19,12 @@ Trucks
     max-width: 600px;
     margin: 30px auto;
 }
+.dataTable > thead > tr > th[class*="sort"]:after{
+    content: "" !important;
+}
 </style>
+<link href="{{asset('/assets/admin/plugins/footable/css/footable.core.css')}}" rel="stylesheet">
+<link href="{{asset('css/pages/footable-page.css')}}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -44,18 +51,18 @@ Trucks
 					</select>
 				</div>
 				<div class="table-responsive">
-					<table id="demo-foo-addrow" class="table m-t-30 table-hover contact-list" data-page-size="10" >
+					<table id="demo-foo-addrow" class="table m-t-30 toggle-circle table-hover contact-list" data-page-size="10" >
 						<thead>
 							<tr>
 								<!-- <th>#</th> -->
-								<th>Driver Name</th>
+								<th data-toggle="true">Current Driver</th>
 								<th>Supplier</th>
 								<th>Account ED</th>
 								<th>Licence ED</th>
 								<th>Rating</th>
 								<th>status</th>
 								<th>last update</th>
-								<th>Actions</th>
+								<th data-hide="all">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -66,10 +73,10 @@ Trucks
 								<td>{{ strip_tags($truck->driver_name) ?? 'No Title' }}</td>
 								<td>{{ isset($truck->supplier)?$truck->supplier->name:'Private Truck' }}</td>
 								<td>
-									<span class="label label-{{$truck->IsExpired ?'danger':'info'}}">{{ $truck->expire_date }}</span>
+									<span class="label label-rounded label-{{$truck->IsExpired ?'danger':'info'}}">{{ $truck->expire_date }}</span>
 								</td>
 								<td>
-									<span class="label label-{{$truck->LicenceIsExpired ?'danger':'info'}}">{{ $truck->licence_date }}</span>
+									<span class="label label-rounded label-{{$truck->LicenceIsExpired ?'danger':'info'}}">{{ $truck->licence_date }}</span>
 								</td>
 								<td>{{ $truck->rating}}</td>
 								<td>{{ $truck->StatusName }}</td>
@@ -123,6 +130,8 @@ Trucks
 @endsection
 @section('script')
 @include('admin.layouts.date_pickers')
+<script type="text/javascript" charset="utf8" src="{{asset('/assets/admin/js/jquery.dataTables.js')}}"></script>
+
 <script type="text/javascript">var url = "{{url('')}}";</script> 
 <script type="text/javascript">
 	$(document).ready( function () {
@@ -134,4 +143,9 @@ Trucks
 	});
 
 </script>
+<!-- Footable -->
+<script src="{{asset('/assets/admin/plugins/footable/js/footable.all.min.js')}}"></script>
+<script src="{{asset('/assets/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
+<!--FooTable init-->
+<script src="{{asset('js/footable-init.js')}}"></script>
 @endsection

@@ -1,10 +1,10 @@
 @extends('admin.layouts.app')
 @section('title')
-Customers
+Drivers
 @endsection
 
 @section('bread')
-<li class="breadcrumb-item active">All Customers</li>
+<li class="breadcrumb-item active">Drivers</li>
 @endsection
 
 @section('content')
@@ -13,10 +13,10 @@ Customers
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">All Customers </h4>
+        <h4 class="card-title">All Drivers </h4>
         <h6 class="card-subtitle"></h6>
         <div class="table-responsive">
-          <table class="table table-striped table-bordered" style="width:100%" id="table_id">
+          <table class="table table-striped table-bordered" style="width:100%" id="drivers_table">
             <thead>
               <tr>
                 <th>#</th>
@@ -25,50 +25,15 @@ Customers
                 <th>phone</th>
                 <th>Payment type</th>
                 <th>Registeration Completed</th>
+                <th>Registeration Date</th>
 
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($customers as $user)
-              <tr>
-                <td>{{ $user->id }}</td>
-
-                <td>{{ $user->first_name ." ".$user->last_name ?? 'No Name' }}</td>
-
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->phone  }}</td>
-                <td>{{ $user->payment_type?"cash":"Credit" }}</td>
-                <td>{{ $user->registeration_completed?"Yes":"No" }}</td>
-
-
-                
-
-                <td class="text-nowrap">
-                  
-                  <a class="btn default btn-outline" title="Edit User" data-placement="top" href="{{ action('Admin\UserController@edit', $user) }} "><i style="color: #1e88e5;" class="fas fa-user-edit" data-toggle="tooltip" data-placement="left" title="Edit User"></i></a>
-
-                  <!-- Delete -->
-                  <a class="btn default btn-outline " data-delete href="javascript:void(0);"><i
-                    class="fas fa-user-{{$user->is_verified==1?'times':'check'}} text-{{$user->is_verified==1?'danger':'success'}} m-r-10" data-toggle="tooltip" data-placement="top" title="{{$user->is_verified==1?'Deactivate':'Activate'}} User"></i></a>
-
-                    <form action="{{ action('Admin\UserController@destroy', $user) }}"
-                    method="post" id="delete">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-
-                  </form>
-
-
-                </td>
-
-                
-              </tr>
-              @endforeach
 
             </tbody>
           </table>
-          {{ $customers->links("pagination::bootstrap-4") }}
 
         </div>
       </div>
@@ -79,10 +44,39 @@ Customers
 @endsection
 
 @section('script')
+<script type="text/javascript" charset="utf8" src="{{asset('/assets/admin/js/jquery.dataTables.js')}}"></script>
+
+<script type="text/javascript">var url = "{{url('')}}";</script>
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#table_id').DataTable();
-  } );
+    var table =  $('#drivers_table').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax":
+        {
+            "url": url + '/admin/all_drivers',
+            "dataType": "json",
+            "type": "POST", 
+            "data": function(d){
+               d._token = "{{ csrf_token() }}";
+           }
+       },
+       "columns": [
+       {"data": "id"},
+       {"data": "name"},
+       {"data": "email"},
+       {"data": "phone"},
+       {"data": "payment_type"},
+       {"data": "registeration"},
+       {"data": "created_at"},
+       {"data": "actions"},
+       ],
 
+       "data":{
+        "_token": "{{ csrf_token() }}",
+    }
+
+});
+  } );
 </script>
 @endsection
