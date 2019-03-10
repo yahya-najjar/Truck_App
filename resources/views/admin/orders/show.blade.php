@@ -154,7 +154,7 @@ Order Detailes
 <script>
 	var map;
 	var markers = [];
-	var myLatlng = new google.maps.LatLng('{{ $order->order_logs()->first()->lat }}', '{{ $order->order_logs()->first()->lng }}');
+	var myLatlng = new google.maps.LatLng('{{ $order->order_logs()->first()->lat ??'33.5138' }}', '{{ $order->order_logs()->first()->lng ?? '36.2765' }}');
 
 	function initialize() {
 		var googleMapOptions = {

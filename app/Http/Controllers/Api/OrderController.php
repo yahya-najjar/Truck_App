@@ -52,7 +52,7 @@ class OrderController extends Controller
 	public function order(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
-			'lst' => 'required',
+			'lat' => 'required',
 			'lng' => 'required',
 			'comment' => 'required',
 			'location' => 'required',
@@ -109,6 +109,9 @@ class OrderController extends Controller
 		$order_log->save();
 		$order_log->order()->associate($order);
 		if ($order) {
+			$title = 'TruckUp';
+			$body = 'Your Order Has been requested';
+			$this->notification($title, $body, $customer->FCM_Token);
 			return Responses::respondSuccess([]);
 		}
 
@@ -139,6 +142,9 @@ class OrderController extends Controller
 			$order->save();
 			$truck->rating = $truck->RatingAvg;
 			$truck->save();
+			$title = 'TruckUp';
+			$body = 'Your Order Has been rated';
+			$this->notification($title, $body, $customer->FCM_Token);
 			return Responses::respondSuccess([]);
 		} 
 
@@ -271,6 +277,10 @@ class OrderController extends Controller
 		$order_log->save();
 		$order_log->order()->associate($order);
 		if ($order) {
+			$customer = JWTAuth::parseToken()->authenticate();
+			$title = 'TruckUp';
+			$body = 'order has been canceled';
+			$this->notification($title, $body, $customer->FCM_Token);
 		    return Responses::respondSuccess([]);
 		}
 	}

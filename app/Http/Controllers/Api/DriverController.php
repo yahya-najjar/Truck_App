@@ -141,6 +141,10 @@ class DriverController extends Controller
             return Responses::respondError($msg);
         }
 
+
+        $lat = $request['lat'];
+        $lng = $request['lng'];
+        $location = $request['location'];
         $driver =  JWTAuth::parseToken()->authenticate();
         $shifts = DB::table('customer_truck')
                             ->where('customer_id',$driver->id)
@@ -171,13 +175,11 @@ class DriverController extends Controller
             $truck->status = Truck::ONLINE;
         }
         $truck->driver_name = $driver->FullName;
+        $truck->location = $location;
+        $truck->lat = $lat;
+        $truck->lng = $lng;
         $truck->currentDriver()->associate($driver);
         $truck->save();
-
-
-        $lat = $request['lat'];
-        $lng = $request['lng'];
-        $location = $request['location'];
 
         $log = new Truck_log([
             'online' => 1,
@@ -188,6 +190,10 @@ class DriverController extends Controller
         ]);
         $log->save();
         $log->truck()->associate($truck);
+
+        $title = 'TruckUp';
+        $body = 'You Are Online Now';
+        $this->notification($title, $body, $driver->FCM_Token);
         return Responses::respondSuccess([]);
     }
 
@@ -244,6 +250,9 @@ class DriverController extends Controller
         ]);
         $log->save();
         $log->truck()->associate($truck);
+        $title = 'TruckUp';
+        $body = 'You Are Offline Now';
+        $this->notification($title, $body, $driver->FCM_Token);
         return Responses::respondSuccess([]);
     }
 
@@ -318,6 +327,9 @@ class DriverController extends Controller
         $order_log->save();
         $order_log->order()->associate($order);
         if ($order) {
+            $title = 'TruckUp';
+            $body = 'Driver Rejected Your Order';
+            $this->notification($title, $body, $order->customer->FCM_Token);
             return Responses::respondSuccess([]);
         }
     }
@@ -382,6 +394,9 @@ class DriverController extends Controller
         $truck_log->truck()->associate($truck);
 
         if ($order && $order_log && $truck && $truck_log) {
+            $title = 'TruckUp';
+            $body = 'Driver Accepted your order';
+            $this->notification($title, $body, $order->customer->FCM_Token);
             return Responses::respondSuccess([]);
         }
     }
@@ -445,6 +460,9 @@ class DriverController extends Controller
         $truck_log->truck()->associate($truck);
 
         if ($order && $order_log && $truck && $truck_log) {
+            $title = 'TruckUp';
+            $body = 'Driver Arrived To Your Location';
+            $this->notification($title, $body, $order->customer->FCM_Token);
             return Responses::respondSuccess([]);
         }
     }
@@ -509,6 +527,9 @@ class DriverController extends Controller
         $truck_log->truck()->associate($truck);
 
         if ($order && $order_log && $truck && $truck_log) {
+            $title = 'TruckUp';
+            $body = 'Your Order Done Please rate the order';
+            $this->notification($title, $body, $order->customer->FCM_Token);
             return Responses::respondSuccess([]);
         }
     }
@@ -542,7 +563,7 @@ class DriverController extends Controller
         // $truck->status = Truck::ONLINE;
         $truck->updated_at = Carbon::now('Asia/Damascus');
         $truck->save();
-        return Responses::respondSuccess($truck->pendingOrder());
+        return Responses::respondSuccess($truck->pendingOrder()->get());
     }
 
     public function driver_orders(Request $request)

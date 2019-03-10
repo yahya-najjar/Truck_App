@@ -66,7 +66,8 @@ class Truck extends Model
 
 	public function pendingOrder(){
 
-		return $this->orders()->with('customer')->whereIn('status',[Order::PENDING,Order::ACCEPTED,Order::ARRIVED])->latest()->first();
+		return $this->currentDriver->driver_orders([Order::PENDING,Order::ACCEPTED,Order::ARRIVED]);
+		// return $this->orders()->with('customer')->whereIn('status',[Order::PENDING,Order::ACCEPTED,Order::ARRIVED])->latest()->first();
 	}
 
 	public function bills()

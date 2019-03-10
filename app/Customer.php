@@ -103,6 +103,9 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     }
     public function driver_orders($status)
     {
+        if (is_array($status)) {
+            return $this->DriverOrders($status);
+        }
         switch ($status) {
             case Order::ACCEPTED:
             case Order::REJECTED:
@@ -121,12 +124,15 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
     public function DriverOrders($status)
     {
         $orders = DB::table('orders')->where('orders.driver_id','=',$this->id);
+        if (is_array($status)) {
+            $orders->whereIn('orders.status',$status);
+        }else
         if ($status != -5) {
             $orders->where('orders.status','=',$status);
         }
         $orders->join('order_logs',function ($join){
                     $join->on('order_logs.order_id','=','orders.id')
-                    ->where('order_logs.status',Order::ACCEPTED);
+                    ->where('order_logs.status',Order::PENDING);
                     })
                     ->join('trucks',function ($query)
                     {
