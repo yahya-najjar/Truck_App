@@ -29,7 +29,7 @@ Admin Dashboard
             <div class="card bg-danger">
                 <div class="card-body">
                     <div class="d-flex no-block" >
-                        <div class="m-r-20 align-self-center"><img width="50" height="50"  src="{{asset('../../assets/images/icon/driver_w.png')}}" alt="Income" /></div>
+                        <div class="m-r-20 align-self-center"><img width="50" height="50"  src="{{asset('/assets/images/icon/driver_w.png')}}" alt="Income" /></div>
                         <div class="align-self-center">
                             <h6 class="text-white m-t-10 m-b-0">Total Drivers</h6>
                             <h2 class="m-t-0 text-white">{{$total_drivers}}</h2>
@@ -42,7 +42,7 @@ Admin Dashboard
             <div class="card bg-info">
                 <div class="card-body">
                     <div class="d-flex no-block">
-                        <div class="m-r-20 align-self-center"><img src="{{asset('../../assets/images/icon/staff-w.png')}}" alt="Income" /></div>
+                        <div class="m-r-20 align-self-center"><img src="{{asset('/assets/images/icon/staff-w.png')}}" alt="Income" /></div>
                         <div class="align-self-center">
                             <h6 class="text-white m-t-10 m-b-0">Total Customers</h6>
                             <h2 class="m-t-0 text-white">{{$total_customers}}</h2>
@@ -55,7 +55,7 @@ Admin Dashboard
             <div class="card bg-success">
                 <div class="card-body">
                     <div class="d-flex no-block">
-                        <div class="m-r-20 align-self-center"><img src="{{asset('../../assets/images/icon/expense-w.png')}}" alt="Income" /></div>
+                        <div class="m-r-20 align-self-center"><img src="{{asset('/assets/images/icon/expense-w.png')}}" alt="Income" /></div>
                         <div class="align-self-center">
                             <h6 class="text-white m-t-10 m-b-0">Total Orders</h6>
                             <h2 class="m-t-0 text-white">{{$total_orders}}</h2>
@@ -69,7 +69,7 @@ Admin Dashboard
             <div class="card bg-primary">
                 <div class="card-body">
                     <div class="d-flex no-block">
-                        <div class="m-r-20 align-self-center"><img src="{{asset('../../assets/images/icon/manager_w.png')}}" alt="Income" /></div>
+                        <div class="m-r-20 align-self-center"><img src="{{asset('/assets/images/icon/manager_w.png')}}" alt="Income" /></div>
                         <div class="align-self-center">
                             <h6 class="text-white m-t-10 m-b-0">Total Suppliers</h6>
                             <h2 class="m-t-0 text-white">{{$total_suppliers}}</h2>
