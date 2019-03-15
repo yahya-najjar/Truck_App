@@ -270,7 +270,7 @@ class DriverController extends Controller
         }
 
         $truck = Truck::find($truck->truck_id);
-        $order = $truck->pendingOrder();
+        $order = $truck->pendingOrder()->get();
         // return Responses::respondSuccess($truck->ord);
 
         return Responses::respondSuccess($order);

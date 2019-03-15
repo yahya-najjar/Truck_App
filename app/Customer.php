@@ -130,7 +130,7 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
         if ($status != -5) {
             $orders->where('orders.status','=',$status);
         }
-        $orders->join('order_logs',function ($join){
+        $orders->leftJoin('order_logs',function ($join){
                     $join->on('order_logs.order_id','=','orders.id')
                     ->where('order_logs.status',Order::PENDING);
                     })
@@ -197,15 +197,15 @@ class Customer extends \Eloquent implements Authenticatable ,JWTSubject
         if ($status != -5) {
             $orders->where('orders.status','=',$status);
         }
-        $orders->join('order_logs',function ($join){
+        $orders->leftJoin('order_logs',function ($join){
                     $join->on('order_logs.order_id','=','orders.id')
-                    ->where('order_logs.status',Order::ACCEPTED);
+                    ->where('order_logs.status',Order::PENDING);
                     })
                     ->join('trucks',function ($query)
                     {
                         $query->on('orders.truck_id','=','trucks.id');
                     })
-                    ->select('orders.*','order_logs.location as location_from','orders.location as location_to','trucks.location as location_current','order_logs.lat as lat_from','order_logs.lng as lng_from','orders.lat as lat_to','orders.lng as lng_to','trucks.lat as lat_current','trucks.lng as lng_current','trucks.driver_name as current_driver','trucks.plate_num','trucks.desc','trucks.lat as truck_lat','trucks.lng as truck_lng','trucks.status as truck_status','trucks.image','orders.status as order_status');
+                    ->select('orders.*','order_logs.location as location_from','orders.location as location_to','trucks.location as location_current','order_logs.lat as lat_from','order_logs.lng as lng_from','orders.lat as lat_to','orders.lng as lng_to','trucks.lat as lat_current','trucks.lng as lng_current','trucks.driver_name as current_driver','trucks.plate_num','trucks.desc','trucks.lat as truck_lat','trucks.lng as truck_lng','trucks.status as truck_status','trucks.image','orders.status as order_status','trucks.distances','trucks.price_km','trucks.price_h');
 
         return $orders;
     }
