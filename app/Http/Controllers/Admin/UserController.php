@@ -177,7 +177,7 @@ class UserController extends Controller
         foreach ($shifts as $key => $shift) {
             $s_from = Carbon::parse($shift->from)->hour;
             $s_to = Carbon::parse($shift->to)->hour;
-            if (($from_hours > $s_from && $from_hours < $s_to) || ($to_hours > $s_from && $to_hours < $s_to) || ($from_hours < $s_from && $to_hours > $s_to) ) {
+            if (($from_hours > $s_from && $from_hours < $s_to) || ($to_hours > $s_from && $to_hours < $s_to) || ($from_hours < $s_from && $to_hours > $s_to) || ($from_hours < $s_to && $to_hours > $s_to) ) {
                 return response()->json([
                     'status' => false,
                     'data' => $msg . $shift->truck_id,
@@ -226,14 +226,16 @@ class UserController extends Controller
         $shifts = DB::table('customer_truck')
                             ->where('customer_id',$driver_id)
                             ->get();
-        $msg = "Shift Conflicted with another Truck shift for this driver, Truck ID is : ";
+        $msg = "Shift Conflicted with another Truck for this driver,Truck ID is : ";
         foreach ($shifts as $key => $shift) {
             $s_from = Carbon::parse($shift->from)->format('H:i');
             $s_to = Carbon::parse($shift->to)->format('H:i');
             if (($from_hours > $s_from && $from_hours < $s_to) || ($to_hours > $s_from && $to_hours < $s_to) || ($from_hours < $s_from && $to_hours > $s_to) ) {
+                if ($shift->truck_id != $truck_id)
                 return response()->json([
                     'status' => false,
                     'data' => $msg . $shift->truck_id,
+                    'id' => $shift->truck_id,
                 ]);
             }
         }

@@ -88,19 +88,19 @@ Admin Dashboard
                     <table class="table vm font-14 m-b-0">
                         <tr>
                             <td class="b-0">Ongoing</td>
-                            <td class="text-right font-medium b-0">{{$on_going * 100 / $total_orders}}%</td>
+                            <td class="text-right font-medium b-0">{{ $total_orders > 0 ? ($on_going * 100 / $total_orders) : ' ' }}%</td>
                         </tr>
                         <tr>
                             <td>Done</td>
-                            <td class="text-right font-medium">{{$done * 100 / $total_orders}}%</td>
+                            <td class="text-right font-medium">{{ $total_orders > 0 ? ($done * 100 / $total_orders) : ' ' }}%</td>
                         </tr>
                         <tr>
                             <td>Canceled</td>
-                            <td class="text-right font-medium">{{$canceled * 100 / $total_orders}}%</td>
+                            <td class="text-right font-medium">{{ $total_orders > 0 ? ($canceled * 100 / $total_orders) : ' ' }}%</td>
                         </tr>
                         <tr>
                             <td>Rejected</td>
-                            <td class="text-right font-medium">{{$rejected * 100 / $total_orders}}%</td>
+                            <td class="text-right font-medium">{{ $total_orders > 0 ? ($rejected * 100 / $total_orders) : ' ' }}%</td>
                         </tr>
                     </table>
                 </div>

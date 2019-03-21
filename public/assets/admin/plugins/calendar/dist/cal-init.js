@@ -80,7 +80,7 @@
                     form.append("<div class='row'></div>");
                     form.find(".row")
                     .append("<div class='col-md-6'><div class='form-group'><label class='control-label'>Admin Note</label><input class='form-control' placeholder='Insert Your Note' type='text' name='title'/></div></div>")
-                    .append("<div class='col-md-6'><div class='form-group'><label class='control-label'>Driver</label><select class='form-control' name='category'></select></div></div>");
+                    .append("<div class='col-md-12'><div class='form-group'><label class='control-label'>Driver</label><select class='form-control' name='category'></select></div></div>");
                     var html = get_drivers(form);
                     $this.$modal.find('.delete-event').hide().end().find('.save-event').show().end().find('.modal-body').empty().prepend(form).end().find('.save-event').unbind('click').click(function () {
                         form.submit();
@@ -166,8 +166,8 @@
         var $this = this;
         $this.$calendarObj = $this.$calendar.fullCalendar({
             slotDuration: '00:30:00', /* If we want to split day time each 15minutes */
-            minTime: '00:00:00',
-            maxTime: '24:00:00',  
+            minTime: '01:00:00',
+            maxTime: '23:30:00',  
             defaultView: 'agendaDay',
             handleWindowResize: true,
             eventOverlap: false,
@@ -294,8 +294,14 @@ function update_user_working_hours($period) {
                 console.log("resized");
                 console.log(result);
             } else{
-                alert(response.data);
-                location.reload();
+                // alert(response.data);
+                // location.reload();
+                if (window.confirm(response.data + '----------- If you click "ok" you would be redirected to conflicted truck page. Cancel will discard your changes ')) 
+                    {
+                        window.location.href='/admin/shifts/' + response.id;
+                    }
+                    else
+                        location.reload();
             }
         }
     });

@@ -22,21 +22,21 @@ class CompanyController extends Controller
 			return Responses::respondError($msg);
 		}
 
-    	$term = $request->term;
-    	$company = Company::first();
-    	$response = null;
+        $term = $request->term;
+        $company = Company::first();
+        $response = null;
 
-    	switch ($term) {
-    		case 'policy':
-    			$response = $company->privacy;
-    			break;
-    		case 'about':
-    			$response = $company->about;
-    			break;
-    		case 'terms':
-    			$response = $company->terms;
-    			break;
-    	}
+        switch ($term) {
+            case 'policy':
+                $response = $company->privacy;
+                break;
+            case 'about':
+                $response = $company->overview;
+                break;
+            case 'terms':
+                $response = $company->terms;
+                break;
+        }
 
 		return Responses::respondSuccess($response);
     }

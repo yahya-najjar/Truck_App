@@ -56,7 +56,7 @@ Truck Shifts
                     </div>
                 </div>
                 <!-- BEGIN MODAL -->
-                <div class="modal none-border" id="my-event">
+                <div class="modal none-border" id="my-event" >
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -73,7 +73,7 @@ Truck Shifts
                     </div>
                 </div>
                 <!-- Modal Add Category -->
-                <div class="modal fade none-border" id="add-new-event">
+                <div class="modal fade none-border" id="add-new-event" >
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
