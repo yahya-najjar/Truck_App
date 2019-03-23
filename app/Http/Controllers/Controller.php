@@ -17,7 +17,6 @@ class Controller extends BaseController
 
         $notification = [
             'title' => $title,
-            'sound' => true,
             'body' => $body
         ];
 
