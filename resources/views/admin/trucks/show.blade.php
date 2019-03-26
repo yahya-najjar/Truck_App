@@ -26,7 +26,7 @@ Truck Detailes
 					<div class="col-lg-4 col-xlg-3 col-md-5">
 						<div class="card"> <img class="card-img" src="{{ $truck->image }}?w=320&h=405" alt="Card image">
 							<div class="card-img-overlay card-inverse social-profile d-flex ">
-								<div class="align-self-center"> <img src="{{asset(/assets/admin/images/users/1.jpg)}}" class="img-circle" width="100">
+								<div class="align-self-center"> <img src="{{asset('/assets/admin/images/users/1.jpg')}}" class="img-circle" width="100">
 									<h4 class="card-title">{{$truck->driver_name ?? 'No Driver Set to this truck'}}</h4>
 									<h6 class="card-subtitle">current driver</h6>
 									<p class="text-white">{{$truck->desc ?? ''}} </p>
