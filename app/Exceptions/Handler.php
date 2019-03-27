@@ -55,6 +55,9 @@ class Handler extends ExceptionHandler
 
         if(strpos($exception->getMessage(),'oken')){
             return Responses::respondOut($exception->getMessage());
+        }        
+        if(strpos($exception->getMessage(),'egments')){
+            return Responses::respondOut($exception->getMessage());
         }
 
         return parent::render($request, $exception);
