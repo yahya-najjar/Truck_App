@@ -187,6 +187,7 @@ class OrderController extends Controller
 		foreach ($trucks as $key => $truck) {
 			$d = $truck->distance($lat,$lng,'K');
 			$truck->distances = $d;
+			$truck->supplier_name  = $truck->supplier->name;
 		}
 
 		$paginator = [

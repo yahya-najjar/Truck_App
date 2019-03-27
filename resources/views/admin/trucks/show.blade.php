@@ -63,7 +63,7 @@ Truck Detailes
 										<div class="profiletimeline">
 											@foreach($shifts as $shift)
 											<div class="sl-item">
-												<div class="sl-left"> <img src="/assets/admin/images/users/1.jpg" alt="user" class="img-circle" /> </div>
+												<div class="sl-left"> <img src="{{asset('/assets/admin/images/users/1.jpg')}}" alt="user" class="img-circle" /> </div>
 												<div class="sl-right">
 													<div><a href="#" class="link">{{$shift->first_name .' '. $shift->last_name}}</a> <span class="sl-date">{{Carbon\Carbon::parse($shift->created_at)->diffForHumans()}}</span>
 														<p>assigned to this truck <a href="{{ action('Admin\TruckController@shifts', $truck) }}" target="_blank"> Shifts Management</a></p>

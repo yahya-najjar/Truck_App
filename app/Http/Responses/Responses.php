@@ -31,7 +31,7 @@ class Responses {
     public static function respondOut($message){
         return response()->json([
             'result' => 'error',
-            'content' => [],
+            'content' => null,
             'error_des' => $message,
             'error_code' => -1,
             'date' =>date('Y-m-d')
