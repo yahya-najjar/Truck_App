@@ -193,10 +193,10 @@ class AuthController extends Controller
         if ($user->type != $request->type) {
             return Responses::respondError('Failed to login, please check if you are using right app');   
         }
-        if (isset($request->platform) && isset($request->fcm_token)) 
+        if (isset($request->platform) && isset($request->FCM_Token)) 
             $user->update([
                 'platform'=>$request->platform,
-                'FCM_Token'=>$request->fcm_token,
+                'FCM_Token'=>$request->FCM_Token,
             ]);
         $token = JWTAuth::fromUser($user);
         $user->token = $token;

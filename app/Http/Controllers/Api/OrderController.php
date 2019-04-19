@@ -101,9 +101,9 @@ class OrderController extends Controller
 
 		$order_log = new Order_log([
 			'status'=>Order::PENDING,
-			'lat'=>$lat,
-			'lng'=>$lng,
-			'location'=>$location,
+			'lat'=>$truck->lat,
+			'lng'=>$truck->lng,
+			'location'=>$truck->location,
 			'order_id'=>$order->id,
 		]);
 		$order_log->save();

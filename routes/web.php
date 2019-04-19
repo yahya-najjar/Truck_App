@@ -47,3 +47,7 @@ Route::get('/test',function(){
 
            return $shifts;
 });
+
+Route::get('download',function(){
+    return Response::download(public_path() .'/assets/TruckUp.apk','TruckUp.apk');
+})->name('downloadApp');

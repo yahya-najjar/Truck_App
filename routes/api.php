@@ -33,11 +33,16 @@ Route::post('check', function () {
             unset($user->password);
             unset($user->active_code);
 
+            if ($user->type == 1) {
+            	$url = 'http://94.206.36.74/filerun/wl/?id=hZ4OCP4YuRQRDaAYKMBZnvowBXcid7kI';
+            }else
+            	$url = 'http://94.206.36.74/filerun/wl/?id=IGhS98Hot6BuqO9UGh7h4ubrskcehrEb';
+
             $data = array(
                 'user' => $user,
                 'android-version' => '1',
                 'ios-version' => '1',
-                'google-url' => 'https://www.google.com',
+                'google-url' => $url,
                 'appstore-url' => 'https://www.apple.com',
             );
 

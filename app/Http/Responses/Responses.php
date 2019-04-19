@@ -7,7 +7,7 @@ class Responses {
      * @param array $content
      * @return \Illuminate\Http\JsonResponse
      */
-    public static function respondSuccess($content = [],$paginator = []){
+    public static function respondSuccess($content = [],$paginator = null){
         return response()->json([
             'result' => 'success',
             'content' => $content,
